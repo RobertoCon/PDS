@@ -3,10 +3,7 @@ Created on 01 nov 2016
 
 @author: Conny
 '''
-from ApplicationLayer.PDS import PDS
-from ApplicationLayer.PDS import TEMP
-from ApplicationLayer.PDS import HUE
-from ApplicationLayer.PDS import LIGHT
+from ApplicationLayer.PDS import PDS,TEMP,HUE,LIGHT
 import time
 
 '''
@@ -22,19 +19,20 @@ print(z.filter(lambda x : x < 6))
 
 
 '''
-x=LIGHT()
-x.print()
+#x=LIGHT()
+#x.print()
 print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-x=LIGHT().filter(lambda x : x.location=="bedroom").map(lambda x:x.light).reduce(lambda x,y:(x+y)/2)
-print(x)
+#x=LIGHT().filter(lambda x : x.location=="bedroom").map(lambda x:x.light).reduce(lambda x,y:(x+y)/2)
+#print(x)
 x=HUE()
-x.print()
 x[0].lock()
+x[0].light=True
 x.print()
 time.sleep(30)
 print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 x=HUE()
 x.print()
 x[0].unlock()
+x=HUE().lock()
 x.print()
 

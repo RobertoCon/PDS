@@ -21,7 +21,8 @@ def on_message(client, userdata, message , data):
     if dev != None:
         for i, item in enumerate(data):
             if dev.id==item.id: 
-                data[i] = dev
+                #data[i] = dev
+                data[i].__dict__ = dev.__dict__
                 return
         data.append(dev)
     else:
@@ -40,6 +41,7 @@ class ShadowBroker(object):
             self.topics=[]
             #Mqtt connection
             self.client = mqtt.Client()
+            #self.client.will_set("/device/+/unlock",self.client._client_id, 0, False)
             self.client.connect(Setting.Broker_ip)
             self.client.on_message = partial(on_message, data=self.data)
             #self.client.subscribe("/device/+", qos=0)
@@ -116,6 +118,28 @@ class ShadowBroker(object):
         def cleanListener(self):
             for i in self.topics:
                 self.client.unsubscribe(i)
+                
+                
+        def write(self,dev_id,name,value):
+            print("Write ",dev_id," ",name," ",value)
+            x=self.getDevById(dev_id)
+            if x.lock_id==self.client._client_id:
+                    print("Safe Write ")
+                    #safe write
+                    self.publish("/device/"+dev_id+"/"+name,value)
+                    while True:
+                        x=self.getDevById(dev_id)
+                        print("Write at : ",x.__dict__)
+                        if x.__dict__[name]==value:
+                            return copy.copy(x)
+                        else:
+                            time.sleep(0.5)
+            else:
+                    print("Unsafe Write ")
+                    #unsafe write
+                    self.publish("/device/"+dev_id+"/"+name,value)
+                    
+            
     instance = None
     def __init__(self):
         if not ShadowBroker.instance:

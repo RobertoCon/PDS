@@ -35,7 +35,7 @@ class Device(object):
     def __setattr__(self, name, value):
         if name!="lock_id":
             if self.wrapper:
-                    self.shadowBroker.publish("/device/"+self.id+"/"+name,value)# your __setattr__ implementation here
+                    self.shadowBroker.write(self.id,name,value)
                     object.__setattr__(self, name, value)
                     return
         object.__setattr__(self, name, value)

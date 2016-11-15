@@ -47,7 +47,17 @@ class PDS(list):
         for i in self:
             print(i.json())
             
+    def lock(self):
+        for i in self:
+            i.lock() 
             
+    def unlock(self):  
+        for i in self:
+            i.unlock() 
+            
+    #def trylock(self):
+    #    for i in self:
+    #       i.trylock() 
             
 class HUE(PDS):
     def __init__(self,dev_id="+",dev_type="hue",dev_location="+",shadow=True,starter=None):
