@@ -1,8 +1,17 @@
-Comunication Layer :
+Communication and Virtualizzation Layer :
 permette la comunicazione tra le rappresentazioni logiche dei dispositivi connessi alla piattaforma e gli utilizzatori , astraendo e rendendo accessibile le caratteristiche di ogni dispositivo come caratteristiche fisiche , protocolli di comunicazione , ecc ecc.
-ideato per essere utilizzato in maniera efficiente su nodi con limitate prestazioni, un quantità minima risorse e connessi tra di loro ma non necessariamente con internet.
+ideato per essere utilizzato in maniera efficiente su nodi con limitate prestazioni, una quantità minima risorse e connessi tra di loro ma non necessariamente con internet.
 
+Communication:
+- La comunicazione tra dispositivi ed utilizzatori è effetuata tramite lo scambio di messaggi su un unico bus condiviso mqtt ( Singolo Nodo  o Distribuito)
 
+Virtualizzation:
+- Device
+	- astrazione logica dello stato di un dispositivo fisico sotto forma di coppie [proprietà:valore]
+	- rappresentazione facilmente estendibile per specificare qualsiasi tipo di dispositivo 
+
+- Active Device
+	- mentre Device rappresenta lo stato di un dispositivo , l'active device rappresenta le azioni che devono essere svolte sul dispositivo fisico per garantirne il funzionamento e per collegare il dispositivo fisico alla sua rappresentazione logica , consentendo la lettura e scrittura sul dispositivo fisico tramite la sua interfaccia logica
 
 
 Application Layer :
@@ -22,14 +31,14 @@ questo layer aggiunge anche dei meccanismi e degli strumenti per rendere piu eff
 
 	- si appoggia alla Shadow per migliorare le prestazioni , i tempi di risposta e per usufruire di alcune funzionalità. 
 
-	- puo essere facilmente esteso e specializzato per lavorare su un insieme di dispositivi con proprietà più specifiche .
+	- può essere facilmente esteso e specializzato per lavorare su un insieme di dispositivi con proprietà più specifiche .
 
 	- ( ToDo )
 		- possibilità di generare l'insieme di lavoro con una notazione più compatta ( list comprehension )
 		- possibilità di supportare gli aggiornamenti dello stato in tempo reale ( update hook propagation )
-		- possibilita di gestire Aggregatori 
+		- possibilità di gestire Aggregatori 
 
-- Aggregatore (Todo):
+- Aggregatore (ToDo):
 	dispositivo virtuale costruito tramite l'aggregazione o la modifica di uno o più dispositivi remoti 
 		- l'aggregatore si preoccupa di ripetere la funzione di aggregazione alla notifica di aggiornamento di uno stato riguardante un dispositivo remoto osservato
 		permettendo all'utilizzatore di occuparsi d'altro e trasformato un applicazione ciclica di funzione in una semplice lettura
@@ -38,7 +47,7 @@ questo layer aggiunge anche dei meccanismi e degli strumenti per rendere piu eff
 
 - Shadow : 
 	cache che mantiene l'ultimo stato valido trasmesso dai dispositivi remoti (una per client)
-	- caricamendo lazy e on-demand :
+	- caricamento lazy e on-demand :
 	  per minimizzare  il consumo di risorse viene riempita solo su richiesta da parte di un utilizzatore , rendendo leggermente maggiori i tempi 
 	  di risposta in fase di inizializzazione (cold start).
 
@@ -49,11 +58,11 @@ questo layer aggiunge anche dei meccanismi e degli strumenti per rendere piu eff
 	permette 2 tipi di scrittura (Cache write) :
 
 		- safe (Cache write through) 
-			metodo di scrittura sicuro , garantisce che la  scrittura sia stata accettata dal disposistivo remoto , lento , bloccante ed ad alto costo computazionale 
+			metodo di scrittura sicuro , garantisce che la  scrittura sia stata accettata dal dispositivo remoto , lento , bloccante ed ad alto costo computazionale 
 		- unsafe (Cache write back)
 			metodo di scrittura insicuro , sovrascrive la cache e propaga la scrittura senza preoccuparsi che sia stata accettata dal disposistivo remoto , generando potenziali incoerenze fino al prossimo aggiornamento della cache , veloce ,  non bloccante e a basso costo 
 
 	- Reservation (lock/unlock)
-		offre la possibilità di ottenere l'accesso esclusivo e riservato ad un insieme di dispositivi remoti tramite un esplicita richiesta, lasciando in attesa tutti gli altri utilizzatori.
+		offre la possibilità di ottenere l'accesso esclusivo e riservato ad un insieme di dispositivi remoti tramite un'esplicita richiesta, lasciando in attesa tutti gli altri utilizzatori.
 		una volta finito l'utilizzo esclusivo le risorse vengono rilasciate sempre tramite un esplicita richiesta .
 		se più utilizzatori vogliono utilizzare le stesse risorse in modo esclusivo , le risorse saranno assegnate al primo che ne fa richiesta , lasciando in attesa l'altro
