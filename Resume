@@ -1,0 +1,59 @@
+Comunication Layer :
+permette la comunicazione tra le rappresentazioni logiche dei dispositivi connessi alla piattaforma e gli utilizzatori , astraendo e rendendo accessibile le caratteristiche di ogni dispositivo come caratteristiche fisiche , protocolli di comunicazione , ecc ecc.
+ideato per essere utilizzato in maniera efficiente su nodi con limitate prestazioni, un quantità minima risorse e connessi tra di loro ma non necessariamente con internet.
+
+
+
+
+Application Layer :
+offre un livello di astrazione dei dispositivi e della piattaforma più alto , permettendo di accedere ai dispositivi e effetuando operazioni logiche secondo un paradigma funzionale. 
+questo layer aggiunge anche dei meccanismi e degli strumenti per rendere piu efficente le operazioni che offre e per garantire la consistenza delle informazioni, se necessario .
+
+
+- PDS :
+	- astrazione insiemistica dei dispositivi remoti connessi alla piattaforma in un determinato istante
+	- offre le classiche operazioni funzionali di manipolazione degli insiemi
+		- filter :
+			restituisce un sotto-insieme di elementi che soddisfano un predicato
+		- map :
+			applica una funzione ad ogni elemento dell'insieme
+		-reduce :
+			combina gli elementi dell'insieme per formare un nuovo valore/oggetto/struttura 
+
+	- si appoggia alla Shadow per migliorare le prestazioni , i tempi di risposta e per usufruire di alcune funzionalità. 
+
+	- puo essere facilmente esteso e specializzato per lavorare su un insieme di dispositivi con proprietà più specifiche .
+
+	- ( ToDo )
+		- possibilità di generare l'insieme di lavoro con una notazione più compatta ( list comprehension )
+		- possibilità di supportare gli aggiornamenti dello stato in tempo reale ( update hook propagation )
+		- possibilita di gestire Aggregatori 
+
+- Aggregatore (Todo):
+	dispositivo virtuale costruito tramite l'aggregazione o la modifica di uno o più dispositivi remoti 
+		- l'aggregatore si preoccupa di ripetere la funzione di aggregazione alla notifica di aggiornamento di uno stato riguardante un dispositivo remoto osservato
+		permettendo all'utilizzatore di occuparsi d'altro e trasformato un applicazione ciclica di funzione in una semplice lettura
+
+
+
+- Shadow : 
+	cache che mantiene l'ultimo stato valido trasmesso dai dispositivi remoti (una per client)
+	- caricamendo lazy e on-demand :
+	  per minimizzare  il consumo di risorse viene riempita solo su richiesta da parte di un utilizzatore , rendendo leggermente maggiori i tempi 
+	  di risposta in fase di inizializzazione (cold start).
+
+	- supporta la possibilità di notificare a gli utilizzatori della Shadow che ne fanno richiesta la ricezione di un aggiornamento di uno stato (Update hook)
+
+	- supporta la possibilità di estendere il numero degli stati conservati per ogni dispositivo in modo da poter analizzare l'evoluzione del dispositivo (Time series)
+	
+	permette 2 tipi di scrittura (Cache write) :
+
+		- safe (Cache write through) 
+			metodo di scrittura sicuro , garantisce che la  scrittura sia stata accettata dal disposistivo remoto , lento , bloccante ed ad alto costo computazionale 
+		- unsafe (Cache write back)
+			metodo di scrittura insicuro , sovrascrive la cache e propaga la scrittura senza preoccuparsi che sia stata accettata dal disposistivo remoto , generando potenziali incoerenze fino al prossimo aggiornamento della cache , veloce ,  non bloccante e a basso costo 
+
+	- Reservation (lock/unlock)
+		offre la possibilità di ottenere l'accesso esclusivo e riservato ad un insieme di dispositivi remoti tramite un esplicita richiesta, lasciando in attesa tutti gli altri utilizzatori.
+		una volta finito l'utilizzo esclusivo le risorse vengono rilasciate sempre tramite un esplicita richiesta .
+		se più utilizzatori vogliono utilizzare le stesse risorse in modo esclusivo , le risorse saranno assegnate al primo che ne fa richiesta , lasciando in attesa l'altro
