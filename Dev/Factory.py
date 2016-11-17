@@ -4,19 +4,30 @@ Created on 01 nov 2016
 @author: Conny
 '''
 from Dev.Device import Device
-import random
-import time
-from Dev.TempSensor import TempSensor
-from Dev.ActiveDevice import ActiveDevice
 import json
-from Dev.Hue import Hue
-from Dev.LightSensor import LightSensor
+import sys
+import importlib
+
+def load_module(modulename):
+    mod = None
+    try:
+        mod = importlib.import_module(modulename)
+    except ImportError:
+        print("Failed to load {module}".format(module=modulename),file=sys.stderr)
+    return mod
 
 class Factory(object):
     
     @staticmethod
-    def decode(json):
-        #print("Decode json : ",json)
+    def decode(struct):
+        MyClass = getattr(load_module("Plugin."+struct['type']), struct['type'])
+        instance = MyClass()
+        instance.from_json(struct)
+        return instance
+
+'''   
+
+    #print("Decode json : ",json)
         if json['type']=="device":
             return Factory.new_device(json['id'],json['location'],json['type'],json['lock_id'])
         elif json['type']=="temp_sensor":
@@ -27,7 +38,7 @@ class Factory(object):
             return Factory.new_light_sensor(json['id'],json['location'],json['type'],json['lock_id'],json['light'],json['unit'])
         else:
             return None
-        
+ 
     @staticmethod
     def new_device(id_dev ,location_dev,type_dev="device",lock_id=""):
             return Device(id_dev, location_dev, type_dev,lock_id)
@@ -85,4 +96,5 @@ class Factory(object):
                     act.publish()
                     time.sleep(10)
         return ActiveDevice(Factory.new_light_sensor(id_dev ,location_dev,type_dev,lock_id,unit="lumen"),jobToDo,[])
+'''
 #print ( Factory.decode(json.loads('{"location": "bed", "type": "temp_sensor", "id": "term2", "temperature": 15}')).temperature)

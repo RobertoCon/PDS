@@ -5,7 +5,9 @@ Created on 30 ott 2016
 '''
 
 from _functools import reduce
+
 from ApplicationLayer.ShadowBroker import ShadowBroker
+
 
 class PDS(list):
     dev_type="+"

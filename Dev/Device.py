@@ -3,24 +3,68 @@ Created on 31 ott 2016
 
 @author: Conny
 '''
+from Dev.ActiveDevice import ActiveDevice
+import json
+import time
+
+class Device(object):
+  
+    def __init__(self ,id_dev="",location_dev="",type_dev=""):
+
+        self.id=id_dev
+        self.location=location_dev
+        self.type=type_dev
+       
+    #redefine how to serialize the struct
+    def to_json(self):
+        struct = {}
+        struct['id'] = self.id
+        struct['location'] = self.location
+        struct['type'] = self.type
+        return json.dumps(struct)
+    
+    def topic(self):
+        return "/device/"+self.id+"/"+self.type+"/"+self.location
+ 
+    def from_json(self,serial_dict):
+        struct=json.loads(str(serial_dict))
+        self.id = struct['id']
+        self.location =struct['location'] 
+        self.type=struct['type']
+        return self
+    
+              
+    @staticmethod          
+    def active_device(device):
+        def job_to_do(active):
+            while True:
+                active.publish()
+                time.sleep(10)
+        return ActiveDevice(device,job_to_do,[])
+           
+'''
+
+Created on 31 ott 2016
+
+@author: Conny
+
 import json
 
 class Device(object):
-    '''
+    
     classdocs
-    '''
-    wrapper=False
+    
     def __init__(self ,id_dev ,location_dev ,type_dev,lock_id=""):
-        '''
+        
         Constructor
-        '''
+        
         self.id=id_dev
         self.location=location_dev
         self.type=type_dev
         self.lock_id=lock_id
         
         
-        
+       
     def json(self):  
         data = {}
         data['id'] = self.id
@@ -53,3 +97,4 @@ class Device(object):
     def setWrapper(self,shadowBroker):
         self.shadowBroker=shadowBroker
         self.wrapper=True
+'''

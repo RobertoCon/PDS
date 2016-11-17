@@ -3,24 +3,18 @@ Created on 26 ott 2016
 
 @author: Conny
 '''
-import paho.mqtt.client as mqtt
+
 from functools import partial
 import threading
-from Model import Setting
 
+from Model import Setting
+import paho.mqtt.client as mqtt
 
 
 class ActiveDevice(threading.Thread):
-    '''
-    classdocs
-    '''
-    
             
     def __init__(self,dev,runnable=None,handlers=[]):
-        '''
-        Constructor
-        '''
-        #threading.Thread.__init__(self)
+        
         super(ActiveDevice, self).__init__()
         self.dev=dev
         self.lock_stack=[]

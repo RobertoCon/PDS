@@ -10,10 +10,3 @@ import time
 from Model import Setting
 
 
-client = mqtt.Client()
-client.will_set("/device/+/unlock",None, 0, True)
-client.connect(Setting.Broker_ip)
-client.loop_start()
-time.sleep(5)
-
-

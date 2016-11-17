@@ -5,6 +5,7 @@ Created on 31 ott 2016
 '''
 import json
 
+
 class Device(object):
     '''
     classdocs
