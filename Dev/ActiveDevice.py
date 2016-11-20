@@ -15,7 +15,7 @@ class ActiveDevice(threading.Thread):
         
         super(ActiveDevice, self).__init__()
         self.dev=dev
-        self.locker=threading.Lock()
+        self.locker=threading.RLock()
         self.lock_id=""
         self.lock_stack=[]
         self.client = mqtt.Client()
@@ -28,7 +28,7 @@ class ActiveDevice(threading.Thread):
                     act.publish()
                 
         def unlock(client, userdata, message , act):
-             with self.locker:
+            with self.locker:
                 for item in enumerate(self.lock_stack):
                     if str(message.payload.decode("utf-8"))==item: 
                         self.lock_stack.remove(item)
@@ -72,5 +72,3 @@ class ActiveDevice(threading.Thread):
     def publish(self):
         with self.locker:
             self.client.publish(self.dev.topic(), self.dev.to_json(),0,retain=True)
-        
-            

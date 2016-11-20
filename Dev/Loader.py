@@ -4,18 +4,11 @@ Created on 19 nov 2016
 @author: Conny
 '''
 from Dev.Factory import Factory
+from Model.Model import structure
 import time
 import string
 import random
 import json
-
-structure = ['{"id":"dev1", "location":"bedroom" , "type":"PluginDevice"}', 
-             '{"id":"dev2", "location":"living" , "type":"PluginDevice"}',  
-             '{"id":"dev3", "location":"closet" , "type":"PluginDevice"}',
-             '{"id":"dev4", "location":"patio" , "type":"PluginDevice"}',  
-             '{"id":"dev5", "location":"bathroom" , "type":"Hue", "light":true}', 
-             '{"id":"dev6", "location":"kitchen" , "type":"TempSensor", "temperature":0 , "unit":"celsius"}', 
-            ]
 
 
 class Loader(object):

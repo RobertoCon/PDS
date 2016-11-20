@@ -43,8 +43,7 @@ class PluginDevice(Device):
             def job_to_do(active):
                 while True:
                     active.publish()
-                    time.sleep(10)
-            print("Ready : ",device)        
+                    time.sleep(10)      
             return ActiveDevice(device,job_to_do,handlers)
         
     
