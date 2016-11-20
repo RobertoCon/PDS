@@ -9,13 +9,13 @@ import time
 
 class Device(object):
   
-    def __init__(self ,id_dev="",location_dev="",type_dev=""):
+    def __init__(self ,id_dev="",location_dev="unknown",type_dev="device"):
 
         self.id=id_dev
         self.location=location_dev
         self.type=type_dev
        
-    #redefine how to serialize the struct
+    #Redefine how to serialize the struct
     def to_json(self):
         struct = {}
         struct['id'] = self.id
@@ -35,12 +35,17 @@ class Device(object):
     
               
     @staticmethod          
-    def active_device(device):
+    def make_active(device):
+        #Define Handlers here
+        
+        handlers=[] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]
+        #Define Job to perform periodically
         def job_to_do(active):
             while True:
                 active.publish()
                 time.sleep(10)
-        return ActiveDevice(device,job_to_do,[])
+                
+        return ActiveDevice(device,job_to_do,handlers)
            
 '''
 

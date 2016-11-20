@@ -3,11 +3,12 @@ Created on 01 nov 2016
 
 @author: Conny
 '''
+    
+'''   
 from Dev.Factory import Factory
 import time
 import string
 import random
-
 def id_generator(size=10, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
@@ -17,8 +18,7 @@ def location_generator():
 for i in range(0,1) :
     Factory.new_active_light_sensor(id_generator(), location_generator())
 Factory.new_active_hue("hue1", "bathroom")
-      
-'''        
+     
 t1= Factory.new_active_temp_sensor("term1", "bath")
 t2= Factory.new_active_temp_sensor("term2", "bed")
 t3= Factory.new_active_temp_sensor("term3", "liv")

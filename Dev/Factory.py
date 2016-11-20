@@ -3,10 +3,10 @@ Created on 01 nov 2016
 
 @author: Conny
 '''
-from Dev.Device import Device
-import json
+from Dev.Device import Device 
 import sys
 import importlib
+import json
 
 def load_module(modulename):
     mod = None
@@ -19,13 +19,20 @@ def load_module(modulename):
 class Factory(object):
     
     @staticmethod
-    def decode(struct):
-        MyClass = getattr(load_module("Plugin."+struct['type']), struct['type'])
-        instance = MyClass()
-        instance.from_json(struct)
-        return instance
+    def decode(serial_dev):
+        struct=json.loads(serial_dev)
+        module=load_module("Plugin."+struct['type'])
+       
+        if module!=None:
+            MyClass = getattr(module, struct['type'])
+            instance = MyClass()
+            instance.from_json(serial_dev)
+            return instance
+        return None
 
 '''   
+    from Dev.Device import Device
+import json
 
     #print("Decode json : ",json)
         if json['type']=="device":

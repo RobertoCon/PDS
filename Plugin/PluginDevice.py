@@ -11,9 +11,9 @@ import time
 
 class PluginDevice(Device):
 
-        def __init__(self,id_dev="",location_dev=""):   #plus other attribute
+        def __init__(self,id_dev="",location_dev="unknown"):   #plus other attribute
             
-            super(PluginDevice, self).__init__(id_dev, location_dev, type_dev="PluginDevice",lock_id="")
+            super(PluginDevice, self).__init__(id_dev, location_dev, type_dev="PluginDevice")
             #Set not base attribute
          
          
@@ -23,7 +23,6 @@ class PluginDevice(Device):
             struct['id'] = self.id
             struct['location'] = self.location
             struct['type'] = self.type
-            struct['lock_id'] = self.lock_id
             return json.dumps(struct)
         
         
@@ -32,17 +31,20 @@ class PluginDevice(Device):
             self.id = struct['id']
             self.location =struct['location'] 
             self.type=struct['type']
-            self.lock_id= struct['lock_id']
             return self
     
               
         @staticmethod          
-        def new_active_PluginDevice(id_dev ,location_dev,type_dev="PluginDevice",lock_id=""):
-            def jobToDo(act):
-                    while True:
-                        act.publish()
-                        time.sleep(10)
-            return ActiveDevice(PluginDevice(id_dev ,location_dev,type_dev,lock_id),jobToDo,[])
-        
+        def make_active(device):
+            #Define Handlers here
+                
+            handlers=[] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]
+            #Define Job to perform periodically
+            def job_to_do(active):
+                while True:
+                    active.publish()
+                    time.sleep(10)
+            print("Ready : ",device)        
+            return ActiveDevice(device,job_to_do,handlers)
         
     

@@ -1,0 +1,6 @@
+
+;python:S125"Remove this commented out code.(ä½èŠşÿÿÿÿ
+ipython:S100;"MRename method "getPDS" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ÈÇÖ½şÿÿÿÿ
+npython:S100"QRename method "getPDScopy" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ã¦†Ğøÿÿÿÿ
+kpython:S1542"SRename function "getPDScopy" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(¸£¦­
+lpython:S1542U"ORename function "getPDS" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ªšöşÿÿÿÿ

@@ -5,26 +5,45 @@ Created on 08 nov 2016
 '''
 
 from Dev.Device import Device
+from Dev.ActiveDevice import ActiveDevice
 import json
+import time
 
 class Hue(Device):
-    '''
-    classdocs
-    '''
 
-    def __init__(self,id_dev,location_dev,type_dev,lock_id="",light=False):
-        '''
-        Constructor
-        '''
-        super(Hue, self).__init__(id_dev, location_dev, type_dev,lock_id)
+    def __init__(self,id_dev="",location_dev="unknown",light=False):
+        super(Hue, self).__init__(id_dev, location_dev, type_dev="Hue")
         self.light=light
-     
-    def json(self):
-        data = {}
-        data['id'] = self.id
-        data['location'] = self.location
-        data['type'] = self.type
-        data['light'] = self.light
-        data['lock_id'] = self.lock_id
-        return json.dumps(data)
+         
+    #redefine how to serialize the struct
+    def to_json(self):
+        struct = {}
+        struct['id'] = self.id
+        struct['location'] = self.location
+        struct['type'] = self.type
+        struct['light'] = self.light
+        return json.dumps(struct)
+        
+    def from_json(self,serial_dict):
+        struct=json.loads(str(serial_dict))
+        self.id = struct['id']
+        self.location =struct['location'] 
+        self.type=struct['type']
+        self.light=struct['light']
+        return self
+        
+    @staticmethod          
+    def make_active(device):
+        #Define Handlers here
+        def light(client, userdata, message , act):
+            act.dev.light=bool(message.payload.decode("utf-8"))
+            act.publish()
+                
+        handlers=[("/device/"+device.id+"/light",light)] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]
+        #Define Job to perform periodically
+        def job_to_do(active):
+            while True:
+                active.publish()
+                time.sleep(10)            
+        return ActiveDevice(device,job_to_do,handlers)
     
