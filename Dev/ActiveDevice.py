@@ -20,7 +20,7 @@ class ActiveDevice(threading.Thread):
         self.lock_id=""
         self.lock_stack=[]
         self.client = mqtt.Client()
-        #self.client.will_set(self.dev.topic(),"asd", 0, True)
+        self.client.will_set(self.dev.topic(),'{"id":"'+self.dev.id +'", "state":"offline","lock_id":"", "device": ""}', 0, True)
         def lock(client, userdata, message , act):
             with self.locker:
                 self.lock_stack.append(str(message.payload.decode("utf-8")))

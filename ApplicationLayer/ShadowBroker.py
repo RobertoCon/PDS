@@ -44,10 +44,14 @@ class Observable(object):
             self.dev.from_json(serial_dev)
             self.lock_id=lock_id
             self.state=state
+            
+        def observer(self,observer):
+            self.obs.append(observer)
         
 class Observer(object):
         def __init__(self,dev):
             self.dev=dev
+            
         def notify_update(self):
             #do something
             pass
@@ -55,7 +59,7 @@ class Observer(object):
 def on_message(client, userdata, message , cache):
     #print("Received message '" + str(message.payload) + "' on topic '"+ message.topic + "' with QoS " + str(message.qos))
     serial_frame=str(message.payload.decode("utf-8"))
-    json_frame=json.loads(serial_dev)
+    json_frame=json.loads(serial_frame)
     json_dev=json_frame['device']
     id_dev = json_dev['id']
     if id_dev != None:
@@ -109,6 +113,13 @@ class ShadowBroker(object):
                 self.client.unsubscribe(item) 
             return add
         
+        def observer(self,id_dev,obs):
+            for i in self.cache:
+                if i.dev.id==id_dev:
+                    i.observer(obs)
+                    return True
+            return False
+        
         #utility
         def topics_print(self):
             return self.topics         
@@ -121,22 +132,29 @@ class ShadowBroker(object):
             return None
                     
         #Non so che fare
-          
-        def get_copy(self,topic):
+        #Read_only or local write 
+        def get_subset_copy(self,topic):
             cp=[]
-            for i in filter(partial(isTopicValid,topic=topic),self.data):
-                x=copy.copy(i)
-                x.setWrapper(self)
+            for i in filter(partial(isTopicValid,topic=topic),self.cache):
+                x=copy.copy(i.dev)
                 cp.append(x)
             return cp
         
-        def getShadow(self,topic):
-            cp=[]
-            for i in filter(partial(isTopicValid,topic=topic),self.data):
-                x=copy.copy(i)
-                x.setWrapper(self)
-                cp.append(x)
-            return cp
+        #Autoupdate , remote writer , listener
+        #def get_subset_observers(self,topic):
+        #    cp=[]
+        #    for i in filter(partial(isTopicValid,topic=topic),self.cache):
+        #        x=i.get_observer()
+        #        cp.append(x)
+        #    return cp
+        
+        #def getShadow(self,topic):
+        #    cp=[]
+        #    for i in filter(partial(isTopicValid,topic=topic),self.data):
+        #        x=copy.copy(i)
+        #        x.setWrapper(self)
+        #        cp.append(x)
+        #    return cp
         
        
         #def listenType(self,dev_type):
@@ -146,41 +164,47 @@ class ShadowBroker(object):
         #def listenLocation(self,dev_location):
         #    self.topics.append("/device/+/+/"+dev_location)
         #    self.client.subscribe("/device/+/+/"+dev_location, qos=0)
-            
+        def get_lock_id(self,id_dev):
+            for i in self.cache:
+                if i.dev.id==id_dev:
+                    return i.lock_id
+            return None  
         
-         def lock(self,dev_id):
+        def lock(self,dev_id):
             self.publish("/device/"+dev_id+"/lock",self.client._client_id)
             while True:
-                x=self.getDevById(dev_id)
-                print("Lock request [ id : ",x.lock_id," client_id : ",self.client._client_id," ]")
-                if x.lock_id==self.client._client_id:
-                    return copy.copy(x)
+                lock_id=self.get_lock_id(dev_id)
+                #print("Lock request [ id : ",x.lock_id," client_id : ",self.client._client_id," ]")
+                if lock_id==self.client._client_id:
+                    return copy.copy(self.get_device(dev_id))
                 else:
                     time.sleep(0.5)
+                    
         def unlock(self,dev_id):
             self.publish("/device/"+dev_id+"/unlock",self.client._client_id)
             while True:
-                x=self.getDevById(dev_id)
-                print("Unlock request")
-                if x.lock_id!=self.client._client_id:
-                    return copy.copy(x)
+                #x=self.getDevById(dev_id)
+                lock_id=self.get_lock_id(dev_id)
+                #print("Unlock request")
+                if lock_id!=self.client._client_id:
+                    return copy.copy(self.get_device(dev_id))
                 else:
                     time.sleep(0.5)                     
       
                 
                 
         def write(self,dev_id,name,value):
-            print("Write ",dev_id," ",name," ",value)
-            x=self.getDevById(dev_id)
-            if x.lock_id==self.client._client_id:
-                    print("Safe Write ")
+            #print("Write ",dev_id," ",name," ",value)
+            lock_id=self.get_lock_id(dev_id)
+            if lock_id==self.client._client_id:
+                    #print("Safe Write ")
                     #safe write
                     self.publish("/device/"+dev_id+"/"+name,value)
                     while True:
-                        x=self.getDevById(dev_id)
-                        print("Write at : ",x.__dict__)
+                        x=self.get_device(dev_id)
+                        #print("Write at : ",x.__dict__)
                         if x.__dict__[name]==value:
-                            return copy.copy(x)
+                            return copy.copy(self.get_device(dev_id))
                         else:
                             time.sleep(0.5)
             else:
