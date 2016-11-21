@@ -37,8 +37,6 @@ E
 Trash/ShadowBroker.py,6\1\6147d5065a569f9d4c30764702323142b8a19f15
 P
  ApplicationLayer/ShadowBroker.py,0\3\035beccdf9a8715279badddb22120bee05544f24
-H
-ApplicationLayer/Main.py,a\a\aad5b1ba044e1165daf50d67406542e56ad9effc
 G
 ApplicationLayer/PDS.py,5\4\54c82fc84c0a3eead7386474a3e30a3a1009922b
 B
@@ -49,8 +47,6 @@ B
 Dev/Device.py,c\1\c1be85a4c61ccf3d015117b77c4b97e9fe178c5d
 >
 Dev/Factory.py,0\a\0a79ac8bf1303b4dc160ef11dbaf589a5a5c4494
-;
-Dev/Main.py,0\3\03c720db724a095726f9f624c3d651dd1f61890c
 C
 Dev/ActiveDevice.py,3\6\36c3feb1a12941f090dab526903d51e7c3ec0fdb
 @
@@ -59,3 +55,19 @@ E
 Trash/ActiveDevice.py,d\2\d2a8a21c6ce8e00065d668954eddb9fa24ff3ca6
 >
 Model/Model.py,3\8\384ead5e6ce3ae960318bbf5aa5f6ccaaf2f39bf
+>
+Trash/Model.py,b\5\b5e696759d23f6916999951db345ffbcc1fcc0d4
+D
+Plugin/TempSensor.py,2\c\2c0e9c1ffbe2a6ddbdfe4db583a67d7a76a6b57d
+E
+Plugin/LightSensor.py,d\9\d90d6e26ad5b003c93d49e792fea60a11db15d6e
+A
+Tools/Listener.py,3\0\3048d762d67589cb21e78cb3debdc4e079f45e9d
+=
+Plugin/Hue.py,8\d\8d3c5c163035bf33d00b952085062516ccd06f05
+=
+Dev/Loader.py,a\d\ade2aa4ad5d56fd2c02762a5cd5f590ecb68c0cf
+F
+Plugin/PluginDevice.py,b\f\bf1484842ba51b25f873ba088187de0dba363578
+@
+Tools/Cleaner.py,5\4\54045e25f8f400338144eb56525cd5131a4ee042

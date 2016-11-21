@@ -8,6 +8,7 @@ from functools import partial
 from Model import Setting
 import paho.mqtt.client as mqtt
 import threading
+import json
 
 class ActiveDevice(threading.Thread):
             
@@ -71,4 +72,14 @@ class ActiveDevice(threading.Thread):
         
     def publish(self):
         with self.locker:
-            self.client.publish(self.dev.topic(), self.dev.to_json(),0,retain=True)
+            #self.client.publish(self.dev.topic(), self.dev.to_json(),0,retain=True)
+            struct = {}
+            struct['id'] = self.dev.id
+            struct['state'] = "online"
+            struct['device'] = self.dev.to_json()
+            struct['lock_id'] = self.lock_id
+            self.client.publish(self.dev.topic(),json.dumps(struct),0,retain=True)
+            
+            
+            
+            
