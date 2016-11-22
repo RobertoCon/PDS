@@ -71,3 +71,11 @@ F
 Plugin/PluginDevice.py,b\f\bf1484842ba51b25f873ba088187de0dba363578
 @
 Tools/Cleaner.py,5\4\54045e25f8f400338144eb56525cd5131a4ee042
+P
+ ApplicationLayer/RemoteDevice.py,a\1\a1786010c159ea0f933c38a66f08a2ea312c5c22
+N
+ApplicationLayer/Observable.py,0\c\0cd7e82d7f532652f6a45f30a38c9374b1c90310
+?
+Trash/Loader.py,d\8\d832b121db62c43eb1abc298e5a0b8e8022eef2f
+=
+Trash/Frog.py,b\3\b3bac3d1ac9ecd7ffa10e83ab763e202321911aa

@@ -1,13 +1,12 @@
 
-7python:S125¨"Remove this commented out code.(ÃÓôÅ
-mpython:S100o"QRename method "getDevById" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(äÙ¤šûÿÿÿÿ
-mpython:S1542"URename function "isTopicValid" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(”·†ı
-;python:S125"Remove this commented out code.(˜ù²ıøÿÿÿÿ
-;python:S125O"Remove this commented out code.(„ˆÜ—øÿÿÿÿ
-;python:S125S"Remove this commented out code.(¡¾‚Úüÿÿÿÿ
-ppython:S100v"TRename method "cleanListener" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(Ò±¥øûÿÿÿÿ
-Gpython:S1066b"/Merge this if statement with the enclosing one.(çåáâ
-lpython:S1005"PRename method "getShadow" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(ÍÇê¯şÿÿÿÿ
-opython:S101%"SRename class "__ShadowBroker" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(ãªŞñùÿÿÿÿ
-Hpython:S1066"/Merge this if statement with the enclosing one.(›áò“
-Mpython:S1066"/Merge this if statement with the enclosing one.(èÔÈşÿÿÿÿ
+>python:S125ƒ"Remove this commented out code.(Äé’À8ãÛ¡©ˆ+
+mpython:S1542"URename function "isTopicValid" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(”·†ı
+>python:S125æ"Remove this commented out code.(ÃÓôÅ8‹Ÿ¦ˆ+
+Gpython:S1066"/Merge this if statement with the enclosing one.(›áò“
+>python:S125Ğ"Remove this commented out code.(ÃÓôÅ8µ–ø¥ˆ+
+<python:S125"Remove this commented out code.(¡¾‚Úüÿÿÿÿ
+Lpython:S1066"/Merge this if statement with the enclosing one.(èÔÈşÿÿÿÿ
+opython:S1015"SRename class "__ShadowBroker" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(ãªŞñùÿÿÿÿ
+Gpython:S1066R"/Merge this if statement with the enclosing one.(çåáâ
+<python:S125Œ"Remove this commented out code.(„ˆÜ—øÿÿÿÿ
+>python:S125¦"Remove this commented out code.(ÙÍÚ8›‹¹©ˆ+

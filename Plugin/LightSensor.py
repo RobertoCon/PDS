@@ -32,16 +32,14 @@ class LightSensor(Device):
         self.unit=struct['unit']
         return self
         
-        @staticmethod          
-        def make_active(device):
-            #Define Handlers here
-                
-            handlers=[] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]
-            #Define Job to perform periodically
-            def job_to_do(active):
-                while True:
-                    active.dev.light=random.randint(1,100)
-                    active.publish()
-                    time.sleep(10)
-                    
-            return ActiveDevice(device,job_to_do,handlers)
+    @staticmethod          
+    def make_active(device):
+        #Define Handlers here
+        handlers=[] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]
+        #Define Job to perform periodically
+        def job_to_do(active):
+            while True:        
+                active.dev.light=random.randint(1,100)
+                active.publish()
+                time.sleep(10)        
+        return ActiveDevice(device,job_to_do,handlers)

@@ -8,12 +8,14 @@ from functools import partial
 from Model import Setting
 import paho.mqtt.client as mqtt
 from Dev.Factory import Factory
+from ApplicationLayer.Observable import Observable
 import json
 import time
 import copy
+from ApplicationLayer.RemoteDevice import RemoteDevice
 
 def isTopicValid(obj,topic):
-    return topic_in(obj.topic(),topic)
+    return topic_in(obj.dev.topic(),topic)
 
 
 def topic_in(a,b):
@@ -25,54 +27,25 @@ def topic_in(a,b):
                 return True
     return False  
 
-class Observable(object):
-        def __init__(self,id_dev,dev,lock_id,state):
-            self.id_dev=id_dev
-            self.dev=dev
-            self.lock_id=lock_id
-            self.state=state
-            self.obs=[]
-        def notify_update(self):
-            for i in self.obs:
-                i.notify_update()
-        def get_observer(self):
-            observer=Observer(self.dev)
-            self.obs.append(observer)
-            return observer
-        def update(self,serial_dev,lock_id,state):
-            #change this to support history sample
-            self.dev.from_json(serial_dev)
-            self.lock_id=lock_id
-            self.state=state
-            
-        def observer(self,observer):
-            self.obs.append(observer)
-        
-class Observer(object):
-        def __init__(self,dev):
-            self.dev=dev
-            
-        def notify_update(self):
-            #do something
-            pass
+
 
 def on_message(client, userdata, message , cache):
     #print("Received message '" + str(message.payload) + "' on topic '"+ message.topic + "' with QoS " + str(message.qos))
     serial_frame=str(message.payload.decode("utf-8"))
     json_frame=json.loads(serial_frame)
-    json_dev=json_frame['device']
+    json_dev=json.loads(json_frame['device'])
     id_dev = json_dev['id']
     if id_dev != None:
         for i, item in enumerate(cache):
             if id_dev==item.id_dev:
-                if json_dev['state']=="online":
+                if json_frame['state']=="online":
                     cache[i].update(json_frame['device'],json_frame['lock_id'],json_frame['state'])
                     #notify change to all observer
                     cache[i].notify_update()
                 else:
                     cache[i].state="offline"
                 return
-        cache.append(Observable(id_dev,Factory.decode(json_dev),json_frame['lock_id'],json_frame['state']))
+        cache.append(Observable(id_dev,Factory.decode(json.dumps(json_dev)),json_frame['lock_id'],json_frame['state']))
     
     #REMOVE OBJECT DISCONNECTED
             
@@ -92,7 +65,7 @@ class ShadowBroker(object):
             #self.client.publish("/client/"+self.client._client_id+"/status","online", 0, True)
         
         def publish(self,topic,message):
-            self.client.publish(topic, message,qos=0)
+            self.client.publish(topic,message,qos=0)
         
 
         def listen(self,topic):
@@ -128,15 +101,22 @@ class ShadowBroker(object):
         def get_device(self,id_dev):
             for i in self.cache:
                 if i.dev.id==id_dev:
-                    return i
+                    return i.dev
             return None
                     
         #Non so che fare
         #Read_only or local write 
-        def get_subset_copy(self,topic):
+        def get_subset_local(self,topic):
             cp=[]
             for i in filter(partial(isTopicValid,topic=topic),self.cache):
                 x=copy.copy(i.dev)
+                cp.append(x)
+            return cp
+        
+        def get_subset_remote(self,topic):
+            cp=[]
+            for i in filter(partial(isTopicValid,topic=topic),self.cache):
+                x=RemoteDevice(i.dev,False,self)
                 cp.append(x)
             return cp
         
@@ -203,7 +183,8 @@ class ShadowBroker(object):
                     while True:
                         x=self.get_device(dev_id)
                         #print("Write at : ",x.__dict__)
-                        if x.__dict__[name]==value:
+                        #if x.__dict__[name]==value:
+                        if getattr(x, name)==value:
                             return copy.copy(self.get_device(dev_id))
                         else:
                             time.sleep(0.5)

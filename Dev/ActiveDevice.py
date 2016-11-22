@@ -47,6 +47,7 @@ class ActiveDevice(threading.Thread):
         self.runnable=runnable
             
         def write_wrapp(client, userdata, message , act , func):
+            print("Received message '" + str(message.payload) + "' on topic '"+ message.topic + "' with QoS " + str(message.qos))
             if str(message.payload.decode("utf-8"))==act.lock_id or act.lock_id=="":
                 with self.locker:
                     func(client, userdata, message,act)
