@@ -79,3 +79,9 @@ N
 Trash/Loader.py,d\8\d832b121db62c43eb1abc298e5a0b8e8022eef2f
 =
 Trash/Frog.py,b\3\b3bac3d1ac9ecd7ffa10e83ab763e202321911aa
+N
+ApplicationLayer/TimeSeries.py,4\0\40261ba9380aa469c79dd4b9350a1216ae082231
+I
+ApplicationLayer/IFTTT.py,7\d\7d09980d7867fd1f80e8fffef994cf30544dc03f
+N
+ApplicationLayer/Aggregator.py,d\3\d334b09d66d358f9ce7ba59104fa588453d09855

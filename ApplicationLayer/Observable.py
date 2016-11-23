@@ -3,6 +3,15 @@ Created on 22 nov 2016
 
 @author: Conny
 '''
+class Observer(object):
+        def __init__(self,dev,shadow):
+            self.dev=dev
+            self.shadow=shadow
+            self.shadow.observer(dev.id,self)
+            
+        def notify_update(self):
+            #do something
+            pass
 
 class Observable(object):
         def __init__(self,id_dev,dev,lock_id,state):
@@ -27,10 +36,5 @@ class Observable(object):
         def observer(self,observer):
             self.obs.append(observer)
         
-class Observer(object):
-        def __init__(self,dev):
-            self.dev=dev
-            
-        def notify_update(self):
-            #do something
-            pass
+
+        

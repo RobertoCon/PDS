@@ -5,7 +5,29 @@ Created on 01 nov 2016
 '''
 from ApplicationLayer.PDS import PDS,TEMP,HUE,LIGHT
 import time
+from ApplicationLayer.IFTTT import IFTTT
+from ApplicationLayer.TimeSeries import TimeSeries
+from ApplicationLayer.ShadowBroker import ShadowBroker
+from ApplicationLayer.Aggregator import Aggregator
 
+
+q=LIGHT(remote=True)
+q.print()
+#z=IFTTT(q[0],lambda x : x.light>50,ShadowBroker())
+#w=TimeSeries(q[0],ShadowBroker())
+#w.set_events([lambda x :  x.light<33,lambda x : x.light>=33 and x.light<66,lambda x : x.light>=67 and x.light<=100])
+def avg(self,devs):
+    avg=0
+    for dev in devs:
+        avg=(avg+dev.light)/2
+    self.avg=avg
+e=Aggregator([q[0],q[1],q[2]],avg,ShadowBroker())
+
+while True:
+    time.sleep(1)
+    print(e.avg)    
+    
+'''
 #x=LIGHT()
 #x.print()
 print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
@@ -25,6 +47,4 @@ x.unlock()
 #x=HUE().lock()
 x=HUE()
 x.print()
-
-
-        
+'''

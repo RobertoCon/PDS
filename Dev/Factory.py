@@ -3,7 +3,6 @@ Created on 01 nov 2016
 
 @author: Conny
 '''
-from Dev.Device import Device 
 import sys
 import importlib
 import json

@@ -3,8 +3,6 @@ Created on 21 nov 2016
 
 @author: Conny
 '''
-import json,time
-from Dev.Device import Device
 class RemoteDevice(object):
     '''
     classdocs

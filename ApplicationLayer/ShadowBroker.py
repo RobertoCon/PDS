@@ -151,7 +151,8 @@ class ShadowBroker(object):
             return None  
         
         def lock(self,dev_id):
-            self.publish("/device/"+dev_id+"/lock",self.client._client_id)
+            #self.publish("/device/"+dev_id+"/lock",self.client._client_id)
+            self.publish("/device/"+dev_id+"/lock",self.frame_request())
             while True:
                 lock_id=self.get_lock_id(dev_id)
                 #print("Lock request [ id : ",x.lock_id," client_id : ",self.client._client_id," ]")
@@ -161,7 +162,8 @@ class ShadowBroker(object):
                     time.sleep(0.5)
                     
         def unlock(self,dev_id):
-            self.publish("/device/"+dev_id+"/unlock",self.client._client_id)
+            #self.publish("/device/"+dev_id+"/unlock",self.client._client_id)
+            self.publish("/device/"+dev_id+"/unlock",self.frame_request())
             while True:
                 #x=self.getDevById(dev_id)
                 lock_id=self.get_lock_id(dev_id)
@@ -179,7 +181,8 @@ class ShadowBroker(object):
             if lock_id==self.client._client_id:
                     #print("Safe Write ")
                     #safe write
-                    self.publish("/device/"+dev_id+"/"+name,value)
+                    #self.publish("/device/"+dev_id+"/"+name,value)
+                    self.publish("/device/"+dev_id+"/"+name,self.frame_request(name,value))
                     while True:
                         x=self.get_device(dev_id)
                         #print("Write at : ",x.__dict__)
@@ -189,10 +192,18 @@ class ShadowBroker(object):
                         else:
                             time.sleep(0.5)
             else:
-                    print("Unsafe Write ")
+                    #print("Unsafe Write ")
                     #unsafe write
-                    self.publish("/device/"+dev_id+"/"+name,value)
-                    
+                    #self.publish("/device/"+dev_id+"/"+name,value)
+                    self.publish("/device/"+dev_id+"/"+name,self.frame_request(name,value))
+             
+        def frame_request(self,name="",value=""):
+                struct = {}
+                struct['client_id'] = self.client._client_id
+                struct['state'] = "online"
+                struct['name'] = name
+                struct['value'] = value
+                return json.dumps(struct)
             
     instance = None
     def __init__(self):
