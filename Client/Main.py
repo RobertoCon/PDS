@@ -20,12 +20,11 @@ def avg(self,devs):
     avg=0
     for dev in devs:
         avg=(avg+dev.light)/2
-    self.avg=avg
+        print("new average : ",avg)  
 e=Aggregator([q[0],q[1],q[2]],avg,ShadowBroker())
 
 while True:
     time.sleep(1)
-    print(e.avg)    
     
 '''
 #x=LIGHT()

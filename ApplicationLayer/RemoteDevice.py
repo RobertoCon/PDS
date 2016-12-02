@@ -21,7 +21,7 @@ class RemoteDevice(object):
         return getattr(self.device,name)
     
     def __setattr__(self, name, value):
-        print("Set attrib : ",name," at ",value)
+        #print("Set attrib : ",name," at ",value)
         if self.ready:
             if not(self.read_only) :
                 setattr(self.device, name,value)
