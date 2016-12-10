@@ -3,14 +3,15 @@ Created on 23 nov 2016
 
 @author: Conny
 '''
-from ApplicationLayer.Observable import Observer
+from ApplicationLayer.Observer import Observer
 
 class TimeSeries(Observer):
     
-    def __init__(self,dev,shadow):
-        super(TimeSeries, self).__init__(dev,shadow)
+    def __init__(self,dev,shadow,func):
+        super(TimeSeries, self).__init__(dev)
         self.lamb=[]
         self.history=[]
+        self.func=func
     def set_events(self,events):
         for event in events:
                 self.history.append(0)
@@ -31,7 +32,8 @@ class TimeSeries(Observer):
                 else:
                     self.history[i]=0
             
-        print("Device : ",self.dev.to_json()," history : ",self.history )
+        #print("Device : ",self.dev.to_json()," history : ",self.history )
         if self.history[len(self.history)-1]:
             #Trigger
-            print("Triggered Time Series")  
+            self.func()
+            #print("Triggered Time Series")  

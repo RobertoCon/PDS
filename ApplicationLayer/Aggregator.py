@@ -3,19 +3,19 @@ Created on 23 nov 2016
 
 @author: Conny
 '''
-from ApplicationLayer.Observable import Observer
-class Aggregator(Observer):
+from ApplicationLayer.ShadowBroker import ShadowBroker
+class Aggregator(object):
     '''
     classdocs
     '''
 
 
-    def __init__(self, devs,func,shadow):
+    def __init__(self, devs,func):
         '''
         Constructor
         '''
         self.devs=devs
-        self.shadow=shadow
+        self.shadow=ShadowBroker()
         self.func=func
         for dev in self.devs:
             self.shadow.observer(dev.id,self)

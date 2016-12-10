@@ -41,7 +41,7 @@ def on_message(client, userdata, message , cache):
                 if json_frame['state']=="online":
                     cache[i].update(json_frame['device'],json_frame['lock_id'],json_frame['state'])
                     #notify change to all observer
-                    cache[i].notify_update()
+                    #cache[i].notify_update()
                 else:
                     cache[i].state="offline"
                 return
@@ -102,6 +102,12 @@ class ShadowBroker(object):
             for i in self.cache:
                 if i.dev.id==id_dev:
                     return i.dev
+            return None
+        
+        def get_history_of(self,id_dev):
+            for i in self.cache:
+                if i.dev.id==id_dev:
+                    return i.get_history()
             return None
                     
         #Non so che fare
