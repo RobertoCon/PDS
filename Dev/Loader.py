@@ -5,10 +5,6 @@ Created on 19 nov 2016
 '''
 from Dev.Factory import Factory
 from Model.Model import structure
-import time
-import string
-import random
-import json
 
 
 class Loader(object):

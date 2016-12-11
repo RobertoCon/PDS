@@ -9,10 +9,24 @@ from ApplicationLayer.IFTTT import IFTTT
 from ApplicationLayer.TimeSeries import TimeSeries
 from ApplicationLayer.ShadowBroker import ShadowBroker
 from ApplicationLayer.Aggregator import Aggregator
-
+'''
 s=ShadowBroker()
 q=LIGHT(remote=True)
-q.print()
+'''
+def call(future):
+    print("Callback")
+x=HUE(remote=True)
+print(x)
+x.print()
+#x[0].light=False
+result=x[0].setattr("light",True,async=True,callback=call)
+print("Back to main code ",result)
+x.print()
+print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+time.sleep(10)
+print("Result ",result)
+x=HUE()
+x.print()
 #z=IFTTT(q[0],lambda x : x.light>50,ShadowBroker())
 #w=TimeSeries(q[0],ShadowBroker())
 #w.set_events([lambda x :  x.light<33,lambda x : x.light>=33 and x.light<66,lambda x : x.light>=67 and x.light<=100])
@@ -27,14 +41,14 @@ e=Aggregator([q[0],q[1],q[2]],avg)
 
 
 
-
+'''
 while True:
     print()
     for elem in s.get_history_of(q[0].id):
         time.sleep(0.2)
         print(elem.to_json())
     time.sleep(5)
-    
+'''    
 '''
 #x=LIGHT()
 #x.print()

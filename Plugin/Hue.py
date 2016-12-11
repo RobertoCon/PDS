@@ -37,7 +37,7 @@ class Hue(Device):
         #Define Handlers here
         def light(message , active):
             #print("WriteRequest : ",message.payload.decode("utf-8"))
-            active.dev.light=message['value'] in ["True","true","y"]
+            active.dev.light=message['value'] in [True,"True","true","y"]
             active.publish()
                 
         handlers=[("/device/"+device.id+"/light",light)] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]

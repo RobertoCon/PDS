@@ -13,6 +13,10 @@ import json
 import time
 import copy
 from ApplicationLayer.RemoteDevice import RemoteDevice
+from concurrent.futures import ThreadPoolExecutor
+
+
+          
 
 def isTopicValid(obj,topic):
     return topic_in(obj.dev.topic(),topic)
@@ -63,7 +67,7 @@ class ShadowBroker(object):
             self.client.on_message = partial(on_message, cache=self.cache)
             self.client.loop_start()
             #self.client.publish("/client/"+self.client._client_id+"/status","online", 0, True)
-        
+            self.executor=ThreadPoolExecutor(max_workers=1)
         def publish(self,topic,message):
             self.client.publish(topic,message,qos=0)
         
@@ -122,7 +126,7 @@ class ShadowBroker(object):
         def get_subset_remote(self,topic):
             cp=[]
             for i in filter(partial(isTopicValid,topic=topic),self.cache):
-                x=RemoteDevice(i.dev,False,self)
+                x=RemoteDevice(i.dev,self)
                 cp.append(x)
             return cp
         
@@ -179,36 +183,37 @@ class ShadowBroker(object):
                 else:
                     time.sleep(0.5)                     
       
+      
+      
+        
                 
-                
-        def write(self,dev_id,name,value):
-            #print("Write ",dev_id," ",name," ",value)
-            lock_id=self.get_lock_id(dev_id)
-            if lock_id==self.client._client_id:
-                    #print("Safe Write ")
-                    #safe write
-                    #self.publish("/device/"+dev_id+"/"+name,value)
-                    self.publish("/device/"+dev_id+"/"+name,self.frame_request(name,value))
-                    while True:
-                        x=self.get_device(dev_id)
-                        #print("Write at : ",x.__dict__)
-                        #if x.__dict__[name]==value:
-                        if getattr(x, name)==value:
-                            return copy.copy(self.get_device(dev_id))
-                        else:
-                            time.sleep(0.5)
-            else:
-                    #print("Unsafe Write ")
-                    #unsafe write
-                    #self.publish("/device/"+dev_id+"/"+name,value)
-                    self.publish("/device/"+dev_id+"/"+name,self.frame_request(name,value))
-             
+        def write(self,dev_id,name,value,callback):
+            #print("ShadowBroker Write")
+            def func_write(shadow,dev_id,name,value):
+                    time.sleep(5)
+                    shadow.publish("/device/"+dev_id+"/"+name,shadow.frame_request(name,value))
+                    #while True:
+                    #    x=self.get_device(dev_id)
+                    #    if getattr(x, name)==value:
+                    #        return copy.copy(self.get_device(dev_id))
+                    #    else:
+                    #        time.sleep(0.5)
+                    
+            
+            future = self.executor.submit(partial(func_write,self,dev_id,name,value))
+            if callback != None:
+                future.add_done_callback(callback)
+                #print("ShadowBroker Write end return : ",future)
+            return future
+            #print("ShadowBroker Write end return nothing")
+                    
         def frame_request(self,name="",value=""):
                 struct = {}
                 struct['client_id'] = self.client._client_id
                 struct['state'] = "online"
                 struct['name'] = name
                 struct['value'] = value
+                #struct['id_request'] = #Random value
                 return json.dumps(struct)
             
     instance = None

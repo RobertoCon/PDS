@@ -56,10 +56,6 @@ class PDS(list):
                 i.unlock()
         return self     
             
-    #def trylock(self):
-    #    for i in self:
-    #       i.trylock() 
-            
 class HUE(PDS):
     def __init__(self,dev_id="+",dev_type="Hue",dev_location="+",shadow=True,starter=None,remote=False):
         super(HUE, self).__init__(dev_id,dev_type,dev_location,shadow,starter,remote)
