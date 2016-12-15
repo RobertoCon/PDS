@@ -6,14 +6,10 @@ Created on 23 nov 2016
 from ApplicationLayer.Observer import Observer
 class IFTTT(Observer):
     
-    def __init__(self, dev,lamb,func):
-        from ApplicationLayer.ShadowBroker import ShadowBroker
-        super(IFTTT, self).__init__(dev)
+    def __init__(self, dev,func,lamb):
+        super(IFTTT, self).__init__(dev,func)
         self.lamb=lamb
-        self.func=func
          
     def notify_update(self):
         if self.lamb(self.dev):
-            #print("Triggered IFTTT by : ",self.dev)
-            #do something
-            self.func()
+            self.func(self,self.dev)

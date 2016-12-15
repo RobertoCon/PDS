@@ -7,16 +7,17 @@ from ApplicationLayer.Observer import Observer
 
 class TimeSeries(Observer):
     
-    def __init__(self,dev,shadow,func):
-        super(TimeSeries, self).__init__(dev)
+    def __init__(self,dev,func):
+        super(TimeSeries, self).__init__(dev,func)
         self.lamb=[]
         self.history=[]
-        self.func=func
     def set_events(self,events):
         for event in events:
                 self.history.append(0)
                 self.lamb.append(event)
-               
+     
+    def get_history(self):
+            return self.history    
          
     def notify_update(self):
        
@@ -35,5 +36,5 @@ class TimeSeries(Observer):
         #print("Device : ",self.dev.to_json()," history : ",self.history )
         if self.history[len(self.history)-1]:
             #Trigger
-            self.func()
+            self.func(self,self.dev)
             #print("Triggered Time Series")  

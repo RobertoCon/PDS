@@ -27,18 +27,6 @@ time.sleep(10)
 print("Result ",result)
 x=HUE()
 x.print()
-#z=IFTTT(q[0],lambda x : x.light>50,ShadowBroker())
-#w=TimeSeries(q[0],ShadowBroker())
-#w.set_events([lambda x :  x.light<33,lambda x : x.light>=33 and x.light<66,lambda x : x.light>=67 and x.light<=100])
-'''
-def avg(self,devs):
-    avg=0
-    for dev in devs:
-        avg=(avg+dev.light)/2
-        print("new average : ",avg)  
-e=Aggregator([q[0],q[1],q[2]],avg)
-'''
-
 
 
 '''

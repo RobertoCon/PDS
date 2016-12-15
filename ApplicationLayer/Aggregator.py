@@ -8,20 +8,14 @@ class Aggregator(object):
     '''
     classdocs
     '''
-
-
-    def __init__(self, devs,func):
-        '''
-        Constructor
-        '''
+    def __init__(self,devs,func):
+        
         self.devs=devs
-        self.shadow=ShadowBroker()
         self.func=func
+        self.shadow=ShadowBroker()
         for dev in self.devs:
             self.shadow.observer(dev.id,self)
-        
+        self.func(self,self.devs)
     def notify_update(self):
         self.func(self,self.devs)
-      
-    
-      
+

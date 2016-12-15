@@ -10,7 +10,7 @@ import time
 
 class PDS(list):
 
-    def __init__(self,dev_id="+",dev_type="+",dev_location="+",shadow=True,starter=None,remote=False):
+    def __init__(self,dev_id="+",dev_type="+",dev_location="+",shadow=True,starter=None,remote=True):
         self.topic="/device/"+dev_id+"/"+dev_type+"/"+dev_location  
         self.remote=remote
         if shadow==True :
@@ -57,17 +57,17 @@ class PDS(list):
         return self     
             
 class HUE(PDS):
-    def __init__(self,dev_id="+",dev_type="Hue",dev_location="+",shadow=True,starter=None,remote=False):
+    def __init__(self,dev_id="+",dev_type="Hue",dev_location="+",shadow=True,starter=None,remote=True):
         super(HUE, self).__init__(dev_id,dev_type,dev_location,shadow,starter,remote)
 
 
             
 class TEMP(PDS):
-    def __init__(self,dev_id="+",dev_type="TempSensor",dev_location="+",shadow=True,starter=None,remote=False):
+    def __init__(self,dev_id="+",dev_type="TempSensor",dev_location="+",shadow=True,starter=None,remote=True):
         super(TEMP, self).__init__(dev_id,dev_type,dev_location,shadow,starter,remote)
         
 class LIGHT(PDS):
-    def __init__(self,dev_id="+",dev_type="LightSensor",dev_location="+",shadow=True,starter=None,remote=False):
+    def __init__(self,dev_id="+",dev_type="LightSensor",dev_location="+",shadow=True,starter=None,remote=True):
         super(LIGHT, self).__init__(dev_id,dev_type,dev_location,shadow,starter,remote)
 
 

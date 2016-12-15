@@ -89,3 +89,9 @@ L
 ApplicationLayer/Observer.py,c\c\cc54ca4426bc3875cd5a00aa90321f638eeb4e9c
 >
 Client/Test.py,1\3\132351f77ced9640e54c6ff4c464d01483c53d86
+H
+Client/ES_Aggregatore.py,a\b\ab4c646eba612161ff2551238a06bf45ea308dd6
+G
+Client/ES_TimeSeries.py,7\7\772e9f8d5a3b0c00152c4064c45b114f5bc8e4cd
+B
+Client/ES_IFTTT.py,2\1\2127fd2c229fb0f3c6685bcd0836b97242d91179
