@@ -35,7 +35,7 @@ class PluginDevice(Device):
     
               
         @staticmethod          
-        def make_active(device):
+        def make_active(device,broker_ip=""):
             #Define Handlers here
                 
             handlers=[] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]

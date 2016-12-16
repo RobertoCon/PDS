@@ -2,9 +2,6 @@
 import paho.mqtt.client as mqtt
 import time
 from Model import Setting
-import json
-from Dev.Factory import Factory
-
 
 def on_message(client, userdata, message):
         print("Received '" +"'   message  '"+ str(message.payload) + "' on topic '"+ message.topic + "' with QoS " + str(message.qos))

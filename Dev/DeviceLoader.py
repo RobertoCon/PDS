@@ -4,7 +4,7 @@ Created on 19 nov 2016
 @author: Conny
 '''
 from Dev.Factory import Factory
-from Model.Model import structure
+from Model.DeviceRegistry import structure
 
 
 class Loader(object):

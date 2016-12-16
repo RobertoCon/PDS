@@ -95,3 +95,5 @@ G
 Client/ES_TimeSeries.py,7\7\772e9f8d5a3b0c00152c4064c45b114f5bc8e4cd
 B
 Client/ES_IFTTT.py,2\1\2127fd2c229fb0f3c6685bcd0836b97242d91179
+=
+Plugin/GaD.py,a\4\a46fcc8def5a4688975d29e041a99b72dd65fa9d

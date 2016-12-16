@@ -12,7 +12,7 @@ import json
 
 class ActiveDevice(threading.Thread):
             
-    def __init__(self,dev,runnable=None,handlers=[]):
+    def __init__(self,dev,runnable=None,handlers=[],broker_ip=Setting.Broker_ip):
         
         super(ActiveDevice, self).__init__()
         self.dev=dev
@@ -66,7 +66,7 @@ class ActiveDevice(threading.Thread):
         self.client.message_callback_add("/device/"+self.dev.id+"/update", partial(write_wrapp,act=self,func=update)) 
         
         
-        self.client.connect(Setting.Broker_ip)
+        self.client.connect(broker_ip)
         self.client.loop_start()
         self.start()
         for i in handlers:
