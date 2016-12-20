@@ -54,8 +54,6 @@ C
 E
 Trash/ActiveDevice.py,d\2\d2a8a21c6ce8e00065d668954eddb9fa24ff3ca6
 >
-Model/Model.py,3\8\384ead5e6ce3ae960318bbf5aa5f6ccaaf2f39bf
->
 Trash/Model.py,b\5\b5e696759d23f6916999951db345ffbcc1fcc0d4
 D
 Plugin/TempSensor.py,2\c\2c0e9c1ffbe2a6ddbdfe4db583a67d7a76a6b57d
@@ -65,8 +63,6 @@ A
 Tools/Listener.py,3\0\3048d762d67589cb21e78cb3debdc4e079f45e9d
 =
 Plugin/Hue.py,8\d\8d3c5c163035bf33d00b952085062516ccd06f05
-=
-Dev/Loader.py,a\d\ade2aa4ad5d56fd2c02762a5cd5f590ecb68c0cf
 F
 Plugin/PluginDevice.py,b\f\bf1484842ba51b25f873ba088187de0dba363578
 @
@@ -97,3 +93,17 @@ B
 Client/ES_IFTTT.py,2\1\2127fd2c229fb0f3c6685bcd0836b97242d91179
 =
 Plugin/GaD.py,a\4\a46fcc8def5a4688975d29e041a99b72dd65fa9d
+6
+Resume,b\3\b3bd0b5a70497bec4a02b7eb1cb0d4f37eb71a2a
+N
+ApplicationManager/__init__.py,6\3\63618865f616143eaad0a2ba5210a8e1d242af47
+U
+%ApplicationManager/ResourceManager.py,b\6\b6303213f28faa5331c79bb6135918f6a8f2df48
+U
+%ApplicationManager/SecurityManager.py,9\1\91966538b0c0be7c3a2035344cc7aa4c603953e5
+G
+Model/DeviceRegistry.py,2\d\2d961315e1cd849ecdab5485ad41d694729941cd
+R
+"ApplicationManager/SharedMemory.py,3\7\37c70dc86709927638014a78ba825526df6f4dd1
+M
+ApplicationManager/Shared2.py,f\4\f48ecd99266c9010f18ee045b47b777a83ef580c

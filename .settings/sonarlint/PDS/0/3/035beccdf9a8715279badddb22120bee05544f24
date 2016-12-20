@@ -1,13 +1,13 @@
 
->python:S125ü"Remove this commented out code.(ÃÓôÅ8‹Ÿ¦ˆ+
->python:S125²"Remove this commented out code.(ÙÍÚ8›‹¹©ˆ+
-<python:S125š"Remove this commented out code.(¡¾‚Úüÿÿÿÿ
-<python:S125–"Remove this commented out code.(„ˆÜ—øÿÿÿÿ
+Gpython:S1066V"/Merge this if statement with the enclosing one.(çåáâ
 =python:S125Ã"Remove this commented out code.(¿şşs8†È•€+
 Lpython:S1066"/Merge this if statement with the enclosing one.(èÔÈşÿÿÿÿ
-opython:S1019"SRename class "__ShadowBroker" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(ãªŞñùÿÿÿÿ
 mpython:S1542"URename function "isTopicValid" to match the regular expression ^[a-z_][a-z0-9_]{2,}$.(”·†ı
->python:S125"Remove this commented out code.(Äé’À8ãÛ¡©ˆ+
->python:S125æ"Remove this commented out code.(ÃÓôÅ8µ–ø¥ˆ+
-Gpython:S1066V"/Merge this if statement with the enclosing one.(çåáâ
+<python:S125š"Remove this commented out code.(¡¾‚Úüÿÿÿÿ
+>python:S125ü"Remove this commented out code.(ÃÓôÅ8‹Ÿ¦ˆ+
 Gpython:S1066"/Merge this if statement with the enclosing one.(›áò“
+opython:S1019"SRename class "__ShadowBroker" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(ãªŞñùÿÿÿÿ
+<python:S125–"Remove this commented out code.(„ˆÜ—øÿÿÿÿ
+>python:S125²"Remove this commented out code.(ÙÍÚ8›‹¹©ˆ+
+>python:S125æ"Remove this commented out code.(ÃÓôÅ8µ–ø¥ˆ+
+>python:S125"Remove this commented out code.(Äé’À8ãÛ¡©ˆ+
