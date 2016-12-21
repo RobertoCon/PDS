@@ -5,3 +5,4 @@ Created on 26 ott 2016
 '''
 Broker_ip="192.168.1.6"
 path="C:/Users/Conny/workspace/PDS"
+node_id="id1"

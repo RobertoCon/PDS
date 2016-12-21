@@ -5,18 +5,20 @@ Created on 20 dic 2016
 '''
 
 import json
-from pathlib import Path
 from functools import partial
 from Model import Setting
 import paho.mqtt.client as mqtt
+import time
+import threading
 
-def on_message(client, userdata, message, table, path):
-    #print("Received message '" + str(message.payload) + "' on topic '"+ message.topic + "' with QoS " + str(message.qos))
+
+def on_message(client, userdata, message, obj):
     serial_frame=str(message.payload.decode("utf-8"))
     json_frame=json.loads(serial_frame)
-    json_dev=json.loads(json_frame['device'])
-    id_dev = json_dev['id']
-
+    key=json_frame['key']
+    obj.locker.acquire()
+    obj.table[key]=json.loads(json_frame['data'])
+    obj.locker.release()
 
 class SharedMemory(object):
     '''
@@ -27,37 +29,32 @@ class SharedMemory(object):
         '''
         Constructor
         '''
-        self.table=[]
+        self.locker=threading.RLock()
+        self.table={}
         
         self.client = mqtt.Client()
         self.client.connect(Setting.Broker_ip)
-        self.client.on_message = partial(on_message, table=self.table,path=self.path)
+        self.client.on_message = partial(on_message, obj=self)
         self.client.loop_start()        
-        
-        self.path = Path(Setting.path+"/Settings/").absolute()
-        self.path.mkdir(parents=True, exist_ok=True)
-        self.path=self.path.joinpath("data.json")
-        
-
-        if self.path.is_file() == False :
-            json.dump(self.table,open(str(self.path),'w')) 
-        else:
-            #read it
-            self.table=json.load(open(str(self.path),'r'))
-
+        self.client.subscribe("/application/shared/+", qos=0)
+        time.sleep(1)
+  
             
-    def create(self,key,data):
-        self.table.append(key)
-        json.dump(self.table,open(str(self.path),'w')) 
-        self.client.publish(topic, payload, qos, retain)
-    
-    def read(self):
-        pass
-    
     def write(self,key,data):
+        self.locker.acquire()
         self.table[key]=data
-        json.dump(self.table,open(str(self.path),'w'))
+        message={}
+        message['key']=key
+        message['data']=data
+        self.client.publish("/application/shared/"+key, json.dumps(message), 0, True)
+        self.locker.release()
+    
+    def read(self,key):
+        self.locker.acquire()
+        data=self.table.get(key)
+        self.locker.release()
+        return data
 
 s=SharedMemory()
-s.write("qui","asd")
+print(s.read("app1")["k1"])
 print(s.table)
