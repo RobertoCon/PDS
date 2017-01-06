@@ -33,7 +33,7 @@ class ApplicationLoader(object):
         self.client.subscribe("/application/registry/"+Setting.node_id, qos=0)
         
         self.path = Path(Setting.path+"/Settings/").absolute()
-        self.path.mkdir(parents=True, exist_ok=True)
+        #self.path.mkdir(parents=True, exist_ok=True)
         self.path=self.path.joinpath("app_registry.json")
         
         self.app=[]
@@ -63,12 +63,6 @@ class ApplicationLoader(object):
     def docker_run(self,app_json):
         proc = subprocess.Popen("docker start --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name']+" "+app_json['image_name'], stdout=subprocess.PIPE, shell=True)
      
-     
-     
-     
-l=ApplicationLoader()
-l.docker_run(None)  
-print("End creation") 
 '''       
 l=ApplicationLoader()
 print(l.list_app())
