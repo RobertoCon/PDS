@@ -61,7 +61,8 @@ class ApplicationLoader(object):
     
     #"docker run -it --rm --cpu-quota=30000  --name my-running-app test-python"      
     def docker_run(self,app_json):
-        proc = subprocess.Popen("docker start --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name']+" "+app_json['image_name'], stdout=subprocess.PIPE, shell=True)
+        print("Docker CMD : docker run --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name']+" "+app_json['image_name'])
+        proc = subprocess.Popen("docker run --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name']+" "+app_json['image_name'], stdout=subprocess.PIPE, shell=True)
      
 '''       
 l=ApplicationLoader()
