@@ -105,5 +105,13 @@ G
 Model/DeviceRegistry.py,2\d\2d961315e1cd849ecdab5485ad41d694729941cd
 R
 "ApplicationManager/SharedMemory.py,3\7\37c70dc86709927638014a78ba825526df6f4dd1
-M
-ApplicationManager/Shared2.py,f\4\f48ecd99266c9010f18ee045b47b777a83ef580c
+C
+Dev/DeviceLoader.py,d\3\d3cd7b4cd6ec56222735dc601a46e71df2fde525
+E
+Trash/SharedMemory.py,4\7\47a66ee6d7f719ed257056629e6cad66d6ed2330
+L
+Model/ApplicationRegistry.py,2\1\21bebcb8419a873c610161a30a65999768bc85a9
+F
+Bootloader/__init__.py,e\4\e4ce38e1233fe1c6948327fc9ec0a2d1197f0f79
+W
+'ApplicationManager/ApplicationLoader.py,8\e\8ea4291796885a43d63886ac337277c95d0afdc1

@@ -56,9 +56,21 @@ class ApplicationLoader(object):
         
     def list_app(self):
         return self.app
-          
     
-        
+    
+    
+    #"docker run -it --rm --cpu-quota=30000  --name my-running-app test-python"      
+    def docker_run(self,app_json):
+        app_json={'app_name':'testapp','cpu_quota':30000,'image_name':'test-python'}
+        proc = subprocess.Popen("docker start --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name']+" "+app_json['image_name'], stdout=subprocess.PIPE, shell=True)
+     
+     
+     
+     
+l=ApplicationLoader()
+l.docker_run(None)  
+print("End creation") 
+'''       
 l=ApplicationLoader()
 print(l.list_app())
 save=l.new_app("script.py")
@@ -74,7 +86,7 @@ print("code done")
 time.sleep(10)
 print(save.stdout.readline())
 print("code done 2")
-
+'''
 
 
 
