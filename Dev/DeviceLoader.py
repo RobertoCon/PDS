@@ -7,7 +7,7 @@ from Dev.Factory import Factory
 from Model.DeviceRegistry import structure
 
 
-class Loader(object):
+class DeviceLoader(object):
 
     def __init__(self):
 
@@ -21,4 +21,4 @@ class Loader(object):
             print(i.to_json())   
      
      
-Loader()
+
