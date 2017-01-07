@@ -38,7 +38,7 @@ def on_message(client, userdata, message, obj):
         
     #print all
     #for appl in self.app:
-    print("Application table : /n"+obj.app)
+    print("Application table : /n"+json.dumps(obj.app))
                     
     #update permanent file
     obj.locker.release()
