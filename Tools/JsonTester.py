@@ -15,6 +15,14 @@ print(app['app_name'])
 
 '''
 
-{'cmd':'','appl':"'{'app_name':'app1','cpu_quota':'10000','image_name':'test-python'}'"}
+msg={'cmd':'run',
+        'appl':'{
+            "app_name":"app1",
+            "online":"no"
+            "boot":"yes"
+            "cpu_quota":"10000",
+            "image_name":"test-python"
+        }'
+    }
 
 '''

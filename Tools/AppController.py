@@ -14,7 +14,8 @@ client = mqtt.Client()
 client.connect(Setting.Broker_ip)
 client.loop_start()
 client.on_message = on_message
-msg={'cmd':'run','appl':'{"app_name":"app1","cpu_quota":"10000","image_name":"test-python"}'}
+#msg={'cmd':'run','appl':'{"app_name":"app2","cpu_quota":"20000","image_name":"test-python"}'}
+msg={'cmd':'update','appl':'{"app_name":"app1","cpu_quota":"30000","image_name":"test-python"}'}
 client.publish("/application/registry/id1",json.dumps(msg),0,retain=False)
 print("Sending .....")
 time.sleep(3)
