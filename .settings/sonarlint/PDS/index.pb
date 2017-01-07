@@ -115,3 +115,7 @@ F
 Bootloader/__init__.py,e\4\e4ce38e1233fe1c6948327fc9ec0a2d1197f0f79
 W
 'ApplicationManager/ApplicationLoader.py,8\e\8ea4291796885a43d63886ac337277c95d0afdc1
+A
+Client/GaD_App.py,b\3\b37b3516b72545acdffc02255571ca15e7fc0542
+B
+Bootloader/Main.py,5\1\510d2294e0736cf31824e0bf461dfe390345cbea
