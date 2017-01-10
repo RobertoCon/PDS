@@ -19,9 +19,7 @@ os_version="8.0"
 # Framework properties  
 path="./"
 Broker_ip="192.168.1.6"
-
 '''
-
 node_templates:
       node_id : ID
       type: Pi-Model
@@ -39,5 +37,5 @@ node_templates:
             architecture: ARM 
             type: linux  
             distribution: jessie  
-            version: 8.0  
+            version: 8.0
 '''
