@@ -17,7 +17,7 @@ client.on_message = on_message
 #msg={'cmd':'run','appl':'{"app_name":"app2","cpu_quota":"20000","image_name":"test-python"}'}
 #msg={'cmd':'regist','appl':'{"app_name":"app1","cpu_quota":"30000","image_name":"test-python"}'}
 
-msg={'cmd':'stop','appl':'{"app_name":"app1","online":"no","boot":"yes","cpu_quota":"10000","image_name":"test-python"}'}
+msg={'cmd':'stop','appl':'{"app_name" : "app1","type":"busy-box","boot":"yes","image_name" : "test-python","cpu_quota":"10000","scalingV":"True""scalingH":"True""Migrate": "False""SharedM": "App1Tag" }'}
 client.publish("/application/registry/id1",json.dumps(msg),0,retain=False)
 print("Sending .....")
 time.sleep(3)
@@ -25,6 +25,6 @@ print("Done")
 
 '''
 
-{'cmd':'','appl':"'{'app_name':'app1','cpu_quota':'10000','image_name':'test-python'}'"}
+{'app_name' : 'Application1A','type':'','image_name' : 'Application1','cpu_quota':'10000','scalingV':'True''scalingH':'True''Migrate': 'False''SharedM': 'App1Tag' }
 
 '''

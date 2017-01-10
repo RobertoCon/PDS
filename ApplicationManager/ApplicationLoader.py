@@ -91,19 +91,19 @@ class ApplicationLoader(object):
     
     #"docker run -it --rm --cpu-quota=30000  --name my-running-app test-python"      
     def docker_run(self,app_json):
-        print("Docker CMD : docker run --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name']+" "+app_json['image_name'])
+        #print("Docker CMD : docker run --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name']+" "+app_json['image_name'])
         proc = subprocess.Popen("docker run --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name']+" "+app_json['image_name'], stdout=subprocess.PIPE, shell=True)
     
     def docker_start(self,app_json):
-        print("Docker CMD : docker start "+app_json['app_name'] )
+        #print("Docker CMD : docker start "+app_json['app_name'] )
         proc = subprocess.Popen("docker start "+app_json['app_name'] , stdout=subprocess.PIPE, shell=True)
     
     def docker_stop(self,app_json):
-        print("Docker CMD : docker stop "+app_json['app_name'] )
+        #print("Docker CMD : docker stop "+app_json['app_name'] )
         proc = subprocess.Popen("docker stop "+app_json['app_name'] , stdout=subprocess.PIPE, shell=True)
     
     def docker_update(self,app_json):
-        print("Docker CMD : docker update --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name'])
+        #print("Docker CMD : docker update --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name'])
         proc = subprocess.Popen("docker update --cpu-quota="+app_json['cpu_quota']+" "+app_json['app_name'], stdout=subprocess.PIPE, shell=True)
     
             
