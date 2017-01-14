@@ -1,0 +1,62 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+description: Template for deploying a frog system.
+topology_template:
+    node_templates: 
+        py_id:
+            type: tosca.nodes.Compute
+            attributes:
+                private_address: 192.168.1.6
+                public_address: 192.168.1.6
+            capabilities:
+                host:
+                    properties:
+                        num_cpus: 1
+                        cpu_frequency : 1.0 GHz
+                        disk_size: 16 GB
+                        mem_size: 512 MB
+                os:
+                    properties:
+                        architecture: x86
+                        type: linux
+                        distribution: jessie
+                        version: 8.0                       
+        app_container:
+            type: tosca.nodes.Container.Application.Docker
+            properties:
+                ports:
+                    in_port:
+                        protocol: tcp
+                        target: 50000
+            artifacts:
+                image: 
+                   file: image_name
+                   repository: docker_hub
+            requirements:
+                host:
+                    node:  py_id
+                    relationship: 
+                        type: tosca.relationships.HostedOn
+                        cpu_quota: 20000
+        device_app:
+            type: my.tosca.nodes.Device
+            location: location
+            device_type: Device
+            requirements:
+                host:py_id
+
+        LoadBalancer: 
+            type: tosca.nodes.LoadBalancer         
+            properties: 
+                algorithm: RR 
+            capabilities:
+                clients: 
+                    ip_address: 192.168.1.1
+            requirements:
+                application:
+                    app1:
+                        ip_address: 192.168.1.6 
+                        properties:
+                            ports:
+                                in_port:
+                                    protocol: tcp
+                                    target: 50000   

@@ -66,3 +66,24 @@ questo layer aggiunge anche dei meccanismi e degli strumenti per rendere piu eff
 		offre la possibilit√† di ottenere l'accesso esclusivo e riservato ad un insieme di dispositivi remoti tramite un'esplicita richiesta, lasciando in attesa tutti gli altri utilizzatori.
 		una volta finito l'utilizzo esclusivo le risorse vengono rilasciate sempre tramite un esplicita richiesta .
 		se pi√π utilizzatori vogliono utilizzare le stesse risorse in modo esclusivo , le risorse saranno assegnate al primo che ne fa richiesta , lasciando in attesa l'altro
+
+		
+		
+node_templates:
+      node_id : ID
+††† ††type: Pi-Model
+††† ††capabilities:
+†††† †††# Host properties
+††††††† host:
+†† †††††† properties:
+††††† ††††† num_cpus: 1 
+††††† ††††† disk_size: 14 GB
+†††† †††††† mem_size: 512 MB
+††††††† # Operating System properties
+† ††††††os:
+† ††††††††properties:
+††† ††††††††# Operating System image properties
+††††† ††††††architecture: ARM 
+††††††† ††††type: linux† 
+†††† †††††††distribution: jessie† 
+† ††††††††††version: 8.0
