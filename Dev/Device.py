@@ -33,6 +33,13 @@ class Device(object):
         self.type=struct['type']
         return self
     
+    def from_yaml(self,serial_dict):
+        struct=json.loads(str(serial_dict))
+        self.id = struct['id']
+        self.location =struct['location'] 
+        self.type=struct['type']
+        return self
+    
               
     @staticmethod          
     def make_active(device):

@@ -6,6 +6,7 @@ Created on 01 nov 2016
 import sys
 import importlib
 import json
+import yaml
 
 def load_module(modulename):
     mod = None
@@ -21,11 +22,21 @@ class Factory(object):
     def decode(serial_dev):
         struct=json.loads(serial_dev)
         module=load_module("Plugin."+struct['type'])
-       
         if module!=None:
             MyClass = getattr(module, struct['type'])
             instance = MyClass()
             instance.from_json(serial_dev)
+            return instance
+        return None
+    
+    @staticmethod
+    def decode_yaml(serial_dev):
+        devs=yaml.load(serial_dev)
+        module=load_module("Plugin."+devs['device_type'])
+        if module!=None:
+            MyClass = getattr(module, devs['device_type'])
+            instance = MyClass()
+            #instance.from_yaml(serial_dev)
             return instance
         return None
 

@@ -16,6 +16,10 @@ for elem in x['b']:
 print (yaml.dump(yaml.load(document)))
 '''
 import yaml
-stream = open('Tosca.yaml', 'r')
+from Dev.Factory import Factory
+stream = open('../Settings/example_device.yaml', 'r')
 x=(yaml.load(stream))
 print(yaml.dump(x))
+dev=Factory.decode_yaml(yaml.dump(x))
+print(dev)
+
