@@ -15,6 +15,7 @@ class ActiveDevice(threading.Thread):
     def __init__(self,dev,runnable=None,handlers=[],broker_ip=Setting.Broker_ip):
         
         super(ActiveDevice, self).__init__()
+        self.isAlive=True
         self.dev=dev
         self.locker=threading.RLock()
         self.lock_id=""
@@ -88,6 +89,11 @@ class ActiveDevice(threading.Thread):
             struct['lock_id'] = self.lock_id
             self.client.publish(self.dev.topic(),json.dumps(struct),0,retain=True)
             
-            
+    def terminate(self):
+        with self.locker:
+            self.isAlive=False
+            self.client.disconnect()
+            self.client.loop_stop() 
+               
             
             

@@ -9,7 +9,6 @@ from ApplicationLayer.ShadowBroker import ShadowBroker
 import time
 
 class PDS(list):
-
     def __init__(self,dev_id="+",dev_type="+",dev_location="+",shadow=True,starter=None,remote=True):
         self.topic="/device/"+dev_id+"/"+dev_type+"/"+dev_location  
         self.remote=remote

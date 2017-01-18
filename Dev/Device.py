@@ -48,7 +48,7 @@ class Device(object):
         handlers=[] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]
         #Define Job to perform periodically
         def job_to_do(active):
-            while True:
+            while active.isAlive:
                 active.publish()
                 time.sleep(10)
                 

@@ -10,17 +10,17 @@ import time
 
 yaml = """
 node_templates:
-    dev3:
-        id: dev4
+    dev1:
+        id: dev1
         type: my.Device.TempSensor
         location: bathroom
         device_type: TempSensor
         requirements:
-          host: py_2"""
+          host: py_3"""
       
 client = mqtt.Client()
 client.connect(Setting.Broker_ip)
 client.loop_start()        
-client.publish("/"+Setting.node_id+"/model/device/add/",yaml, 0)  
+client.publish("/"+Setting.node_id+"/model/device/remove",yaml, 0)  
 
 time.sleep(5)
