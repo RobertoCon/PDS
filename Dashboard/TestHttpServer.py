@@ -3,7 +3,7 @@ Created on 16 gen 2017
 
 @author: Conny
 '''
-
+'''
 import http.server
 import socketserver
 
@@ -15,8 +15,8 @@ httpd = socketserver.TCPServer(("", PORT), Handler)
 
 print ("serving at port", PORT)
 httpd.serve_forever()
-
 '''
+
 import cherrypy
       
 class HelloWorld(object):
@@ -29,4 +29,3 @@ class HelloWorld(object):
     random.exposed = True
 
 cherrypy.quickstart(HelloWorld())
-'''

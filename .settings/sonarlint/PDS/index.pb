@@ -101,20 +101,12 @@ U
 %ApplicationManager/ResourceManager.py,b\6\b6303213f28faa5331c79bb6135918f6a8f2df48
 U
 %ApplicationManager/SecurityManager.py,9\1\91966538b0c0be7c3a2035344cc7aa4c603953e5
-G
-Model/DeviceRegistry.py,2\d\2d961315e1cd849ecdab5485ad41d694729941cd
 R
 "ApplicationManager/SharedMemory.py,3\7\37c70dc86709927638014a78ba825526df6f4dd1
-C
-Dev/DeviceLoader.py,d\3\d3cd7b4cd6ec56222735dc601a46e71df2fde525
 E
 Trash/SharedMemory.py,4\7\47a66ee6d7f719ed257056629e6cad66d6ed2330
-L
-Model/ApplicationRegistry.py,2\1\21bebcb8419a873c610161a30a65999768bc85a9
 F
 Bootloader/__init__.py,e\4\e4ce38e1233fe1c6948327fc9ec0a2d1197f0f79
-W
-'ApplicationManager/ApplicationLoader.py,8\e\8ea4291796885a43d63886ac337277c95d0afdc1
 A
 Client/GaD_App.py,b\3\b37b3516b72545acdffc02255571ca15e7fc0542
 B
@@ -123,20 +115,12 @@ C
 Tools/JsonTester.py,5\b\5b81d7482fce048ccc374007582d9ac32b7f87d1
 F
 Tools/AppController.py,3\2\32467afddbaf4d5b50d07ce061f28c52600c2f9c
-C
-Model/TestParser.py,9\c\9c3c52f15df8ae456fa74dee66b880828f306e56
-L
-Settings/example_device.yaml,b\f\bf60df3684b077e38ecb525c0c266860b8cc012c
-E
-Model/ModelManager.py,2\a\2a955341ac93df01bf48b8a3401f97a3d1b2cd98
 I
 Tools/DeviceController.py,5\1\51cfa16bdc8e33ba90f93bbe395e7eebcb949b72
 L
 Settings/DeviceRegistry.yaml,7\9\799df83c465f3318813a8b0bd5cd7817d67ad493
 G
 Tools/TestHttpServer.py,0\1\0132642efd1d7e3ae8a8744415a736effd363e9e
-J
-Settings/app_registry.json,9\a\9a65ff0d683adc1c960c28119bb521036b0e2174
 C
 Settings/Tosca.yaml,5\4\5478425b1c9dad2c7856f600a88cd5c136da6ce7
 M
@@ -149,8 +133,6 @@ G
 Trash/Model/__init__.py,b\f\bfc1ea1f72d532ed0cefb9040ae883c5762a47c0
 L
 Trash/Model/DeviceManager.py,4\8\481b1b838c0c015146c2f2f07adc6872fda8e4b7
-D
-Settings/backup.yaml,7\3\73eb6ba193e8a946456f26f6328bc9b857644962
 R
 "Trash/Model/ApplicationRegistry.py,1\e\1eac348fead66aadcbeffc5c117ecf9dd956107f
 Q
@@ -161,3 +143,7 @@ K
 Model/ApplicationManager.py,b\c\bcbfd3686e5fceb7a9d5f86f2484d6c289b13fdc
 D
 Model/LoadManager.py,2\b\2bb213f9e892ba27562dfea3ace6281ea93c5c8b
+E
+Dashboard/__init__.py,8\8\88f0720ce0807090d269392f1760ef60f3825df9
+D
+Model/NodeManager.py,7\8\783d3cceb8f768e6c765b82754393712ab82f581

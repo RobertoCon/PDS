@@ -17,7 +17,7 @@ class DeviceManager(object):
         self.devices={}
         self.links={}
         
-        self.path = Path(Setting.path+"../Settings/").absolute()
+        self.path = Path(Setting.path+"./Settings/").absolute()
         self.path=self.path.joinpath("DeviceRegistry.yaml")
         if self.path.is_file() == False :
             yaml.dump(self.devices,open(str(self.path),'w')) 

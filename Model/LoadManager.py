@@ -9,64 +9,79 @@ from functools import partial
 from Model import Setting
 import paho.mqtt.client as mqtt
 import yaml
-from Dev.Factory import Factory
+import  subprocess
 
-class DeviceManager(object):
+class LoadManager(object):
 
     def __init__(self):
-        self.devices={}
-        self.links={}
-        
-        self.path = Path(Setting.path+"../Settings/").absolute()
-        self.path=self.path.joinpath("DeviceRegistry.yaml")
+        self.balancers={}
+        self.path = Path(Setting.path+"./Settings/").absolute()
+        self.path=self.path.joinpath("LoadRegistry.yaml")
         if self.path.is_file() == False :
-            yaml.dump(self.devices,open(str(self.path),'w')) 
+            yaml.dump(self.balancers,open(str(self.path),'w')) 
         else:
-            self.devices=yaml.load(open(str(self.path),'r'))
-            for dev in self.devices['node_templates']:
-                device=Factory.decode_yaml(yaml.dump(self.devices['node_templates'][dev]))
-                if device!=None and device.dev_id not in self.devices['node_templates']:
-                    self.link[dev]=type(device).make_active(device) 
-        print("Device loaded")
+            self.balancers=yaml.load(open(str(self.path),'r'))
+            self.update_balancer()
+        print("Balancer loaded")
                  
         def on_message_add(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
-            for dev in yaml_frame['node_templates']:
-                device=Factory.decode_yaml(yaml.dump(yaml_frame['node_templates'][dev]))
-                if device!=None and device.dev_id not in obj.devices['node_templates']: 
-                    obj.link[dev]=type(device).make_active(device) 
-                    obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
+            for app in yaml_frame['node_templates']:
+                if  app not in obj.balancers['node_templates']: 
+                    obj.balancers['node_templates'][app]=yaml_frame['node_templates'][app] 
             obj.permanent()  
             obj.publish()
+            obj.update_balancer()
         
         def on_message_remove(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
-            for dev in yaml_frame['node_templates']:
-                if dev in obj.devices['node_templates']:
-                    obj.devices['node_templates'].pop(dev) 
-                    obj.link[dev].terminate() 
-                    obj.link[dev].kill() 
+            for app in yaml_frame['node_templates']:
+                if  app in obj.balancers['node_templates']: 
+                    obj.balancers['node_templates'].pop(app) 
             obj.permanent()  
-            obj.publish() 
+            obj.publish()
+            obj.update_balancer()
             
         def on_message_read(client, userdata, message, obj):
             obj.publish()
             
                      
         self.client = mqtt.Client()
-        self.client.message_callback_add("/"+Setting.node_id+"/model/device/add", partial(on_message_add, obj=self)) 
-        self.client.message_callback_add("/"+Setting.node_id+"/model/device/remove", partial(on_message_remove, obj=self))
-        self.client.message_callback_add("/"+Setting.node_id+"/model/device/read", partial(on_message_read, obj=self))
+        self.client.message_callback_add("/"+Setting.node_id+"/model/balancer/add", partial(on_message_add, obj=self)) 
+        self.client.message_callback_add("/"+Setting.node_id+"/model/balancer/remove", partial(on_message_remove, obj=self))
+        self.client.message_callback_add("/"+Setting.node_id+"/model/balancer/read", partial(on_message_read, obj=self))
         self.client.connect(Setting.Broker_ip)
         self.client.loop_start()        
-        self.client.subscribe("/"+Setting.node_id+"/model/device/add", qos=0)
-        self.client.subscribe("/"+Setting.node_id+"/model/device/remove", qos=0)
-        self.client.subscribe("/"+Setting.node_id+"/model/device/read", qos=0)        
+        self.client.subscribe("/"+Setting.node_id+"/model/balancer/add", qos=0)
+        self.client.subscribe("/"+Setting.node_id+"/model/balancer/remove", qos=0)
+        self.client.subscribe("/"+Setting.node_id+"/model/balancer/read", qos=0)        
     
     def permanent(self):
-        yaml.dump(self.devices,open(str(self.path),'w'))
+        yaml.dump(self.balancers,open(str(self.path),'w'))
         
     def publish(self):
-        self.client.publish("/"+Setting.node_id+"/model/device/status",yaml.dump(self.devices),qos=0,retain=True)
+        self.client.publish("/"+Setting.node_id+"/model/balancer/status",yaml.dump(self.balancers),qos=0,retain=True)
+        
+    def update_balancer(self):
+        self.default="""worker_processes  1;
+events {
+    worker_connections  1024;
+}\n"""
+        for app in self.balancers['node_templates']:
+            server="\tserver {\n\t\tlisten\t"+str(self.balancers['node_templates'][app]['properties']['ports']['in_port']['target'])\
+            +";\n\t\tproxy_pass "+self.balancers['node_templates'][app]['name']+";\n\t}"
+                    
+            stream="\tupstream "+self.balancers['node_templates'][app]['name']+"{\n"
+            for link in self.balancers['node_templates'][app]['requirements']['application']:
+                ip=self.balancers['node_templates'][app]['requirements']['application'][link]['ip_address']
+                port=str(self.balancers['node_templates'][app]['requirements']['application'][link]['properties']['ports']['in_port']['target'])
+                stream=stream+"\t\tserver "+ip+":"+port+";\n"
+            stream=stream+"\t}"
+            settings="stream {\n"+server+"\n"+stream+"\n}"
+            path = Path("/usr/local/nginx/nginx.conf")
+            if path.is_file() == True :
+                f = open(str(self.path), 'w')
+                f.write(settings)
+                subprocess.Popen("/usr/local/nginx/nginx -s reload", stdout=subprocess.PIPE, shell=True)

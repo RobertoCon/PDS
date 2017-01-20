@@ -1,0 +1,19 @@
+node_templates: 
+    py_1:
+        type: tosca.nodes.Compute
+        attributes:
+          private_address: 192.168.1.6
+          public_address: 192.168.1.6
+        capabilities:
+          host:
+            properties:
+              num_cpus: 1
+              cpu_frequency : 1.0 GHz
+              disk_size: 16 GB
+              mem_size: 512 MB
+              os:
+                properties:
+                  architecture: ARMv6 32bit
+                  type: linux
+                  distribution: jessie
+                  version: 8.0    

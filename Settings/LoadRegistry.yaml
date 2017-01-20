@@ -1,0 +1,28 @@
+node_templates:
+    LoadBalancer_id:
+                name: id_1 
+                type: tosca.nodes.LoadBalancer   
+                host: py_1      
+                properties: 
+                    algorithm: RR 
+                    ports:
+                        in_port:
+                            protocol: tcp
+                            target: 8080
+                capabilities:
+                    clients: 
+                        ip_address: 192.168.1.1
+                requirements:
+                    application:
+                        app1:
+                            ip_address: 192.168.1.6 
+                            properties:
+                                ports:
+                                    in_port:
+                                        target: 9000
+                        app2:
+                            ip_address: 192.168.1.6 
+                            properties:
+                                ports:
+                                    in_port:
+                                        target: 8900

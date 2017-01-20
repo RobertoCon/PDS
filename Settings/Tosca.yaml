@@ -43,11 +43,14 @@ topology_template:
             device_type: Device
             requirements:
                 host:py_id
-
         LoadBalancer: 
             type: tosca.nodes.LoadBalancer         
             properties: 
                 algorithm: RR 
+                ports:
+                    in_port:
+                        protocol: tcp
+                        target: 50000
             capabilities:
                 clients: 
                     ip_address: 192.168.1.1
