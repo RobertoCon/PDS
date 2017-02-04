@@ -1,4 +1,7 @@
 
-0python:S2325"Make this method static.(žö¾¦
-5python:S2325"Make this method static.(•˜©Îýÿÿÿÿ
+Jpython:S1313Y",Make this IP "0.0.0.0" address configurable.(Á’³+8±Í¹ˆœ+
+0python:S23251"Make this method static.(žö¾¦
+=python:S125"Remove this commented out code.(ÃÓôÅ8±Í¹ˆœ+
+7python:S2325G"Make this method static.(Ú±¸„8±Í¹ˆœ+
 6python:S125"Remove this commented out code.(ÃÓôÅ
+gpython:S101-"IRename class "rest" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(ÈçÀ™8±Í¹ˆœ+
