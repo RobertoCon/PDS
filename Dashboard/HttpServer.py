@@ -45,7 +45,7 @@ class Dashboard(object):
 
     def __init__(self):
         super(Dashboard,self).__init__()
-        self.nodes={'node_templates':""}
+        self.nodes={}
         def on_message(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
