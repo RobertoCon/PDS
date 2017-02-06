@@ -15,7 +15,7 @@ class ApplicationManager(object):
 
     def __init__(self):
         self.apps={}
-        self.path = Path(Setting.path+"../Settings/").absolute()
+        self.path = Path(Setting.path+"./Settings/").absolute()
         self.path=self.path.joinpath("ApplicationRegistry.yaml")
         if self.path.is_file() == False :
             yaml.dump(self.apps,open(str(self.path),'w')) 
