@@ -14,10 +14,10 @@ from Dashboard.HttpServer import Dashboard
 
 if __name__ == '__main__':
     #check for update
-    update=subprocess.Popen("git -C /opt/pds pull  " , stdout=subprocess.PIPE, shell=True)
-    update.wait()
-    if update.returncode!=0:
-        exit(-1)
+    #update=subprocess.Popen("git -C /opt/pds pull  " , stdout=subprocess.PIPE, shell=True)
+    #update.wait()
+    #if update.returncode!=0:
+    #    exit(-1)
     #boot
     n=NodeManager()
     d=DeviceManager()

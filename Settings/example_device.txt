@@ -1,0 +1,69 @@
+node_templates:
+  dev2:
+    device_type: Hue
+    id: dev2
+    location: bathroom
+    requirements: {host: py_1}
+    type: my.Device.Hue
+  dev3:
+    device_type: TempSensor
+    id: dev4
+    location: bathroom
+    requirements: {host: py_2}
+    type: my.Device.TempSensor
+  dev5:
+    device_type: TempSensor
+    id: dev5
+    location: bathroom
+    requirements: {host: py_3}
+    type: my.Device.TempSensor
+    
+node_templates:   
+        LoadBalancer_id:
+                name: id_1 
+                type: tosca.nodes.LoadBalancer   
+                host: py_1      
+                properties: 
+                    algorithm: RR 
+                    ports:
+                        in_port:
+                            protocol: tcp
+                            target: 8080
+                capabilities:
+                    clients: 
+                        ip_address: 192.168.1.1
+                requirements:
+                    application:
+                        app1:
+                            ip_address: 192.168.1.6 
+                            properties:
+                                ports:
+                                    in_port:
+                                        target: 9000
+                        app2:
+                            ip_address: 192.168.1.6 
+                            properties:
+                                ports:
+                                    in_port:
+                                        target: 8900
+                                        
+node_templates:                                        
+    app1:
+            instance: app_name_1
+            type: tosca.nodes.Container.Application.Docker
+            properties:
+                ports:
+                    in_port:
+                        protocol: tcp
+                        target: 50000
+            artifacts:
+                image: 
+                   file: image_name
+                   repository: docker_hub
+                   description: busy-box
+            requirements:
+                host:
+                    node:  py_id
+                    cpu_quota: 20000
+                    relationship: HostedOn
+                    bootstrap: yes

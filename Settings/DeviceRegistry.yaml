@@ -1,19 +1,1 @@
 node_templates:
-  dev2:
-    device_type: Hue
-    id: dev2
-    location: bathroom
-    requirements: {host: py_1}
-    type: my.Device.Hue
-  dev3:
-    device_type: TempSensor
-    id: dev4
-    location: bathroom
-    requirements: {host: py_2}
-    type: my.Device.TempSensor
-  dev5:
-    device_type: TempSensor
-    id: dev5
-    location: bathroom
-    requirements: {host: py_3}
-    type: my.Device.TempSensor
