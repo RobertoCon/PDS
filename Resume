@@ -87,3 +87,10 @@ node_templates:
             type: linux  
             distribution: jessie  
             version: 8.0
+
+
+
+external package :
+	paho-mqtt
+	pyYaml
+	cherrypy

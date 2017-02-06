@@ -9,6 +9,7 @@ from functools import partial
 from Model import Setting
 import paho.mqtt.client as mqtt
 import yaml
+import subprocess
 
 class NodeManager(object):
 
@@ -28,6 +29,7 @@ class NodeManager(object):
             for node in yaml_frame['node_templates']:  
                 if node not in obj.nodes['node_templates']: 
                     #link 2 cluster
+                    subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join "+node['attributes']['public_address'] , stdout=subprocess.PIPE, shell=True)
                     obj.nodes['node_templates'][node]=yaml_frame['node_templates'][node] 
             obj.permanent()  
             obj.publish()
@@ -38,6 +40,7 @@ class NodeManager(object):
             for node in yaml_frame['node_templates']:  
                 if node in obj.nodes['node_templates']: 
                     #remove link 2 cluster
+                    subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster leave", stdout=subprocess.PIPE, shell=True)
                     obj.nodes['node_templates'].pop(node)
             obj.permanent()  
             obj.publish()
