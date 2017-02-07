@@ -95,7 +95,8 @@ class ApplicationManager(object):
         self.client.subscribe("/"+Setting.node_id+"/model/apps/read", qos=0) 
         self.client.subscribe("/"+Setting.node_id+"/model/apps/start", qos=0)
         self.client.subscribe("/"+Setting.node_id+"/model/apps/stop", qos=0)
-        self.client.subscribe("/"+Setting.node_id+"/model/apps/update", qos=0) 
+        self.client.subscribe("/"+Setting.node_id+"/model/apps/update", qos=0)
+        self.publish() 
     
     def docker_start(self,app):
         #print("Docker CMD : docker start "+app_json['app_name'] )

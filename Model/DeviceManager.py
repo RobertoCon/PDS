@@ -26,7 +26,7 @@ class DeviceManager(object):
             for dev in self.devices['node_templates']:
                 device=Factory.decode_yaml(yaml.dump(self.devices['node_templates'][dev]))
                 if device!=None and device.dev_id not in self.devices['node_templates']:
-                    self.link[dev]=type(device).make_active(device) 
+                    self.link[dev]=type(device).make_active(device)
         print("Device loaded")
                  
         def on_message_add(client, userdata, message, obj):
@@ -63,7 +63,8 @@ class DeviceManager(object):
         self.client.loop_start()        
         self.client.subscribe("/"+Setting.node_id+"/model/device/add", qos=0)
         self.client.subscribe("/"+Setting.node_id+"/model/device/remove", qos=0)
-        self.client.subscribe("/"+Setting.node_id+"/model/device/read", qos=0)        
+        self.client.subscribe("/"+Setting.node_id+"/model/device/read", qos=0)
+        self.publish()        
     
     def permanent(self):
         yaml.dump(self.devices,open(str(self.path),'w'))

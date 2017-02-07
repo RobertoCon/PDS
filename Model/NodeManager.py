@@ -58,7 +58,8 @@ class NodeManager(object):
         self.client.subscribe("/"+Setting.node_id+"/model/node/add", qos=0)
         self.client.subscribe("/"+Setting.node_id+"/model/node/remove", qos=0)
         self.client.subscribe("/"+Setting.node_id+"/model/node/read", qos=0)        
-    
+        self.publish()
+        
     def permanent(self):
         yaml.dump(self.nodes,open(str(self.path),'w'))
         

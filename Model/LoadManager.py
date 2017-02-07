@@ -56,7 +56,8 @@ class LoadManager(object):
         self.client.loop_start()        
         self.client.subscribe("/"+Setting.node_id+"/model/balancer/add", qos=0)
         self.client.subscribe("/"+Setting.node_id+"/model/balancer/remove", qos=0)
-        self.client.subscribe("/"+Setting.node_id+"/model/balancer/read", qos=0)        
+        self.client.subscribe("/"+Setting.node_id+"/model/balancer/read", qos=0) 
+        self.publish()       
     
     def permanent(self):
         yaml.dump(self.balancers,open(str(self.path),'w'))
