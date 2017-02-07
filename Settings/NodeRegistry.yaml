@@ -1,6 +1,6 @@
 node_templates: 
     node:
-    	id:hostname
+        id:hostname
         type: tosca.nodes.Compute
         attributes:
           private_address: 127.0.0.1

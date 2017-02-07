@@ -3,7 +3,6 @@ Created on 15 gen 2017
 
 @author: Conny
 '''
-
 from pathlib import Path
 from functools import partial
 from Model import Setting
