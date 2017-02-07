@@ -15,8 +15,7 @@ def getNodeId():
     path = Path("./Settings/").absolute()
     path=path.joinpath("NodeRegistry.yaml")
     nodes=yaml.load(open(str(path),'r'))
-    with open("/etc/hostname") as f:
-        host = f.readlines()
+    host = subprocess.getoutput("hostname")
     ip=subprocess.getoutput("hostname -i")
     for node in nodes['node_templates']:  
         return node+":"+host+":"+ip
