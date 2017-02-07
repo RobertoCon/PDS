@@ -18,11 +18,15 @@ class NodeManager(object):
         self.path = Path(Setting.path+"./Settings/").absolute()
         self.path=self.path.joinpath("NodeRegistry.yaml")
         if self.path.is_file() == False :
-            yaml.dump(self.nodes,open(str(self.path),'w')) 
+            exit(-1)
         else:
             self.nodes=yaml.load(open(str(self.path),'r')) 
-        print("Nodes loaded")
-                 
+        
+        self.nodes['node_templates']['node']['id']=Setting.getHostName()
+        self.nodes['node_templates']['node']['attributes']['public_address']=Setting.getIp()
+        self.permanent()
+        print("Node loaded")  
+           
         def on_message_add(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)

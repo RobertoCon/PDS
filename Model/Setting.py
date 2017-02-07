@@ -15,10 +15,8 @@ def getNodeId():
     path = Path("./Settings/").absolute()
     path=path.joinpath("NodeRegistry.yaml")
     nodes=yaml.load(open(str(path),'r'))
-    host = subprocess.getoutput("hostname")
-    ip=subprocess.getoutput("hostname -i")
     for node in nodes['node_templates']:  
-        return node+":"+host+":"+ip
+        return node+":"+getHostName()+":"+getIp()
 
 
 def getBrokerIp():
@@ -27,4 +25,10 @@ def getBrokerIp():
     nodes=yaml.load(open(str(path),'r'))
     for node in nodes['node_templates']:  
         return nodes['node_templates'][node]['attributes']['broker_address']
+    
+def getHostName():
+    return subprocess.getoutput("hostname")
+
+def getIp():
+    return subprocess.getoutput("hostname -i")
     
