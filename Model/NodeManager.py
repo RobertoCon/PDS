@@ -20,9 +20,16 @@ class NodeManager(object):
             exit(-1)
         else:
             self.nodes=yaml.load(open(str(self.path),'r')) 
+        if 'node' in self.nodes['node_templates']:
+            self.nodes['node_templates']['node']['id']=Setting.getHostName()
+            self.nodes['node_templates']['node']['attributes']['public_address']=Setting.getIp()
+            self.nodes['node_templates'][Setting.getHostName()]=self.nodes['node_templates']['node']
+            self.nodes['node_templates']['node'].pop()
+        else:
+            for node in self.nodes['node_templates']:
+                self.nodes['node_templates'][node]['id']=Setting.getHostName()
+                self.nodes['node_templates'][node]['attributes']['public_address']=Setting.getIp()
         
-        self.nodes['node_templates']['node']['id']=Setting.getHostName()
-        self.nodes['node_templates']['node']['attributes']['public_address']=Setting.getIp()
         self.permanent()
         print("Node loaded")  
            
@@ -32,10 +39,7 @@ class NodeManager(object):
             for node in yaml_frame['node_templates']:  
                 if node not in obj.nodes['node_templates']: 
                     #link 2 cluster
-                    subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join "+node['attributes']['public_address'] , stdout=subprocess.PIPE, shell=True)
-                    obj.nodes['node_templates'][node]=yaml_frame['node_templates'][node] 
-            obj.permanent()  
-            obj.publish()
+                    subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join "+node['id']+"@"+node['attributes']['public_address'] , stdout=subprocess.PIPE, shell=True)
         
         def on_message_remove(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
@@ -44,15 +48,13 @@ class NodeManager(object):
                 if node in obj.nodes['node_templates']: 
                     #remove link 2 cluster
                     subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster leave", stdout=subprocess.PIPE, shell=True)
-                    obj.nodes['node_templates'].pop(node)
-            obj.permanent()  
-            obj.publish()
+                    self.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
             
         def on_message_read(client, userdata, message, obj):
-            obj.publish()
-            
+            obj.publish()      
                      
         self.client = mqtt.Client()
+        self.client.will_set("/"+Setting.getNodeId()+"/model/node/status",None, 0, True)
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/add", partial(on_message_add, obj=self)) 
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/remove", partial(on_message_remove, obj=self))
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/read", partial(on_message_read, obj=self))
