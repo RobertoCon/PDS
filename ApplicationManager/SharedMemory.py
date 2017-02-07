@@ -33,7 +33,7 @@ class SharedMemory(object):
         self.table={}
         
         self.client = mqtt.Client()
-        self.client.connect(Setting.Broker_ip)
+        self.client.connect(Setting.getBrokerIp())
         self.client.on_message = partial(on_message, obj=self)
         self.client.loop_start()        
         self.client.subscribe("/application/shared/+", qos=0)

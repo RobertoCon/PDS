@@ -63,7 +63,7 @@ class ShadowBroker(object):
             self.client = mqtt.Client()
             #Comunicare che sono morto
             #self.client.will_set("/client/"+self.client._client_id+"/status","offline", 0, True)
-            self.client.connect(Setting.Broker_ip)
+            self.client.connect(Setting.getBrokerIp())
             self.client.on_message = partial(on_message, cache=self.cache)
             self.client.loop_start()
             #self.client.publish("/client/"+self.client._client_id+"/status","online", 0, True)

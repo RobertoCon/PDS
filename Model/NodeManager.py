@@ -50,18 +50,18 @@ class NodeManager(object):
             
                      
         self.client = mqtt.Client()
-        self.client.message_callback_add("/"+Setting.node_id+"/model/node/add", partial(on_message_add, obj=self)) 
-        self.client.message_callback_add("/"+Setting.node_id+"/model/node/remove", partial(on_message_remove, obj=self))
-        self.client.message_callback_add("/"+Setting.node_id+"/model/node/read", partial(on_message_read, obj=self))
-        self.client.connect(Setting.Broker_ip)
+        self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/add", partial(on_message_add, obj=self)) 
+        self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/remove", partial(on_message_remove, obj=self))
+        self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/read", partial(on_message_read, obj=self))
+        self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()        
-        self.client.subscribe("/"+Setting.node_id+"/model/node/add", qos=0)
-        self.client.subscribe("/"+Setting.node_id+"/model/node/remove", qos=0)
-        self.client.subscribe("/"+Setting.node_id+"/model/node/read", qos=0)        
+        self.client.subscribe("/"+Setting.getNodeId()+"/model/node/add", qos=0)
+        self.client.subscribe("/"+Setting.getNodeId()+"/model/node/remove", qos=0)
+        self.client.subscribe("/"+Setting.getNodeId()+"/model/node/read", qos=0)        
         self.publish()
         
     def permanent(self):
         yaml.dump(self.nodes,open(str(self.path),'w'))
         
     def publish(self):
-        self.client.publish("/"+Setting.node_id+"/model/node/status",yaml.dump(self.nodes),qos=0,retain=True)
+        self.client.publish("/"+Setting.getNodeId()+"/model/node/status",yaml.dump(self.nodes),qos=0,retain=True)

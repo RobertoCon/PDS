@@ -19,8 +19,8 @@ node_templates:
           host: py_3"""
       
 client = mqtt.Client()
-client.connect(Setting.Broker_ip)
+client.connect(Setting.getBrokerIp())
 client.loop_start()        
-client.publish("/"+Setting.node_id+"/model/device/remove",yaml, 0)  
+client.publish("/"+Setting.getNodeId()+"/model/device/remove",yaml, 0)  
 
 time.sleep(5)

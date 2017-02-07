@@ -11,7 +11,7 @@ def on_message(client, userdata, message):
         
         
 client = mqtt.Client()
-client.connect(Setting.Broker_ip)
+client.connect(Setting.getBrokerIp())
 client.loop_start()
 client.on_message = on_message
 #msg={'cmd':'run','appl':'{"app_name":"app2","cpu_quota":"20000","image_name":"test-python"}'}

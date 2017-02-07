@@ -12,7 +12,7 @@ def on_message(client, userdata, message):
         client.publish(message.topic,None,0,retain=True)
         
 client = mqtt.Client()
-client.connect(Setting.Broker_ip)
+client.connect(Setting.getBrokerIp())
 client.loop_start()
 client.on_message = on_message
 client.subscribe("#", qos=0)

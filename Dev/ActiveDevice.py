@@ -12,7 +12,7 @@ import json
 
 class ActiveDevice(threading.Thread):
             
-    def __init__(self,dev,runnable=None,handlers=[],broker_ip=Setting.Broker_ip):
+    def __init__(self,dev,runnable=None,handlers=[],broker_ip=Setting.getBrokerIp()):
         
         super(ActiveDevice, self).__init__()
         self.isAlive=True

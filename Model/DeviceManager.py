@@ -56,18 +56,18 @@ class DeviceManager(object):
             
                      
         self.client = mqtt.Client()
-        self.client.message_callback_add("/"+Setting.node_id+"/model/device/add", partial(on_message_add, obj=self)) 
-        self.client.message_callback_add("/"+Setting.node_id+"/model/device/remove", partial(on_message_remove, obj=self))
-        self.client.message_callback_add("/"+Setting.node_id+"/model/device/read", partial(on_message_read, obj=self))
-        self.client.connect(Setting.Broker_ip)
+        self.client.message_callback_add("/"+Setting.getNodeId()+"/model/device/add", partial(on_message_add, obj=self)) 
+        self.client.message_callback_add("/"+Setting.getNodeId()+"/model/device/remove", partial(on_message_remove, obj=self))
+        self.client.message_callback_add("/"+Setting.getNodeId()+"/model/device/read", partial(on_message_read, obj=self))
+        self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()        
-        self.client.subscribe("/"+Setting.node_id+"/model/device/add", qos=0)
-        self.client.subscribe("/"+Setting.node_id+"/model/device/remove", qos=0)
-        self.client.subscribe("/"+Setting.node_id+"/model/device/read", qos=0)
+        self.client.subscribe("/"+Setting.getNodeId()+"/model/device/add", qos=0)
+        self.client.subscribe("/"+Setting.getNodeId()+"/model/device/remove", qos=0)
+        self.client.subscribe("/"+Setting.getNodeId()+"/model/device/read", qos=0)
         self.publish()        
     
     def permanent(self):
         yaml.dump(self.devices,open(str(self.path),'w'))
         
     def publish(self):
-        self.client.publish("/"+Setting.node_id+"/model/device/status",yaml.dump(self.devices),qos=0,retain=True)
+        self.client.publish("/"+Setting.getNodeId()+"/model/device/status",yaml.dump(self.devices),qos=0,retain=True)
