@@ -24,7 +24,7 @@ class NodeManager(object):
             self.nodes['node_templates']['node']['id']=Setting.getHostName()
             self.nodes['node_templates']['node']['attributes']['public_address']=Setting.getIp()
             self.nodes['node_templates'][Setting.getHostName()]=self.nodes['node_templates']['node']
-            self.nodes['node_templates']['node'].pop()
+            self.nodes['node_templates'].pop('node')
         else:
             for node in self.nodes['node_templates']:
                 self.nodes['node_templates'][node]['id']=Setting.getHostName()
