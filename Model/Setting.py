@@ -6,7 +6,7 @@ Created on 26 ott 2016
 from pathlib import Path
 import yaml
 
-from subprocess import PIPE, run
+import subprocess
 
 #Framework
 path="./"
@@ -17,11 +17,13 @@ def getNodeId():
     nodes=yaml.load(open(str(path),'r'))
     with open("/etc/hostname") as f:
         host = f.readlines()
-    ip=run("hostname -i", stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    for node in nodes['node_templates']:  
-        return node+":"+host+":"+ip.stdout
-
     
+    ip=subprocess.Popen("hostname -i", stdout=subprocess.PIPE, stderr=None, shell=True)
+    output = ip.communicate()
+    
+    for node in nodes['node_templates']:  
+        return node+":"+host+":"+output[0]
+
 
 def getBrokerIp():
     path = Path("./Settings/").absolute()
