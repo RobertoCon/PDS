@@ -17,12 +17,9 @@ def getNodeId():
     nodes=yaml.load(open(str(path),'r'))
     with open("/etc/hostname") as f:
         host = f.readlines()
-    
-    ip=subprocess.Popen("hostname -i", stdout=subprocess.PIPE, stderr=None, shell=True)
-    output = ip.communicate()
-    
+    ip=subprocess.getoutput("hostname -i")
     for node in nodes['node_templates']:  
-        return node+":"+host+":"+str(output[0])
+        return node+":"+host+":"+ip
 
 
 def getBrokerIp():
