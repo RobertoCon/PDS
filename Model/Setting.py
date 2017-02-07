@@ -22,7 +22,7 @@ def getNodeId():
     output = ip.communicate()
     
     for node in nodes['node_templates']:  
-        return node+":"+host+":"+output[0]
+        return node+":"+host+":"+str(output[0])
 
 
 def getBrokerIp():
