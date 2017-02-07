@@ -41,6 +41,6 @@ class NodeTable(object):
                             <td>%s</td>
                             <td>%s</td>
                         </tr>
-            """ % (str(i),node,nodes['node_templates'][node]['attributes']['public_address'],nodes['node_templates'][node]['capabilities']['host']['properties']['num_cpus'],nodes['node_templates'][node]['capabilities']['host']['properties']['mem_size'],nodes['node_templates'][node]['capabilities']['host']['properties']['disk_size'],nodes['node_templates'][node]['capabilities']['host']['properties']['os']['properties']['architecture'],"CMD")
+            """ % (str(i),nodes['node_templates'][node]['id'],nodes['node_templates'][node]['attributes']['public_address'],nodes['node_templates'][node]['capabilities']['host']['properties']['num_cpus'],nodes['node_templates'][node]['capabilities']['host']['properties']['mem_size'],nodes['node_templates'][node]['capabilities']['host']['properties']['disk_size'],nodes['node_templates'][node]['capabilities']['host']['properties']['os']['properties']['architecture'],"CMD")
         
         return html % code      

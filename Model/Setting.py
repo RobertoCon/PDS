@@ -16,7 +16,7 @@ def getNodeId():
     path=path.joinpath("NodeRegistry.yaml")
     nodes=yaml.load(open(str(path),'r'))
     for node in nodes['node_templates']:  
-        return node+":"+getHostName()+":"+getIp()
+        return nodes['node_templates'][node]['id']+"@"+getIp()
 
 
 def getBrokerIp():
