@@ -20,15 +20,13 @@ class NodeManager(object):
             exit(-1)
         else:
             self.nodes=yaml.load(open(str(self.path),'r')) 
-        if 'node' in self.nodes['node_templates']:
-            self.nodes['node_templates']['node']['id']=Setting.getHostName()
-            self.nodes['node_templates']['node']['attributes']['public_address']=Setting.getIp()
-            self.nodes['node_templates'][Setting.getHostName()]=self.nodes['node_templates']['node']
-            self.nodes['node_templates'].pop('node')
-        else:
             for node in self.nodes['node_templates']:
                 self.nodes['node_templates'][node]['id']=Setting.getHostName()
                 self.nodes['node_templates'][node]['attributes']['public_address']=Setting.getIp()
+                self.nodes['node_templates'][node]['attributes']['broker_address']=Setting.getIp()
+                if node == "node":
+                    self.nodes['node_templates'][Setting.getHostName()]=self.nodes['node_templates']['node']
+                    self.nodes['node_templates'].pop('node') 
         
         self.permanent()
         print("Node loaded")  
