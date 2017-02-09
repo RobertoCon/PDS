@@ -65,7 +65,7 @@ class Dashboard(object):
         """
     @cherrypy.expose   
     def remove_node(self,remove_node_id):
-        self.client.publish("/"+remove_node_id+"model/node/remove", "remove_mex", 0, False)
+        self.client.publish("/"+remove_node_id+"*/model/node/remove", "remove_mex", 0, False)
         raise cherrypy.HTTPRedirect("/")
     
     @cherrypy.expose   
@@ -76,7 +76,7 @@ class Dashboard(object):
         new_client = mqtt.Client()
         new_client.connect(Setting.getBrokerIp())
         new_client.loop_start()        
-        new_client.publish("/"+add_node_id+"model/node/add", my_node, 0, False)
+        new_client.publish("/"+add_node_id+"/model/node/add", my_node, 0, False)
         new_client.disconnect()
         raise cherrypy.HTTPRedirect("/")
     
