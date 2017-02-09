@@ -131,6 +131,6 @@ class Dashboard(object):
         </body>
         </html>
         """
-        
+    @http.expose   
     def remove_node(self,remove_node_id):
         return "<html><body>Nodo da rimuovere : "+ remove_node_id+"</body></html>"
