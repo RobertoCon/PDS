@@ -22,6 +22,8 @@ class Dashboard(object):
             for node in yaml_frame['node_templates']:  
                 if node not in obj.nodes['node_templates']:
                     obj.nodes['node_templates'][node]=yaml_frame['node_templates'][node] 
+                else:
+                    pass
          
         self.client = mqtt.Client()
         self.client.message_callback_add("/+/model/node/status", partial(on_message, obj=self)) 
@@ -60,6 +62,13 @@ class Dashboard(object):
             <br><br><br><br>
             """+NodeTable.getHtml(self.nodes)+"""    
             </div><!-- /.container -->
+            <br><br><br>
+            <div class="container">
+            '<form action="add_node" method="post" >\
+                   <label> Hostname: </label><input type="text" name="add_node_id"><br>
+                   <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-add" aria-hidden="true"></span></button>\
+            </form>'
+            </div><!-- /.container -->
         </body>
         </html>
         """
@@ -74,7 +83,7 @@ class Dashboard(object):
         my_path=my_path.joinpath("NodeRegistry.yaml")
         my_node=yaml.load(open(str(my_path),'r')) 
         new_client = mqtt.Client()
-        new_client.connect(Setting.getBrokerIp())
+        new_client.connect(add_node_id+".")
         new_client.loop_start()        
         new_client.publish("/"+add_node_id+"/model/node/add", my_node, 0, False)
         new_client.disconnect()

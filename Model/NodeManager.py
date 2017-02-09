@@ -39,7 +39,7 @@ class NodeManager(object):
                 #if node not in obj.nodes['node_templates']: 
                     #link 2 cluster
                     #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
-                    opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame['node_templates'][node]['id'] , stdout=subprocess.PIPE, shell=True)
+                    opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame['node_templates'][node]['id']+"." , stdout=subprocess.PIPE, shell=True)
                     if opt.wait() :
                         obj.publish()
         
