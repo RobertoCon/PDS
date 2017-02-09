@@ -65,7 +65,7 @@ class Dashboard(object):
         """
     @cherrypy.expose   
     def remove_node(self,remove_node_id):
-        self.client.publish("/"+remove_node_id+"*/model/node/remove", "remove_mex", 0, False)
+        self.client.publish("/"+remove_node_id+"/model/node/remove", "remove_mex", 0, False)
         raise cherrypy.HTTPRedirect("/")
     
     @cherrypy.expose   
