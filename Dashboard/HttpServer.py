@@ -85,7 +85,7 @@ class Dashboard(object):
         new_client = mqtt.Client()
         new_client.connect(add_node_id+".")
         new_client.loop_start()        
-        new_client.publish("/"+add_node_id+"/model/node/add", my_node, 0, False)
+        new_client.publish("/"+add_node_id+"/model/node/add", yaml.dump(my_node), 0, False)
         new_client.disconnect()
         raise cherrypy.HTTPRedirect("/")
     
