@@ -131,3 +131,6 @@ class Dashboard(object):
         </body>
         </html>
         """
+        
+        
+Dashboard()
