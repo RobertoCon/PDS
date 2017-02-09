@@ -4,39 +4,9 @@ Created on 16 gen 2017
 @author: Conny
 '''
 from Dashboard.NodeTable import NodeTable
-'''
-import http.server
-import socketserver
-
-PORT = 9000
-
-Handler = http.server.SimpleHTTPRequestHandler
-
-httpd = socketserver.TCPServer(("", PORT), Handler)
-
-print ("serving at port", PORT)
-httpd.serve_forever()
-'''
-
-
-
-'''
-import cherrypy
-      
-class HelloWorld(object):
-    def index(self):
-        return "Hello World!"
-    index.exposed = True
-    
-    def random(self):
-        return "Random Hello World!"
-    random.exposed = True
-
-cherrypy.quickstart(HelloWorld())
-'''
-
 import cherrypy
 import yaml
+from pathlib import Path
 import paho.mqtt.client as mqtt 
 from functools import partial
 from Model import Setting
@@ -122,4 +92,20 @@ class Dashboard(object):
         """
     @cherrypy.expose   
     def remove_node(self,remove_node_id):
-        return "<html><body>Nodo da rimuovere : "+ remove_node_id+"</body></html>"
+        self.client.publish("/"+remove_node_id+"model/node/remove", "remove_mex", 0, False)
+        raise cherrypy.HTTPRedirect("/")
+    
+    @cherrypy.expose   
+    def add_node(self,add_node_id):
+        my_path = Path(Setting.path+"./Settings/").absolute()
+        my_path=my_path.joinpath("NodeRegistry.yaml")
+        my_node=yaml.load(open(str(my_path),'r')) 
+        new_client = mqtt.Client()
+        new_client.connect(Setting.getBrokerIp())
+        new_client.loop_start()        
+        new_client.publish("/"+add_node_id+"model/node/add", my_node, 0, False)
+        new_client.disconnect()
+        raise cherrypy.HTTPRedirect("/")
+    
+    
+    

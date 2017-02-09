@@ -35,18 +35,21 @@ class NodeManager(object):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
             for node in yaml_frame['node_templates']:  
-                if node not in obj.nodes['node_templates']: 
+                #if node not in obj.nodes['node_templates']: 
                     #link 2 cluster
-                    subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join "+node['id']+"@"+node['attributes']['public_address'] , stdout=subprocess.PIPE, shell=True)
+                    #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
+                    opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame['node_templates'][node]['id'] , stdout=subprocess.PIPE, shell=True)
+                    if opt.wait() :
+                        obj.publish()
         
         def on_message_remove(client, userdata, message, obj):
-            serial_frame=str(message.payload.decode("utf-8"))
-            yaml_frame=yaml.load(serial_frame)
-            for node in yaml_frame['node_templates']:  
-                if node in obj.nodes['node_templates']: 
-                    #remove link 2 cluster
-                    subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster leave", stdout=subprocess.PIPE, shell=True)
-                    self.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
+            #serial_frame=str(message.payload.decode("utf-8"))
+            #yaml_frame=yaml.load(serial_frame)
+            #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
+            opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster leave", stdout=subprocess.PIPE, shell=True)
+            if opt.wait() :
+                obj.publish()
+            
             
         def on_message_read(client, userdata, message, obj):
             obj.publish()      
