@@ -7,9 +7,10 @@ from Model.ApplicationManager import ApplicationManager
 from Model.DeviceManager import DeviceManager
 from Model.NodeManager import NodeManager
 from Model.LoadManager import LoadManager
-import cherrypy as http
+import cherrypy
 import  subprocess
 import time
+import os
 from Dashboard.HttpServer import Dashboard
 
 if __name__ == '__main__':
@@ -25,9 +26,23 @@ if __name__ == '__main__':
     l=LoadManager()
     
     #dashboard
-    http.config.update( {'server.socket_host':"0.0.0.0", 'server.socket_port':8181 } )
-    http.quickstart(Dashboard())
+    #http.config.update( {'server.socket_host':"0.0.0.0", 'server.socket_port':8181 } )
+    #http.quickstart(Dashboard())
     
+    
+    conf = {
+    '/': {
+       'tools.sessions.on': True,
+       'tools.staticdir.root': os.path.abspath(os.getcwd())
+    },
+    '/static': {
+       'tools.staticdir.on': True,
+       'tools.staticdir.dir': './public'
+    }
+  }
+    cherrypy.config.update({'server.socket_host': '0.0.0.0'})
+    cherrypy.config.update({'server.socket_port': 8181})
+    cherrypy.quickstart(Dashboard(), '/', conf)
     #sleep
     while True:
         time.sleep(1)
