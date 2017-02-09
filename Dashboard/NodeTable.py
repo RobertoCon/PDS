@@ -44,7 +44,7 @@ class NodeTable(object):
             """ % (str(i),nodes['node_templates'][node]['id'],nodes['node_templates'][node]['attributes']['public_address'],\
                    nodes['node_templates'][node]['capabilities']['host']['properties']['num_cpus'],nodes['node_templates'][node]['capabilities']['host']['properties']['mem_size'],\
                    nodes['node_templates'][node]['capabilities']['host']['properties']['disk_size'],nodes['node_templates'][node]['capabilities']['host']['properties']['os']['properties']['architecture'],\
-                   '<form action="remove_node" method="get" >\
+                   '<form action="remove_node" method="post" >\
                    <button type="submit" name="remove_node_id" value="'+nodes['node_templates'][node]['id']+'"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\
                    </form>')
         

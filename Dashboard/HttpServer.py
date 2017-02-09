@@ -63,33 +63,6 @@ class Dashboard(object):
         </body>
         </html>
         """
-    @cherrypy.expose
-    def node(self,id_node,public_address):
-        st=yaml.load("""node_templates: 
-    %s:
-        type: tosca.nodes.Compute
-        attributes:
-          private_address: %s
-          public_address: %s
-        capabilities:
-          host:
-            properties:
-              num_cpus: 1
-              cpu_frequency : 1.0 GHz
-              disk_size: 16 GB
-              mem_size: 512 MB
-              os:
-                properties:
-                  architecture: ARMv6 32bit
-                  type: linux
-                  distribution: jessie
-                  version: 8.0  """ % (id_node,public_address,public_address) )
-        return """
-        <html><body>
-        <p>"""+yaml.dump(st)+"""</p>
-        </body>
-        </html>
-        """
     @cherrypy.expose   
     def remove_node(self,remove_node_id):
         self.client.publish("/"+remove_node_id+"model/node/remove", "remove_mex", 0, False)

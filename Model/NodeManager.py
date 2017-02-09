@@ -32,6 +32,7 @@ class NodeManager(object):
         print("Node loaded")  
            
         def on_message_add(client, userdata, message, obj):
+            print("Request to join cluster")
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
             for node in yaml_frame['node_templates']:  
@@ -43,6 +44,7 @@ class NodeManager(object):
                         obj.publish()
         
         def on_message_remove(client, userdata, message, obj):
+            print("Request to leave cluster")
             #serial_frame=str(message.payload.decode("utf-8"))
             #yaml_frame=yaml.load(serial_frame)
             #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)

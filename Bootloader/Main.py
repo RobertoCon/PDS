@@ -29,20 +29,9 @@ if __name__ == '__main__':
     #http.config.update( {'server.socket_host':"0.0.0.0", 'server.socket_port':8181 } )
     #http.quickstart(Dashboard())
     
-    
-    conf = {
-    '/': {
-       'tools.sessions.on': True,
-       'tools.staticdir.root': os.path.abspath(os.getcwd())
-    },
-    '/static': {
-       'tools.staticdir.on': True,
-       'tools.staticdir.dir': './public'
-    }
-  }
     cherrypy.config.update({'server.socket_host': '0.0.0.0'})
     cherrypy.config.update({'server.socket_port': 8181})
-    cherrypy.quickstart(Dashboard(), '/', conf)
+    cherrypy.quickstart(Dashboard())
     #sleep
     while True:
         time.sleep(1)
