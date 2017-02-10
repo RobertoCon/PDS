@@ -38,7 +38,7 @@ class TempSensor(Device):
         return self
 
     def from_yaml(self,serial_dict):
-        struct=json.loads(str(serial_dict))
+        struct=yaml.loads(str(serial_dict))
         self.id = struct['id']
         self.location =struct['location'] 
         self.type=struct['device_type']
