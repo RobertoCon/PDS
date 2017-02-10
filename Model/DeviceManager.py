@@ -25,7 +25,7 @@ class DeviceManager(object):
             self.devices=yaml.load(open(str(self.path),'r'))
             for dev in self.devices['node_templates']:
                 device=Factory.decode_yaml(yaml.dump(self.devices['node_templates'][dev]))
-                self.link[dev]=type(device).make_active(device)
+                self.links[dev]=type(device).make_active(device)
         print("Device loaded")
                  
         def on_message_add(client, userdata, message, obj):
