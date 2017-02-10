@@ -136,7 +136,10 @@ class Dashboard(object):
     @cherrypy.expose   
     def remove_device(self,remove_device_model):
         devs=yaml.load(remove_device_model)
-        print(devs)
+        try:
+            print(devs)
+        except:
+            print("error")
         for dev in devs['node_templates']:
             if dev in self.devices['node_templates']:
                 self.devices['node_templates'].pop(dev)
