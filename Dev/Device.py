@@ -37,7 +37,7 @@ class Device(object):
         struct=json.loads(str(serial_dict))
         self.id = struct['id']
         self.location =struct['location'] 
-        self.type=struct['type']
+        self.type=struct['device_type']
         return self
     
               
