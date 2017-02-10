@@ -33,9 +33,11 @@ class DeviceTable(object):
                    <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                 </form> 
             """
-        i=0
+        i=0 
+        a={}
         for dev in devices['node_templates'] :
             i=i+1
+            a['node_templates'][dev]=devices['node_templates'][dev]
             code=code+"""<tr>
                             <td>%s</td>
                             <td>%s</td>
@@ -47,8 +49,7 @@ class DeviceTable(object):
                         </tr>
             """ % (str(i),devices['node_templates'][dev]['id'],devices['node_templates'][dev]['device_type'],devices['node_templates'][dev]['location'],devices['node_templates'][dev]['requirements']['host'],\
                    '<form action="remove_device" method="post" >\
-                   <button type="submit" name="remove_device_model" value="'+\
-                   yaml.dump('{node_templates:{%s:{%s}}}' % (dev,yaml.dump(devices['node_templates'][dev])))    +\
+                   <button type="submit" name="remove_device_model" value="'+yaml.dump(a)+\
                    '"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\
                    </form>')
         
