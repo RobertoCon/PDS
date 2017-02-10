@@ -34,9 +34,10 @@ class DeviceTable(object):
                 </form> 
             """
         i=0 
-        a={}
+        
         for dev in devices['node_templates'] :
             i=i+1
+            a={'node_templates':{}}
             a['node_templates'][dev]=devices['node_templates'][dev]
             code=code+"""<tr>
                             <td>%s</td>
