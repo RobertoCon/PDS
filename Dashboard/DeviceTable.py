@@ -16,12 +16,9 @@ class DeviceTable(object):
                             <tr>
                               <th>#</th>
                               <th>ID</th>
-                              <th>IP</th>
-                              <th>CORE</th>
-                              <th>MEMORY</th>
-                              <th>DISK</th>
-                              <th>ARCH</th>
-                              <th>CMD</th>
+                              <th>TYPE</th>
+                              <th>LOCATION</th>
+                              <th>HOST</th>
                             </tr>
                     </thead>
                     <tbody>
@@ -40,8 +37,10 @@ class DeviceTable(object):
                             <td>%s</td>
                             <td>%s</td>
                             <td>%s</td>
+                            <td>%s</td>
+                            <td>%s</td>
                           
                         </tr>
-            """ % (str(i),devices['node_templates'][dev]['id'],devices['node_templates'][dev]['device_type'])
+            """ % (str(i),devices['node_templates'][dev]['id'],devices['node_templates'][dev]['device_type'],devices['node_templates'][dev]['location'],devices['node_templates'][dev]['requirements']['host'])
         
         return html % code
