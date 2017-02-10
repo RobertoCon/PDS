@@ -38,10 +38,13 @@ class NodeManager(object):
             for node in yaml_frame['node_templates']:  
                 #if node not in obj.nodes['node_templates']: 
                     #link 2 cluster
+                    print("Request to join cluster 2")
                     #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
                     opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame['node_templates'][node]['id']+"." , stdout=subprocess.PIPE, shell=True)
                     opt.wait()
+                    print("Request to join cluster 3")
                     obj.publish()
+                    print("Request to join cluster 4")
         
         def on_message_remove(client, userdata, message, obj):
             print("Request to leave cluster")
