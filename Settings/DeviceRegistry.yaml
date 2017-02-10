@@ -1,18 +1,9 @@
-{'node_templates':{  
-dev2:
-    device_type: TempSensor
-    id: dev1
-    location: bathroom
-    requirements: {host: py_1}
-    temperature: 0
-    unit: celsius
-    type: my.Device.TempSensor
-dev3:
-    device_type: TempSensor
-    id: dev2
-    location: bathroom
-    requirements: {host: py_2}
-    temperature: 0
-    unit: celsius
-    type: my.Device.TempSensor
-}}
+'node_templates': 
+	dev1:
+   		device_type: TempSensor
+    	id: dev1
+    	location: bathroom
+    	requirements: {host: py_1}
+    	temperature: 0
+    	unit: celsius
+    	type: my.Device.TempSensor
