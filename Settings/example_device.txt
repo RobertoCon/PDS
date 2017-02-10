@@ -5,7 +5,7 @@ node_templates:
     location: bathroom
     requirements: {host: py_1}
     type: my.Device.Hue
-  dev3:
+  dev4:
     device_type: TempSensor
     id: dev4
     location: bathroom
