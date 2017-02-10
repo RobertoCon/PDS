@@ -92,8 +92,9 @@ class ActiveDevice(threading.Thread):
     def terminate(self):
         with self.locker:
             self.isAlive=False
+            self.client.publish(self.dev.topic(),'{"id":"'+self.dev.id +'", "state":"offline","lock_id":"", "device": ""}', 0, True)
             self.client.disconnect()
             self.client.loop_stop() 
-               
+            
             
             

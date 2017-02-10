@@ -47,7 +47,7 @@ class DeviceManager(object):
                 if dev in obj.devices['node_templates']:
                     obj.devices['node_templates'].pop(dev) 
                     obj.links[dev].terminate() 
-                    obj.links[dev].kill() 
+                    #obj.links[dev].kill() 
                     obj.links.pop(dev)
             obj.permanent()  
             obj.publish() 
