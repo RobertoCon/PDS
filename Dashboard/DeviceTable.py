@@ -28,7 +28,8 @@ class DeviceTable(object):
                     </tbody>
                 </table></div>
                   <form action="add_device" method="post" >
-                   <label> Device Model: </label><input type="textarea" name="add_device_model">
+                   <label> Device Model: </label><br>
+                   <textarea name="add_device_model" rows="5" cols="40"></textarea><br>
                    <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                 </form> 
             """

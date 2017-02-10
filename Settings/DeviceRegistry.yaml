@@ -3,7 +3,7 @@ node_templates:
         device_type: TempSensor
         id: dev1
         location: bathroom
-        requirements: {host: py_1}
+        requirements: {host: raspy3-A}
         temperature: 0
         unit: celsius
         type: my.Device.TempSensor
