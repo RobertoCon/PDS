@@ -34,7 +34,7 @@ class DeviceManager(object):
             for dev in yaml_frame['node_templates']:
                 device=Factory.decode_yaml(yaml.dump(yaml_frame['node_templates'][dev]))
                 if device!=None and device.id not in obj.devices['node_templates']: 
-                    obj.link[dev]=type(device).make_active(device) 
+                    obj.links[dev]=type(device).make_active(device) 
                     obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
                 
             obj.permanent()  
@@ -46,9 +46,9 @@ class DeviceManager(object):
             for dev in yaml_frame['node_templates']:
                 if dev in obj.devices['node_templates']:
                     obj.devices['node_templates'].pop(dev) 
-                    obj.link[dev].terminate() 
-                    obj.link[dev].kill() 
-                    obj.link.pop(dev)
+                    obj.links[dev].terminate() 
+                    obj.links[dev].kill() 
+                    obj.links.pop(dev)
             obj.permanent()  
             obj.publish() 
             
