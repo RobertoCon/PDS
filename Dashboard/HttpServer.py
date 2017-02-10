@@ -52,6 +52,7 @@ class Dashboard(object):
                 <div id="navbar" class="collapse navbar-collapse">
                   <ul class="nav navbar-nav">
                     <li class="active"><a href="/">Home</a></li>
+                    <li><a href="/node">Node</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/contact">Contact</a></li>
                   </ul>
@@ -67,18 +68,17 @@ class Dashboard(object):
 
     @cherrypy.expose
     def index(self):
+        return "index"
+    
+    #Node Managment
+    @cherrypy.expose
+    def node(self):
         return self.structure % (NodeTable.getHtml(self.nodes))
-    @cherrypy.expose
-    def about(self):
-        return self.structure % ("Abaut")
-    @cherrypy.expose
-    def Contact(self):
-        return self.structure % ("contact")
     
     @cherrypy.expose   
     def remove_node(self,remove_node_id):
         self.client.publish("/"+remove_node_id+"/model/node/remove", "remove_mex", 0, False)
-        raise cherrypy.HTTPRedirect("/")
+        raise cherrypy.HTTPRedirect("/node")
     
     @cherrypy.expose   
     def add_node(self,add_node_id):
@@ -90,7 +90,19 @@ class Dashboard(object):
         new_client.loop_start()        
         new_client.publish("/"+add_node_id+"/model/node/add", yaml.dump(my_node), 0, False)
         new_client.disconnect()
-        raise cherrypy.HTTPRedirect("/")
+        raise cherrypy.HTTPRedirect("/node")
     
+    
+    
+    
+    
+    @cherrypy.expose
+    def about(self):
+        return self.structure % ("About")
+    @cherrypy.expose
+    def contact(self):
+        return self.structure % ("Contact")
+    
+  
     
     
