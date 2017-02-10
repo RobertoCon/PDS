@@ -37,6 +37,8 @@ class DeviceManager(object):
                 if device!=None and device.dev_id not in obj.devices['node_templates']: 
                     obj.link[dev]=type(device).make_active(device) 
                     obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
+                else:    
+                    print("Fail to make an active device")
             obj.permanent()  
             obj.publish()
         
