@@ -62,7 +62,7 @@ class Dashboard(object):
             <br><br><br><br>
             """+NodeTable.getHtml(self.nodes)+"""  
             <form action="add_node" method="post" >
-                   <span class="label label-default"> Hostname:</span><input type="text" name="add_node_id">
+                   <label> Hostname: </label><input type="text" name="add_node_id">
                    <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
             </form> 
             </div><!-- /.container -->
