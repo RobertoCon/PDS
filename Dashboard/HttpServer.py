@@ -60,15 +60,14 @@ class Dashboard(object):
               </div>
             </nav>
             <br><br><br><br>
-            """+NodeTable.getHtml(self.nodes)+"""    
-            </div><!-- /.container -->
-            <br><br><br>
-            <div class="container">
+            """+NodeTable.getHtml(self.nodes)+"""  
             '<form action="add_node" method="post" >\
                    <label> Hostname: </label><input type="text" name="add_node_id"><br>
-                   <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-add" aria-hidden="true"></span></button>\
-            </form>'
+                   <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>\
+            </form>' 
             </div><!-- /.container -->
+            <br><br><br>
+            
         </body>
         </html>
         """
