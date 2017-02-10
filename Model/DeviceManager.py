@@ -29,6 +29,8 @@ class DeviceManager(object):
                     self.link[dev]=type(device).make_active(device)
                 else:    
                     print("Fail to make an active device")
+                    print(yaml.dump(self.devices['node_templates'][dev]))
+                    print(device)
         print("Device loaded")
                  
         def on_message_add(client, userdata, message, obj):
