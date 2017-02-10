@@ -4,4 +4,6 @@ node_templates:
     id: dev1
     location: bathroom
     requirements: {host: raspy2-A}
+    temperature: 0
+    unit: celsius
     type: my.Device.TempSensor
