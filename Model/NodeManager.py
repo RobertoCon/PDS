@@ -8,6 +8,7 @@ from functools import partial
 from Model import Setting
 import paho.mqtt.client as mqtt
 import yaml
+import time
 import subprocess
 
 class NodeManager(object):
@@ -43,6 +44,7 @@ class NodeManager(object):
                     opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame['node_templates'][node]['id']+"." , stdout=subprocess.PIPE, shell=True)
                     opt.wait()
                     print("Request to join cluster 3")
+                    time.sleep(10)
                     obj.publish()
                     print("Request to join cluster 4")
         

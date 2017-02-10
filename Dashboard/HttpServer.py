@@ -11,6 +11,7 @@ from pathlib import Path
 import paho.mqtt.client as mqtt 
 from functools import partial
 from Model import Setting
+import subprocess
 
 class Dashboard(object):
 
@@ -92,6 +93,7 @@ class Dashboard(object):
 
     @cherrypy.expose
     def index(self):
+        
         return self.structure % ("index")
     
     #Node Managment
@@ -103,19 +105,23 @@ class Dashboard(object):
     def remove_node(self,remove_node_id):
         if remove_node_id in self.nodes['node_templates']:
             self.nodes['node_templates'].pop(remove_node_id)
-            self.client.publish("/"+remove_node_id+"/model/node/remove", "remove_mex", 0, False)
+            opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster remove emqttd@"+remove_node_id+"." , stdout=subprocess.PIPE, shell=True)
+            opt.wait()
+            #self.client.publish("/"+remove_node_id+"/model/node/remove", "remove_mex", 0, False)
         raise cherrypy.HTTPRedirect("/node")
     
     @cherrypy.expose   
     def add_node(self,add_node_id):
-        my_path = Path(Setting.path+"./Settings/").absolute()
-        my_path=my_path.joinpath("NodeRegistry.yaml")
-        my_node=yaml.load(open(str(my_path),'r')) 
-        new_client = mqtt.Client()
-        new_client.connect(add_node_id)
-        new_client.loop_start()        
-        new_client.publish("/"+add_node_id+"/model/node/add", yaml.dump(my_node), 0, False)
-        new_client.disconnect()
+        #my_path = Path(Setting.path+"./Settings/").absolute()
+        #my_path=my_path.joinpath("NodeRegistry.yaml")
+        #my_node=yaml.load(open(str(my_path),'r')) 
+        #new_client = mqtt.Client()
+        #new_client.connect(add_node_id)
+        #new_client.loop_start()        
+        #new_client.publish("/"+add_node_id+"/model/node/add", yaml.dump(my_node), 0, False)
+        #new_client.disconnect()
+        opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+add_node_id+"." , stdout=subprocess.PIPE, shell=True)
+        opt.wait()
         raise cherrypy.HTTPRedirect("/node")
     
     
@@ -151,4 +157,29 @@ class Dashboard(object):
     
   
     
-    
+            
+        def on_message_add(client, userdata, message, obj):
+            print("Request to join cluster")
+            serial_frame=str(message.payload.decode("utf-8"))
+            yaml_frame=yaml.load(serial_frame)
+            for node in yaml_frame['node_templates']:  
+                #if node not in obj.nodes['node_templates']: 
+                    #link 2 cluster
+                    print("Request to join cluster 2")
+                    #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
+                    opt=
+                    opt.wait()
+                    print("Request to join cluster 3")
+                    time.sleep(10)
+                    obj.publish()
+                    print("Request to join cluster 4")
+        
+        def on_message_remove(client, userdata, message, obj):
+            print("Request to leave cluster")
+            #serial_frame=str(message.payload.decode("utf-8"))
+            #yaml_frame=yaml.load(serial_frame)
+            #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
+            opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster leave", stdout=subprocess.PIPE, shell=True)
+            opt.wait()
+            obj.publish()
+            
