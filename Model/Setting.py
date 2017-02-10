@@ -5,7 +5,6 @@ Created on 26 ott 2016
 '''
 from pathlib import Path
 import yaml
-
 import subprocess
 
 #Framework

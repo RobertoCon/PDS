@@ -27,7 +27,12 @@ class NodeTable(object):
                     <tbody>
                      %s
                     </tbody>
-                </table></div>"""
+                </table></div>
+                  <form action="add_node" method="post" >
+                   <label> Hostname: </label><input type="text" name="add_node_id">
+                   <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+            </form> 
+            """
         i=0
         for node in nodes['node_templates'] :
             i=i+1

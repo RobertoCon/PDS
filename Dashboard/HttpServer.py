@@ -30,16 +30,15 @@ class Dashboard(object):
         self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()        
         self.client.subscribe("/+/model/node/status", qos=0)        
-    
-
-    @cherrypy.expose
-    def index(self):
-        return """
-        <html><head>
+        
+        
+        
+        self.structure="""<html>
+        <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         </head>
         <body>
-             <nav class="navbar navbar-inverse navbar-fixed-top">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
               <div class="container">
                 <div class="navbar-header">
                   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -59,18 +58,17 @@ class Dashboard(object):
                 </div><!--/.nav-collapse -->
               </div>
             </nav>
-            <br><br><br><br>
-            """+NodeTable.getHtml(self.nodes)+"""  
-            <form action="add_node" method="post" >
-                   <label> Hostname: </label><input type="text" name="add_node_id">
-                   <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-            </form> 
-            </div><!-- /.container -->
-            <br><br><br>
-            
+            <br><br>
+            %s
         </body>
         </html>
         """
+   
+
+    @cherrypy.expose
+    def index(self):
+        return self.structure % (NodeTable.getHtml(self.nodes))
+    
     @cherrypy.expose   
     def remove_node(self,remove_node_id):
         self.client.publish("/"+remove_node_id+"/model/node/remove", "remove_mex", 0, False)
