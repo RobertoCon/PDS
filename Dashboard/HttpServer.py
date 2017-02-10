@@ -135,10 +135,11 @@ class Dashboard(object):
     
     @cherrypy.expose   
     def remove_device(self,remove_device_model):
-        dev=yaml.load(remove_device_model)
-        if dev['id'] in self.devices['node_templates']:
-            self.devices['node_templates'].pop(dev['id'])
-            self.client.publish("/"+dev['requirements']['host']+"/model/device/remove", yaml.dump(dev), 0, False)
+        devs=yaml.load(remove_device_model)
+        for dev in devs['node_templates']:
+            if dev in self.devices['node_templates']:
+                self.devices['node_templates'].pop(dev)
+                self.client.publish("/"+devs['node_templates'][dev]['requirements']['host']+"/model/device/remove", yaml.dump(devs), 0, False) 
         raise cherrypy.HTTPRedirect("/device")
     
     @cherrypy.expose
