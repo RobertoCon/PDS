@@ -40,8 +40,8 @@ class NodeManager(object):
                     #link 2 cluster
                     #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
                     opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame['node_templates'][node]['id']+"." , stdout=subprocess.PIPE, shell=True)
-                    if opt.wait() :
-                        obj.publish()
+                    opt.wait()
+                    obj.publish()
         
         def on_message_remove(client, userdata, message, obj):
             print("Request to leave cluster")
@@ -49,8 +49,8 @@ class NodeManager(object):
             #yaml_frame=yaml.load(serial_frame)
             #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
             opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster leave", stdout=subprocess.PIPE, shell=True)
-            if opt.wait() :
-                obj.publish()
+            opt.wait()
+            obj.publish()
             
             
         def on_message_read(client, userdata, message, obj):

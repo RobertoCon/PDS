@@ -8,7 +8,7 @@ def on_message(client, userdata, message):
         
 client = mqtt.Client()
 #client.connect(Setting.getBrokerIp())
-client.connect("raspy3-A")
+client.connect("raspy2-A")
 client.loop_start()
 client.on_message = on_message
 #client.subscribe("#", qos=0)
