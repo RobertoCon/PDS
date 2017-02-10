@@ -1,5 +1,5 @@
 node_templates:
-    dev1:
+    dev2:
         device_type: TempSensor
         id: dev1
         location: bathroom

@@ -101,8 +101,8 @@ class Dashboard(object):
     
     @cherrypy.expose   
     def remove_node(self,remove_node_id):
-        if remove_node_id in self.nodes['node_template']:
-            self.nodes['node_template'].pop(remove_node_id)
+        if remove_node_id in self.nodes['node_templates']:
+            self.nodes['node_templates'].pop(remove_node_id)
             self.client.publish("/"+remove_node_id+"/model/node/remove", "remove_mex", 0, False)
         raise cherrypy.HTTPRedirect("/node")
     
@@ -126,17 +126,18 @@ class Dashboard(object):
     
     @cherrypy.expose   
     def add_device(self,add_device_model):
-        dev=yaml.load(add_device_model)
-        if dev['id'] not in self.devices['node_template']:
-            self.client.publish("/"+dev['requirements']['host']+"/model/device/add", yaml.dump(dev), 0, False)
+        devs=yaml.load(add_device_model)
+        for dev in devs['node_templates']:
+            if dev not in self.devices['node_templates']:
+                self.client.publish("/"+devs['node_templates'][dev]['requirements']['host']+"/model/device/add", add_device_model, 0, False)
         raise cherrypy.HTTPRedirect("/device")
     
     
     @cherrypy.expose   
     def remove_device(self,remove_device_model):
         dev=yaml.load(remove_device_model)
-        if dev['id'] in self.devices['node_template']:
-            self.devices['node_template'].pop(dev['id'])
+        if dev['id'] in self.devices['node_templates']:
+            self.devices['node_templates'].pop(dev['id'])
             self.client.publish("/"+dev['requirements']['host']+"/model/device/remove", yaml.dump(dev), 0, False)
         raise cherrypy.HTTPRedirect("/device")
     
