@@ -3,6 +3,7 @@ Created on 10 feb 2017
 
 @author: Conny
 '''
+import yaml
 class DeviceTable(object):
     '''
     classdocs
@@ -45,7 +46,7 @@ class DeviceTable(object):
                         </tr>
             """ % (str(i),devices['node_templates'][dev]['id'],devices['node_templates'][dev]['device_type'],devices['node_templates'][dev]['location'],devices['node_templates'][dev]['requirements']['host'],\
                    '<form action="remove_device" method="post" >\
-                   <button type="submit" name="remove_device_model" value="'+devices['node_templates'][dev]+'"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\
+                   <button type="submit" name="remove_device_model" value="'+yaml.dump(devices['node_templates'][dev])+'"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\
                    </form>')
         
         return html % code
