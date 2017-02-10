@@ -25,7 +25,7 @@ class DeviceManager(object):
             self.devices=yaml.load(open(str(self.path),'r'))
             for dev in self.devices['node_templates']:
                 device=Factory.decode_yaml(yaml.dump(self.devices['node_templates'][dev]))
-                if device!=None and device.dev_id not in self.devices['node_templates']:
+                if device!=None and device.id not in self.devices['node_templates']:
                     self.link[dev]=type(device).make_active(device)
         print("Device loaded")
                  
