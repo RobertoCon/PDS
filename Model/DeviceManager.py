@@ -27,6 +27,8 @@ class DeviceManager(object):
                 device=Factory.decode_yaml(yaml.dump(self.devices['node_templates'][dev]))
                 if device!=None and device.id not in self.devices['node_templates']:
                     self.link[dev]=type(device).make_active(device)
+                else:    
+                    print("Fail to make an active device")
         print("Device loaded")
                  
         def on_message_add(client, userdata, message, obj):
@@ -37,8 +39,7 @@ class DeviceManager(object):
                 if device!=None and device.dev_id not in obj.devices['node_templates']: 
                     obj.link[dev]=type(device).make_active(device) 
                     obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
-                else:    
-                    print("Fail to make an active device")
+                
             obj.permanent()  
             obj.publish()
         
