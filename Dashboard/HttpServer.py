@@ -154,32 +154,3 @@ class Dashboard(object):
     @cherrypy.expose
     def contact(self):
         return self.structure % ("Contact")
-    
-  
-    
-            
-        def on_message_add(client, userdata, message, obj):
-            print("Request to join cluster")
-            serial_frame=str(message.payload.decode("utf-8"))
-            yaml_frame=yaml.load(serial_frame)
-            for node in yaml_frame['node_templates']:  
-                #if node not in obj.nodes['node_templates']: 
-                    #link 2 cluster
-                    print("Request to join cluster 2")
-                    #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
-                    opt=
-                    opt.wait()
-                    print("Request to join cluster 3")
-                    time.sleep(10)
-                    obj.publish()
-                    print("Request to join cluster 4")
-        
-        def on_message_remove(client, userdata, message, obj):
-            print("Request to leave cluster")
-            #serial_frame=str(message.payload.decode("utf-8"))
-            #yaml_frame=yaml.load(serial_frame)
-            #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
-            opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster leave", stdout=subprocess.PIPE, shell=True)
-            opt.wait()
-            obj.publish()
-            
