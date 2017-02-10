@@ -8,17 +8,17 @@ from Model.DeviceManager import DeviceManager
 from Model.NodeManager import NodeManager
 from Model.LoadManager import LoadManager
 import cherrypy
-import  subprocess
+#import  subprocess
 import time
-import os
+#import os
 from Dashboard.HttpServer import Dashboard
 
 if __name__ == '__main__':
     #check for update
-    update=subprocess.Popen("sudo git -C /opt/pds pull  " , stdout=subprocess.PIPE, shell=True)
-    update.wait()
-    if update.returncode!=0:
-        exit(-1)
+    #update=subprocess.Popen("sudo git -C /opt/pds pull  " , stdout=subprocess.PIPE, shell=True)
+    #update.wait()
+    #if update.returncode!=0:
+    #    exit(-1)
     #boot
     n=NodeManager()
     d=DeviceManager()
