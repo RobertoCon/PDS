@@ -4,8 +4,9 @@ Created on 16 gen 2017
 @author: Conny
 '''
 from Dashboard.NodeTable import NodeTable
+from Dashboard.DeviceTable import DeviceTable
 import cherrypy
-import yaml
+import yaml,json
 from pathlib import Path
 import paho.mqtt.client as mqtt 
 from functools import partial
@@ -16,7 +17,8 @@ class Dashboard(object):
     def __init__(self):
         super(Dashboard,self).__init__()
         self.nodes={'node_templates':{}}
-        def on_message(client, userdata, message, obj):
+        self.devices={'node_templates':{}}
+        def on_message_node(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
             for node in yaml_frame['node_templates']:  
@@ -24,9 +26,17 @@ class Dashboard(object):
                     obj.nodes['node_templates'][node]=yaml_frame['node_templates'][node] 
                 else:
                     pass
+                
+        def on_message_device(client, userdata, message, obj):
+            serial_frame=str(message.payload.decode("utf-8"))
+            json_frame=json.loads(serial_frame)
+            json_dev=json.loads(json_frame['device'])    
+            dev = json_dev['id']   
+            obj.devices['node_templates'][dev]=yaml.load(json_dev)
          
         self.client = mqtt.Client()
-        self.client.message_callback_add("/+/model/node/status", partial(on_message, obj=self)) 
+        self.client.message_callback_add("/+/model/node/status", partial(on_message_node, obj=self)) 
+        self.client.message_callback_add("/device/#", partial(on_message_device, obj=self)) 
         self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()        
         self.client.subscribe("/+/model/node/status", qos=0)        
@@ -53,6 +63,7 @@ class Dashboard(object):
                   <ul class="nav navbar-nav">
                     <li class="active"><a href="/">Home</a></li>
                     <li><a href="/node">Node</a></li>
+                    <li><a href="/device">Node</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/contact">Contact</a></li>
                   </ul>
@@ -68,7 +79,7 @@ class Dashboard(object):
 
     @cherrypy.expose
     def index(self):
-        return "index"
+        return self.structure % ("index")
     
     #Node Managment
     @cherrypy.expose
@@ -93,8 +104,10 @@ class Dashboard(object):
         raise cherrypy.HTTPRedirect("/node")
     
     
-    
-    
+    #Device Managment
+    @cherrypy.expose
+    def device(self):
+        return self.structure % (DeviceTable.getHtml(self.devices))
     
     @cherrypy.expose
     def about(self):

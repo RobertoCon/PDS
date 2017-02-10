@@ -36,6 +36,15 @@ class TempSensor(Device):
         self.temperature=struct['temperature']
         self.unit=struct['unit']
         return self
+
+    def from_yaml(self,serial_dict):
+        struct=json.loads(str(serial_dict))
+        self.id = struct['id']
+        self.location =struct['location'] 
+        self.type=struct['type']
+        self.temperature=struct['temperature']
+        self.unit=struct['unit']
+        return self
      
     @staticmethod          
     def make_active(device,broker_ip=""):

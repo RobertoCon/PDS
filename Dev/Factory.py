@@ -36,7 +36,7 @@ class Factory(object):
         if module!=None:
             MyClass = getattr(module, devs['device_type'])
             instance = MyClass()
-            #instance.from_yaml(serial_dev)
+            instance.from_yaml(serial_dev)
             return instance
         return None
 
