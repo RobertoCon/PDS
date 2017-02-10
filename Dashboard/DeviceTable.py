@@ -19,14 +19,15 @@ class DeviceTable(object):
                               <th>TYPE</th>
                               <th>LOCATION</th>
                               <th>HOST</th>
+                              <th>CMD</th>
                             </tr>
                     </thead>
                     <tbody>
                      %s
                     </tbody>
                 </table></div>
-                  <form action="add_node" method="post" >
-                   <label> Hostname: </label><input type="text" name="add_node_id">
+                  <form action="add_device" method="post" >
+                   <label> Device Model: </label><input type="textarea" name="add_device_model">
                    <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
                 </form> 
             """
@@ -39,8 +40,12 @@ class DeviceTable(object):
                             <td>%s</td>
                             <td>%s</td>
                             <td>%s</td>
+                            <td>%s</td>
                           
                         </tr>
-            """ % (str(i),devices['node_templates'][dev]['id'],devices['node_templates'][dev]['device_type'],devices['node_templates'][dev]['location'],devices['node_templates'][dev]['requirements']['host'])
+            """ % (str(i),devices['node_templates'][dev]['id'],devices['node_templates'][dev]['device_type'],devices['node_templates'][dev]['location'],devices['node_templates'][dev]['requirements']['host'],\
+                   '<form action="remove_device" method="post" >\
+                   <button type="submit" name="remove_device_model" value="'+devices['node_templates'][dev]+'"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\
+                   </form>')
         
         return html % code

@@ -48,6 +48,7 @@ class DeviceManager(object):
                     obj.devices['node_templates'].pop(dev) 
                     obj.link[dev].terminate() 
                     obj.link[dev].kill() 
+                    obj.link.pop(dev)
             obj.permanent()  
             obj.publish() 
             

@@ -124,6 +124,22 @@ class Dashboard(object):
     def device(self):
         return self.structure % (DeviceTable.getHtml(self.devices))
     
+    @cherrypy.expose   
+    def add_device(self,add_device_model):
+        dev=yaml.load(add_device_model)
+        if dev['id'] not in self.devices['node_template']:
+            self.client.publish("/"+dev['requirements']['host']+"/model/device/add", yaml.dump(dev), 0, False)
+        raise cherrypy.HTTPRedirect("/device")
+    
+    
+    @cherrypy.expose   
+    def remove_device(self,remove_device_model):
+        dev=yaml.load(remove_device_model)
+        if dev['id'] in self.devices['node_template']:
+            self.devices['node_template'].pop(dev['id'])
+            self.client.publish("/"+dev['requirements']['host']+"/model/device/remove", yaml.dump(dev), 0, False)
+        raise cherrypy.HTTPRedirect("/device")
+    
     @cherrypy.expose
     def about(self):
         return self.structure % ("About")
