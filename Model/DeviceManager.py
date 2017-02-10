@@ -33,7 +33,7 @@ class DeviceManager(object):
             yaml_frame=yaml.load(serial_frame)
             for dev in yaml_frame['node_templates']:
                 device=Factory.decode_yaml(yaml.dump(yaml_frame['node_templates'][dev]))
-                if device!=None and device.dev_id not in obj.devices['node_templates']: 
+                if device!=None and device.id not in obj.devices['node_templates']: 
                     obj.link[dev]=type(device).make_active(device) 
                     obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
                 
