@@ -27,19 +27,32 @@ class Dashboard(object):
                 else:
                     pass
                 
+            
+            
+        def on_message_device(client, userdata, message, obj):
+            serial_frame=str(message.payload.decode("utf-8"))
+            yaml_frame=yaml.load(serial_frame)
+            for dev in yaml_frame['node_templates']:  
+                if dev not in obj.devices['node_templates']:
+                    obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
+                else:
+                    pass
+                
+        '''
         def on_message_device(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
             json_frame=json.loads(serial_frame)
             json_dev=json.loads(json_frame['device'])    
             dev = json_dev['id']   
             obj.devices['node_templates'][dev]=yaml.load(json_dev)
-         
+        ''' 
         self.client = mqtt.Client()
         self.client.message_callback_add("/+/model/node/status", partial(on_message_node, obj=self)) 
-        self.client.message_callback_add("/device/#", partial(on_message_device, obj=self)) 
+        self.client.message_callback_add("/+/model/device/status", partial(on_message_device, obj=self)) 
         self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()        
-        self.client.subscribe("/+/model/node/status", qos=0)        
+        self.client.subscribe("/+/model/node/status", qos=0)
+        self.client.subscribe("/+/model/device/status", qos=0)        
         
         
         
@@ -63,7 +76,7 @@ class Dashboard(object):
                   <ul class="nav navbar-nav">
                     <li class="active"><a href="/">Home</a></li>
                     <li><a href="/node">Node</a></li>
-                    <li><a href="/device">Node</a></li>
+                    <li><a href="/device">Device</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/contact">Contact</a></li>
                   </ul>
