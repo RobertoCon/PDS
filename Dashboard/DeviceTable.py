@@ -31,12 +31,13 @@ class DeviceTable(object):
                   <form action="add_node" method="post" >
                    <label> Hostname: </label><input type="text" name="add_node_id">
                    <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-            </form> 
+                </form> 
             """
         i=0
         for dev in devices['node_templates'] :
             i=i+1
             code=code+"""<tr>
+                            <td>%s</td>
                             <td>%s</td>
                             <td>%s</td>
                           
