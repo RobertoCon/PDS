@@ -58,7 +58,7 @@ class Dashboard(object):
                 </div><!--/.nav-collapse -->
               </div>
             </nav>
-            <br><br>
+            <br><br><br>
             %s
         </body>
         </html>
@@ -68,6 +68,12 @@ class Dashboard(object):
     @cherrypy.expose
     def index(self):
         return self.structure % (NodeTable.getHtml(self.nodes))
+    @cherrypy.expose
+    def about(self):
+        return self.structure % ("Abaut")
+    @cherrypy.expose
+    def Contact(self):
+        return self.structure % ("contact")
     
     @cherrypy.expose   
     def remove_node(self,remove_node_id):
