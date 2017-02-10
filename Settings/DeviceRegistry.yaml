@@ -1,1 +1,7 @@
-{'node_templates':{}}
+node_templates:
+  dev1:
+    device_type: TempSensor
+    id: dev1
+    location: bathroom
+    requirements: {host: raspy2-A}
+    type: my.Device.TempSensor
