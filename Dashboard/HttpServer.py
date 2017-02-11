@@ -54,7 +54,7 @@ class Dashboard(object):
         self.client = mqtt.Client()
         self.client.message_callback_add("/+/model/node/status", partial(on_message_node, obj=self)) 
         self.client.message_callback_add("/+/model/device/status", partial(on_message_device, obj=self)) 
-        self.client.message_callback_add("/+/model/apps/status", partial(on_message_device, obj=self)) 
+        self.client.message_callback_add("/+/model/apps/status", partial(on_message_app, obj=self)) 
         self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()        
         self.client.subscribe("/+/model/node/status", qos=0)
