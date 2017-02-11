@@ -48,7 +48,7 @@ class DeviceTable(object):
                             <td>%s</td>
                           
                         </tr>
-            """ % (str(i),devices['node_templates'][dev]['id'],devices['node_templates'][dev]['device_type'],devices['node_templates'][dev]['location'],devices['node_templates'][dev]['requirements']['host'],\
+            """ % (str(i),dev,devices['node_templates'][dev]['device_type'],devices['node_templates'][dev]['location'],devices['node_templates'][dev]['requirements']['host'],\
                    '<form action="remove_device" method="post" >\
                    <button type="submit" name="remove_device_model" value="'+yaml.dump(a)+\
                    '"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\
