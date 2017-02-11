@@ -46,10 +46,7 @@ class Dashboard(object):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
             for app in yaml_frame['node_templates']:  
-                if app not in obj.apps['node_templates']:
-                    obj.apps['node_templates'][app]=yaml_frame['node_templates'][app] 
-                else:
-                    pass
+                obj.apps['node_templates'][app]=yaml_frame['node_templates'][app]
                 
         self.client = mqtt.Client()
         self.client.message_callback_add("/+/model/node/status", partial(on_message_node, obj=self)) 
