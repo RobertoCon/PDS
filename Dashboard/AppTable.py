@@ -60,21 +60,21 @@ class AppTable(object):
                    str(apps['node_templates'][app]['requirements']['host']['cpu_quota']),\
                    apps['node_templates'][app]['requirements']['host']['bootstrap'],\
                    apps['node_templates'][app]['requirements']['host']['state'],\
-                   '<form action="remove_app" method="post" class="form-inline">\
+                   '<table><tr><td><form action="remove_app" method="post">\
                    <button type="submit" name="remove_app_model" value="'+yaml.dump(a)+\
                    '"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\
-                   </form>'+\
-                   '<form action="start_app" method="post" class="form-inline">\
+                   </form></td>'+\
+                   '<td><form action="start_app" method="post">\
                    <button type="submit" name="start_app_model" value="'+yaml.dump(a)+\
                    '"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>\
-                   </form>'+\
-                   '<form action="stop_app" method="post" class="form-inline">\
+                   </form></td>'+\
+                   '<td><form action="stop_app" method="post">\
                    <button type="submit" name="stop_app_model" value="'+yaml.dump(a)+\
                    '"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>\
-                   </form>'+\
-                   '<form action="update_app" method="post" class="form-inline">\
+                   </form></td>'+\
+                   '<td><form action="update_app" method="post">\
                    <button type="submit" name="update_app_model" value="'+yaml.dump(a)+\
                    '"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span></button>\
-                   </form>')
+                   </form></td></tr></table>')
         
         return html % code
