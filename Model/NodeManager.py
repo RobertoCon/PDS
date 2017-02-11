@@ -62,7 +62,7 @@ class NodeManager(object):
             obj.publish()      
                      
         self.client = mqtt.Client()
-        self.client.will_set("/"+Setting.getNodeId()+"/model/node/status",None, 0, True)
+        #self.client.will_set("/"+Setting.getNodeId()+"/model/node/status",None, 0, True)
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/add", partial(on_message_add, obj=self)) 
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/remove", partial(on_message_remove, obj=self))
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/read", partial(on_message_read, obj=self))

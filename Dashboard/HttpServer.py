@@ -5,6 +5,7 @@ Created on 16 gen 2017
 '''
 from Dashboard.NodeTable import NodeTable
 from Dashboard.DeviceTable import DeviceTable
+from Dashboard.AppTable import AppTable
 import cherrypy
 import yaml,json
 from pathlib import Path
@@ -19,6 +20,8 @@ class Dashboard(object):
         super(Dashboard,self).__init__()
         self.nodes={'node_templates':{}}
         self.devices={'node_templates':{}}
+        self.apps={'node_templates':{}}
+        
         def on_message_node(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
@@ -39,21 +42,24 @@ class Dashboard(object):
                 else:
                     pass
                 
-        '''
-        def on_message_device(client, userdata, message, obj):
+        def on_message_app(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
-            json_frame=json.loads(serial_frame)
-            json_dev=json.loads(json_frame['device'])    
-            dev = json_dev['id']   
-            obj.devices['node_templates'][dev]=yaml.load(json_dev)
-        ''' 
+            yaml_frame=yaml.load(serial_frame)
+            for app in yaml_frame['node_templates']:  
+                if app not in obj.apps['node_templates']:
+                    obj.apps['node_templates'][app]=yaml_frame['node_templates'][app] 
+                else:
+                    pass
+                
         self.client = mqtt.Client()
         self.client.message_callback_add("/+/model/node/status", partial(on_message_node, obj=self)) 
         self.client.message_callback_add("/+/model/device/status", partial(on_message_device, obj=self)) 
+        self.client.message_callback_add("/+/model/apps/status", partial(on_message_device, obj=self)) 
         self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()        
         self.client.subscribe("/+/model/node/status", qos=0)
-        self.client.subscribe("/+/model/device/status", qos=0)        
+        self.client.subscribe("/+/model/device/status", qos=0) 
+        self.client.subscribe("/+/model/apps/status", qos=0)       
         
         
         
@@ -78,6 +84,7 @@ class Dashboard(object):
                     <li class="active"><a href="/">Home</a></li>
                     <li><a href="/node">Node</a></li>
                     <li><a href="/device">Device</a></li>
+                    <li><a href="/app">Appse</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/contact">Contact</a></li>
                   </ul>
@@ -147,6 +154,48 @@ class Dashboard(object):
                 self.devices['node_templates'].pop(dev)
                 self.client.publish("/"+devs['node_templates'][dev]['requirements']['host']+"/model/device/remove", yaml.dump(devs), 0, False) 
         raise cherrypy.HTTPRedirect("/device")
+    
+    
+    
+    
+    
+    
+    #App Managment
+    @cherrypy.expose
+    def app(self):
+        return self.structure % (AppTable.getHtml(self.apps))
+    
+    @cherrypy.expose   
+    def add_app(self,add_app_model):
+        apps_model=yaml.load(add_app_model)
+        for app in apps_model['node_templates']:
+            if app not in self.apps['node_templates']:
+                self.client.publish("/"+apps_model['node_templates'][app]['requirements']['host']+"/model/apps/add", add_app_model, 0, False)
+        raise cherrypy.HTTPRedirect("/app")
+    
+    
+    @cherrypy.expose   
+    def remove_app(self,remove_app_model):
+        apps_model=yaml.load(remove_app_model)
+        for app in apps_model['node_templates']:
+            if app in self.apps['node_templates']:
+                self.apps['node_templates'].pop(app)
+                self.client.publish("/"+apps_model['node_templates'][app]['requirements']['host']+"/model/apps/remove", remove_app_model, 0, False) 
+        raise cherrypy.HTTPRedirect("/app")
+    
+    @cherrypy.expose   
+    def start_app(self,start_app_model):
+        raise cherrypy.HTTPRedirect("/app")
+    
+    @cherrypy.expose   
+    def stop_app(self,stop_app_model):
+        raise cherrypy.HTTPRedirect("/app")
+    
+    @cherrypy.expose   
+    def update_app(self,stop_app_model):
+        raise cherrypy.HTTPRedirect("/app")
+    
+    
     
     @cherrypy.expose
     def about(self):
