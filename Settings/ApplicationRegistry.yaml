@@ -18,4 +18,4 @@ node_templates:
                     cpu_quota: 20000
                     relationship: HostedOn
                     bootstrap: yes
-                    status: online
+                    state: online
