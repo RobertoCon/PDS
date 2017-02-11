@@ -56,8 +56,8 @@ class AppTable(object):
             """ % (str(i),apps['node_templates'][app]['instance'],\
                    apps['node_templates'][app]['artifacts']['image']['file'],\
                    apps['node_templates'][app]['requirements']['host']['node'],\
-                   apps['node_templates'][app]['properties']['ports']['in_port']['protocol']+":"+apps['node_templates'][app]['properties']['ports']['in_port']['target'],\
-                   apps['node_templates'][app]['requirements']['host']['cpu_quota'],\
+                   apps['node_templates'][app]['properties']['ports']['in_port']['protocol']+":"+str(apps['node_templates'][app]['properties']['ports']['in_port']['target']),\
+                   str(apps['node_templates'][app]['requirements']['host']['cpu_quota']),\
                    apps['node_templates'][app]['requirements']['host']['bootstrap'],\
                    apps['node_templates'][app]['requirements']['host']['state'],\
                    '<form action="remove_app" method="post" >\
