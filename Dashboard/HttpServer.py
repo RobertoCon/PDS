@@ -170,7 +170,7 @@ class Dashboard(object):
         apps_model=yaml.load(add_app_model)
         for app in apps_model['node_templates']:
             if app not in self.apps['node_templates']:
-                self.client.publish("/"+apps_model['node_templates'][app]['requirements']['host']+"/model/apps/add", add_app_model, 0, False)
+                self.client.publish("/"+apps_model['node_templates'][app]['requirements']['host']['node']+"/model/apps/add", add_app_model, 0, False)
         raise cherrypy.HTTPRedirect("/app")
     
     
