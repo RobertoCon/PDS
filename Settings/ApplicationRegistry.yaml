@@ -1,1 +1,21 @@
-{'node_templates':{}}
+node_templates:                                        
+    app1:
+            instance: stress-test
+            type: tosca.nodes.Container.Application.Docker
+            properties:
+                ports:
+                    in_port:
+                        protocol: tcp
+                        target: 50000
+            artifacts:
+                image: 
+                   file: rpi-python
+                   repository: docker_hub
+                   description: busy-box
+            requirements:
+                host:
+                    node:  raspy0-A
+                    cpu_quota: 20000
+                    relationship: HostedOn
+                    bootstrap: yes
+                    status: online

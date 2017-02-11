@@ -180,7 +180,7 @@ class Dashboard(object):
         for app in apps_model['node_templates']:
             if app in self.apps['node_templates']:
                 self.apps['node_templates'].pop(app)
-                self.client.publish("/"+apps_model['node_templates'][app]['requirements']['host']+"/model/apps/remove", remove_app_model, 0, False) 
+                self.client.publish("/"+apps_model['node_templates'][app]['requirements']['host']['node']+"/model/apps/remove", remove_app_model, 0, False) 
         raise cherrypy.HTTPRedirect("/app")
     
     @cherrypy.expose   
