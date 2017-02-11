@@ -33,7 +33,7 @@ class ApplicationManager(object):
             yaml_frame=yaml.load(serial_frame)
             for app in yaml_frame['node_templates']:
                 if app not in obj.apps['node_templates']: 
-                    yaml_frame['node_templates'][app]['requirement']['host']['state']="online"
+                    yaml_frame['node_templates'][app]['requirements']['host']['state']="online"
                     obj.apps['node_templates'][app]=yaml_frame['node_templates'][app] 
                     obj.docker_run(yaml_frame['node_templates'][app])
             obj.permanent()  
@@ -54,7 +54,7 @@ class ApplicationManager(object):
             yaml_frame=yaml.load(serial_frame)
             for app in yaml_frame['node_templates']:
                 if app in obj.apps['node_templates']: 
-                    yaml_frame['node_templates'][app]['requirement']['host']['state']="online"
+                    yaml_frame['node_templates'][app]['requirements']['host']['state']="online"
                     obj.apps['node_templates'][app]=yaml_frame['node_templates'][app] 
                     obj.docker_start(yaml_frame['node_templates'][app])
             obj.permanent()  
@@ -65,7 +65,7 @@ class ApplicationManager(object):
             yaml_frame=yaml.load(serial_frame)
             for app in yaml_frame['node_templates']:
                 if app in obj.apps['node_templates']:
-                    yaml_frame['node_templates'][app]['requirement']['host']['state']="offline"
+                    yaml_frame['node_templates'][app]['requirements']['host']['state']="offline"
                     obj.apps['node_templates'][app]=yaml_frame['node_templates'][app] 
                     obj.docker_stop(yaml_frame['node_templates'][app])
             obj.permanent()  
