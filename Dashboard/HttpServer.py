@@ -62,7 +62,14 @@ class Dashboard(object):
         
         self.structure="""<html>
         <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <title>Example</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">     
+        <script>
+        function timedRefresh(timeoutPeriod) {
+            setTimeout("location.reload(true);",timeoutPeriod);
+        }
+        window.onload = timedRefresh(5000);
+        </script>
         </head>
         <body>
             <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -81,7 +88,7 @@ class Dashboard(object):
                     <li class="active"><a href="/">Home</a></li>
                     <li><a href="/node">Node</a></li>
                     <li><a href="/device">Device</a></li>
-                    <li><a href="/app">Appse</a></li>
+                    <li><a href="/app">Apps</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/contact">Contact</a></li>
                   </ul>
@@ -185,6 +192,7 @@ class Dashboard(object):
         apps_model=yaml.load(start_app_model)
         for app in apps_model['node_templates']:
             if app in self.apps['node_templates']:
+                self.apps['node_templates'][app]['requirements']['host']['state']="online"
                 self.client.publish("/"+apps_model['node_templates'][app]['requirements']['host']['node']+"/model/apps/start", start_app_model, 0, False) 
         raise cherrypy.HTTPRedirect("/app")
     
@@ -193,6 +201,7 @@ class Dashboard(object):
         apps_model=yaml.load(stop_app_model)
         for app in apps_model['node_templates']:
             if app in self.apps['node_templates']:
+                self.apps['node_templates'][app]['requirements']['host']['state']="offline"
                 self.client.publish("/"+apps_model['node_templates'][app]['requirements']['host']['node']+"/model/apps/stop", stop_app_model, 0, False) 
         raise cherrypy.HTTPRedirect("/app")
     
