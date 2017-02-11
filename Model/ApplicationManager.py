@@ -24,7 +24,7 @@ class ApplicationManager(object):
             for app in self.apps['node_templates']:
                     if self.apps['node_templates'][app]['requirements']['host']['bootstrap']=='yes':
                         print(self.apps['node_templates'][app])
-                        #self.docker_start(self.apps['node_templates'][app])
+                        self.docker_start(self.apps['node_templates'][app])
         print("Applications loaded")
         
         
@@ -33,6 +33,7 @@ class ApplicationManager(object):
             yaml_frame=yaml.load(serial_frame)
             for app in yaml_frame['node_templates']:
                 if app not in obj.apps['node_templates']: 
+                    yaml_frame['node_templates'][app]['requirement']['host']['state']="online"
                     obj.apps['node_templates'][app]=yaml_frame['node_templates'][app] 
                     obj.docker_run(yaml_frame['node_templates'][app])
             obj.permanent()  
@@ -53,16 +54,18 @@ class ApplicationManager(object):
             yaml_frame=yaml.load(serial_frame)
             for app in yaml_frame['node_templates']:
                 if app in obj.apps['node_templates']: 
+                    yaml_frame['node_templates'][app]['requirement']['host']['state']="online"
                     obj.apps['node_templates'][app]=yaml_frame['node_templates'][app] 
                     obj.docker_start(yaml_frame['node_templates'][app])
             obj.permanent()  
             obj.publish()
-            
+         
         def on_message_stop(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
             for app in yaml_frame['node_templates']:
                 if app in obj.apps['node_templates']:
+                    yaml_frame['node_templates'][app]['requirement']['host']['state']="offline"
                     obj.apps['node_templates'][app]=yaml_frame['node_templates'][app] 
                     obj.docker_stop(yaml_frame['node_templates'][app])
             obj.permanent()  
@@ -105,7 +108,7 @@ class ApplicationManager(object):
     #"docker run -it --rm --cpu-quota=30000  --name my-running-app test-python"      
     def docker_run(self,app):
         #print("Docker CMD : docker run --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name']+" "+app_json['image_name'])
-        subprocess.Popen("docker run --cpu-quota="+app['requirements']['host']['cpu_quota']+" --name "+app['instance']+" "+app['artifacts']['image']['file'], stdout=subprocess.PIPE, shell=True)
+        subprocess.Popen("docker run --cpu-quota="+str(app['requirements']['host']['cpu_quota'])+" --name "+app['instance']+" "+app['artifacts']['image']['file'], stdout=subprocess.PIPE, shell=True)
       
     def docker_stop(self,app):
         #print("Docker CMD : docker stop "+app_json['app_name'] )
@@ -117,7 +120,7 @@ class ApplicationManager(object):
     
     def docker_update(self,app):
         #print("Docker CMD : docker update --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name'])
-        subprocess.Popen("docker update --cpu-quota="+app['requirements']['host']['cpu_quota']+" "+app['instance'], stdout=subprocess.PIPE, shell=True)
+        subprocess.Popen("docker update --cpu-quota="+str(app['requirements']['host']['cpu_quota'])+" "+app['instance'], stdout=subprocess.PIPE, shell=True)
 
     def permanent(self):
         yaml.dump(self.apps,open(str(self.path),'w')) 

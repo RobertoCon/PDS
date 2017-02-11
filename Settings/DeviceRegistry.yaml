@@ -1,9 +1,1 @@
-node_templates:
-  dev54:
-    device_type: TempSensor
-    id: dev54
-    location: bathroom
-    requirements: {host: raspy3-A}
-    temperature: 0
-    unit: celsius
-    type: my.Device.TempSensor
+{'node_templates':{}}

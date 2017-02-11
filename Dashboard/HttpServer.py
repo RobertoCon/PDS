@@ -185,6 +185,10 @@ class Dashboard(object):
     
     @cherrypy.expose   
     def start_app(self,start_app_model):
+        apps_model=yaml.load(start_app_model)
+        for app in apps_model['node_templates']:
+            if app in self.apps['node_templates']:
+                self.client.publish("/"+apps_model['node_templates'][app]['requirements']['host']['node']+"/model/apps/start", start_app_model, 0, False) 
         raise cherrypy.HTTPRedirect("/app")
     
     @cherrypy.expose   

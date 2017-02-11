@@ -55,7 +55,7 @@ node_templates:
                                         
 node_templates:                                        
     app1:
-            instance: stress-test
+            instance: stress1
             type: tosca.nodes.Container.Application.Docker
             properties:
                 ports:
@@ -64,13 +64,26 @@ node_templates:
                         target: 50000
             artifacts:
                 image: 
-                   file: rpi-python
+                   file: stress-test
                    repository: docker_hub
                    description: busy-box
             requirements:
                 host:
-                    node:  raspy0-A
+                    node:  raspy3-A
                     cpu_quota: 20000
                     relationship: HostedOn
                     bootstrap: yes
-                    status: online
+                    state: online
+                    
+                    
+                    
+                    
+node_templates:
+  dev54:
+    device_type: TempSensor
+    id: dev54
+    location: bathroom
+    requirements: {host: raspy3-A}
+    temperature: 0
+    unit: celsius
+    type: my.Device.TempSensor
