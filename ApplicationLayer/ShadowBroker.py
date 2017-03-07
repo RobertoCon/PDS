@@ -20,7 +20,7 @@ def isTopicValid(obj,topic):
 def topic_in(a,b):
     t1=b.split("/")
     t2=a.split("/")  
-    if t1[2]=="+" or  t1[2]==t2[2] :  #different topic
+    if t1[2]=="+" or  t1[2]==t2[2] :
         if t1[3]=="+" or  t1[3]==t2[3] :
             if t1[4]=="+" or  t1[4]==t2[4] :
                 return True
@@ -29,7 +29,6 @@ def topic_in(a,b):
 
 
 def on_message(client, userdata, message , cache):
-    #print("Received message '" + str(message.payload) + "' on topic '"+ message.topic + "' with QoS " + str(message.qos))
     serial_frame=str(message.payload.decode("utf-8"))
     json_frame=json.loads(serial_frame)
     json_dev=json.loads(json_frame['device'])
@@ -39,14 +38,10 @@ def on_message(client, userdata, message , cache):
             if id_dev==item.id_dev:
                 if json_frame['state']=="online":
                     cache[i].update(json_frame['device'],json_frame['lock_id'],json_frame['state'])
-                    #notify change to all observer
-                    #cache[i].notify_update()
                 else:
                     cache[i].state="offline"
                 return
         cache.append(Observable(id_dev,Factory.decode(json.dumps(json_dev)),json_frame['lock_id'],json_frame['state']))
-    
-    #REMOVE OBJECT DISCONNECTED
     
 class ShadowBroker(object):
     class __ShadowBroker(object):
@@ -110,14 +105,6 @@ class ShadowBroker(object):
                     return i.get_history()
             return None
                     
-        #Read_only or local write 
-        #def get_subset_local(self,topic):
-        #    cp=[]
-        #    for i in filter(partial(isTopicValid,topic=topic),self.cache):
-        #        x=copy.copy(i.dev)
-        #        cp.append(x)
-        #    return cp
-        
         def get_subset_remote(self,topic):
             cp=[]
             for i in filter(partial(isTopicValid,topic=topic),self.cache):

@@ -1,9 +1,9 @@
 node_templates:
-  dev4:
+  dev1:
     device_type: TempSensor
-    id: dev4
+    id: dev1
     location: bathroom
-    requirements: {host: py_2}
+    requirements: {host: raspy3-A}
     type: my.Device.TempSensor
   dev2:
     device_type: Hue

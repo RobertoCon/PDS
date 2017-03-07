@@ -33,8 +33,5 @@ class TimeSeries(Observer):
                 else:
                     self.history[i]=0
             
-        #print("Device : ",self.dev.to_json()," history : ",self.history )
         if self.history[len(self.history)-1]:
-            #Trigger
-            self.func(self,self.dev)
-            #print("Triggered Time Series")  
+            self.func(self,self.dev) 

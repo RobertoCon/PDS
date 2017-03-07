@@ -5,9 +5,7 @@ Created on 23 nov 2016
 '''
 from ApplicationLayer.ShadowBroker import ShadowBroker
 class Aggregator(object):
-    '''
-    classdocs
-    '''
+
     def __init__(self,devs,func):
         
         self.devs=devs
