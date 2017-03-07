@@ -4,8 +4,8 @@ Created on 17 nov 2016
 @author: Conny
 '''
 
-from Dev.Device import Device
-from Dev.ActiveDevice import ActiveDevice
+from Device.Device import Device
+from Device.ActiveDevice import ActiveDevice
 import json
 import time
 
@@ -16,21 +16,18 @@ class PluginDevice(Device):
             super(PluginDevice, self).__init__(id_dev, location_dev, type_dev="PluginDevice")
             #Set not base attribute
          
-         
-        #redefine how to serialize the struct
-        def to_json(self):
+        def to_text(self):
             struct = {}
-            struct['id'] = self.id
-            struct['location'] = self.location
-            struct['type'] = self.type
+            struct['id_dev'] = self.id
+            struct['location_dev'] = self.location
+            struct['type_dev'] = self.type
             return json.dumps(struct)
         
-        
-        def from_json(self,serial_dict):
+        def from_text(self,serial_dict):
             struct=json.loads(str(serial_dict))
-            self.id = struct['id']
-            self.location =struct['location'] 
-            self.type=struct['type']
+            self.id = struct['id_dev']
+            self.location =struct['location_dev'] 
+            self.type=struct['type_dev']
             return self
     
               

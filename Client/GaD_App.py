@@ -6,7 +6,7 @@ Created on 16 dic 2016
 
 
 from ApplicationLayer.PDS import LIGHT
-from Dev.ActiveDevice import ActiveDevice
+from Device.ActiveDevice import ActiveDevice
 import time
 from Plugin.GaD import GaD
 

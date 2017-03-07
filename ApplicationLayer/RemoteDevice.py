@@ -4,9 +4,7 @@ Created on 21 nov 2016
 @author: Conny
 '''
 class RemoteDevice(object):
-    '''
-    classdocs
-    '''
+
     ready=False
     def __init__(self ,device,shadow):
         '''
@@ -18,6 +16,14 @@ class RemoteDevice(object):
         
     def __getattr__(self, name):
         return getattr(self.device,name)
+    
+    def __setattr__(self, name, value):
+        #print("Set attrib : ",name," at ",value)
+        if self.ready:
+            result = self.shadow.write(self.device.id,name)
+            return result.result()
+        else:
+            return object.__setattr__(self, name, value)
 
     def setattr(self,name,value,async=False,callback=None):
         #print("Remote Write")
@@ -27,7 +33,6 @@ class RemoteDevice(object):
         if async:
             return result
         else:
-            
             return result.result()
         
     def lock(self):
@@ -35,14 +40,3 @@ class RemoteDevice(object):
                 
     def unlock(self):
         return self.shadow.unlock(self.device.id)
-
-
-
-    '''
-    def __setattr__(self, name, value):
-        #print("Set attrib : ",name," at ",value)
-        if self.ready:
-            return self.shadow.write(self.device.id,name,value)
-        else:
-            return object.__setattr__(self, name, value)
-    '''  

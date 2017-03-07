@@ -3,14 +3,9 @@ Created on 16 dic 2016
 
 @author: Conny
 '''
-'''
-Created on 08 nov 2016
 
-@author: Conny
-'''
-
-from Dev.Device import Device
-#from Dev.ActiveDevice import ActiveDevice
+from Device.Device import Device
+#from Device.ActiveDevice import ActiveDevice
 import json
 
 
@@ -21,18 +16,18 @@ class GaD(Device):
         self.attr1=0
          
     #redefine how to serialize the struct
-    def to_json(self):
+    def to_text(self):
         struct = {}
-        struct['id'] = self.id
-        struct['location'] = self.location
-        struct['type'] = self.type
+        struct['id_dev'] = self.id
+        struct['location_dev'] = self.location
+        struct['type_dev'] = self.type
         struct['attr1'] = self.attr1
         return json.dumps(struct)
         
-    def from_json(self,serial_dict):
+    def from_text(self,serial_dict):
         struct=json.loads(str(serial_dict))
-        self.id = struct['id']
-        self.location =struct['location'] 
+        self.id = struct['id_dev']
+        self.location =struct['location_dev'] 
         self.type=struct['attr1']
         return self
 '''    

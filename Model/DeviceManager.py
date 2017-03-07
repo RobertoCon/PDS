@@ -9,7 +9,7 @@ from functools import partial
 from Model import Setting
 import paho.mqtt.client as mqtt
 import yaml
-from Dev.Factory import Factory
+from Device.Factory import Factory
 
 class DeviceManager(object):
 
@@ -24,7 +24,7 @@ class DeviceManager(object):
         else:
             self.devices=yaml.load(open(str(self.path),'r'))
             for dev in self.devices['node_templates']:
-                device=Factory.decode_yaml(yaml.dump(self.devices['node_templates'][dev]))
+                device=Factory.decode(yaml.dump(self.devices['node_templates'][dev]))
                 self.links[dev]=type(device).make_active(device)
         print("Device loaded")
                  
@@ -32,7 +32,7 @@ class DeviceManager(object):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
             for dev in yaml_frame['node_templates']:
-                device=Factory.decode_yaml(yaml.dump(yaml_frame['node_templates'][dev]))
+                device=Factory.decode(yaml.dump(yaml_frame['node_templates'][dev]))
                 if device!=None and device.id not in obj.devices['node_templates']: 
                     obj.links[dev]=type(device).make_active(device) 
                     obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 

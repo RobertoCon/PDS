@@ -1,7 +1,0 @@
-dev1:
-    id: dev1
-    type: my.Device
-    location: bathroom
-    device_type: Hue
-    requirements:
-      host: py_1

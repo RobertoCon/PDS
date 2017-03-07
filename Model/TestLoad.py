@@ -8,7 +8,7 @@ from functools import partial
 from Model import Setting
 import paho.mqtt.client as mqtt
 import yaml
-from Dev.Factory import Factory
+from Device.Factory import Factory
 
 class DeviceManager(object):
 
