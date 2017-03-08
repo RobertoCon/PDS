@@ -1,6 +1,6 @@
 node_templates:
   dev1:
-    device_type: TempSensor
+    type_dev: TempSensor
     id: dev1
     location: bathroom
     requirements: {host: raspy3-A}

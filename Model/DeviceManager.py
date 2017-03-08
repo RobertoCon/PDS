@@ -24,7 +24,6 @@ class DeviceManager(object):
         else:
             self.devices=yaml.load(open(str(self.path),'r'))
             for dev in self.devices['node_templates']:
-                #device=Factory.decode(yaml.dump(self.devices['node_templates'][dev]))
                 device=Factory.decode(json.dumps(yaml.load(self.devices['node_templates'][dev])))
                 self.links[dev]=type(device).make_active(device)
         print("Device loaded")
@@ -33,8 +32,7 @@ class DeviceManager(object):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
             for dev in yaml_frame['node_templates']:
-                #device=Factory.decode(yaml.dump(self.devices['node_templates'][dev]))
-                device=Factory.decode(json.dumps(yaml.load(self.devices['node_templates'][dev])))
+                device=Factory.decode(json.dumps(yaml.load(yaml_frame['node_templates'][dev])))
                 if device!=None and device.id not in obj.devices['node_templates']: 
                     obj.links[dev]=type(device).make_active(device) 
                     obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
