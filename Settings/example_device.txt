@@ -1,28 +1,12 @@
 node_templates:
   dev1:
     type_dev: TempSensor
-    id: dev1
-    location: bathroom
+    id_dev: dev1
+    location_dev: bathroom
     requirements: {host: raspy3-A}
     type: my.Device.TempSensor
-  dev2:
-    device_type: Hue
-    id: dev2
-    location: bathroom
-    requirements: {host: py_1}
-    type: my.Device.Hue
-  dev4:
-    device_type: TempSensor
-    id: dev4
-    location: bathroom
-    requirements: {host: py_2}
-    type: my.Device.TempSensor
-  dev5:
-    device_type: TempSensor
-    id: dev5
-    location: bathroom
-    requirements: {host: py_3}
-    type: my.Device.TempSensor
+    temperature: 0
+    unit: celsius
     
 node_templates:   
         LoadBalancer_id:
