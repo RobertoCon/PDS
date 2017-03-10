@@ -6,6 +6,7 @@ Created on 16 gen 2017
 from Dashboard.NodeTable import NodeTable
 from Dashboard.DeviceTable import DeviceTable
 from Dashboard.AppTable import AppTable
+from Dashboard.BalancerTable import BalancerTable
 import cherrypy
 import yaml,json
 from pathlib import Path
@@ -21,6 +22,7 @@ class Dashboard(object):
         self.nodes={'node_templates':{}}
         self.devices={'node_templates':{}}
         self.apps={'node_templates':{}}
+        self.balancers={'node_templates':{}}
         
         def on_message_node(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
@@ -30,9 +32,7 @@ class Dashboard(object):
                     obj.nodes['node_templates'][node]=yaml_frame['node_templates'][node] 
                 else:
                     pass
-                
-            
-            
+
         def on_message_device(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
@@ -43,6 +43,12 @@ class Dashboard(object):
                     pass
                 
         def on_message_app(client, userdata, message, obj):
+            serial_frame=str(message.payload.decode("utf-8"))
+            yaml_frame=yaml.load(serial_frame)
+            for app in yaml_frame['node_templates']:  
+                obj.apps['node_templates'][app]=yaml_frame['node_templates'][app]
+                
+        def on_message_balancer(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
             for app in yaml_frame['node_templates']:  
@@ -89,6 +95,7 @@ class Dashboard(object):
                     <li><a href="/node">Node</a></li>
                     <li><a href="/device">Device</a></li>
                     <li><a href="/app">Apps</a></li>
+                    <li><a href="/balancer">Balancer</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/contact">Contact</a></li>
                   </ul>
@@ -209,7 +216,26 @@ class Dashboard(object):
     def update_app(self,stop_app_model):
         raise cherrypy.HTTPRedirect("/app")
     
+    @cherrypy.expose
+    def balancer(self):
+        return self.structure % (BalancerTable.getHtml(self.balancers))
     
+    @cherrypy.expose   
+    def add_balancer(self,add_balancer_model):
+        balancers_model=yaml.load(add_balancer_model)
+        for balancer in balancers_model['node_templates']:
+            if balancer not in self.balancers['node_templates']:
+                self.client.publish("/"+balancers_model['node_templates'][balancer]['host']+"/model/balancer/add", add_balancer_model, 0, False)
+        raise cherrypy.HTTPRedirect("/balancer")
+    
+    @cherrypy.expose   
+    def remove_balancer(self,remove_balancer_model):
+        balancers_model=yaml.load(remove_balancer_model)
+        for balancer in balancers_model['node_templates']:
+            if balancer in self.balancers['node_templates']:
+                self.balancers['node_templates'].pop(balancer)
+                self.client.publish("/"+balancers_model['node_templates'][balancer]['host']+"/model/balancer/remove", remove_balancer_model, 0, False) 
+        raise cherrypy.HTTPRedirect("/balancer")
     
     @cherrypy.expose
     def about(self):
