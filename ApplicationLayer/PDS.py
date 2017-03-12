@@ -38,7 +38,7 @@ class PDS(list):
         
     def print(self):
         for i in self:
-            print(i.to_json())
+            print(i.to_text())
             
     def lock(self):
         if self.remote:

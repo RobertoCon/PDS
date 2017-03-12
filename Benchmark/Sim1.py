@@ -10,10 +10,9 @@ from ApplicationLayer.PDS import TEMP
 
 #Init Test
 gen=DeviceGenerator()
-device=TEMP()
-size_gen=1
-iter_gen=1
-time_wait=15
+size_gen=0
+iter_gen=50
+time_wait=5
 list_location=['bath','bed','living']
 list_host=['raspy3-A']
 
@@ -24,8 +23,16 @@ for i in range(iter_gen):
     start_process = time.process_time()
     
     #Codeblock test
-    avg=device.reduce(lambda x, y : (x+y)/2)
+    avg=TEMP().map(lambda x : x.temperature).reduce(lambda x, y : (x+y)/2)
     
     elapsed_process = (time.process_time() - start_process)
     elapsed_time = (time.perf_counter() - start_time)
-    print("Device size : ",len(device)," Process Time : ",elapsed_process," Time : ",elapsed_time," AVG : ",avg)
+    print("Device size : ",len(TEMP())," Process Time : ",elapsed_process," Time : ",elapsed_time," AVG : ",avg)
+    
+    
+    
+    
+#Result 1:
+#Boot clean 20 thread
+#    115 device --> 250 thread ... RuntimeError: can't start new thread
+#Almost 2 thread for device ...... need to reduce it with pool or aggregator
