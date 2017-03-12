@@ -11,8 +11,8 @@ from ApplicationLayer.PDS import TEMP
 #Init Test
 gen=DeviceGenerator()
 device=TEMP()
-size_gen=10
-iter_gen=10
+size_gen=1
+iter_gen=1
 time_wait=15
 list_location=['bath','bed','living']
 list_host=['raspy3-A']

@@ -30,7 +30,7 @@ class Observable(object):
             self.history.append(copy.copy(self.dev))
             if len(self.history)>self.history_size:
                 self.history=self.history[len(self.history)-self.history_size:]
-            self.dev=self.dev.from_json(serial_dev)
+            self.dev=self.dev.from_text(serial_dev)
             self.lock_id=lock_id
             self.state=state
             self.notify_update()

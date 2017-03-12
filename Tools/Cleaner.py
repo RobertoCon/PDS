@@ -13,10 +13,10 @@ def on_message(client, userdata, message):
         
 client = mqtt.Client()
 #client.connect(Setting.getBrokerIp())
-client.connect("raspy2-A")
+client.connect("192.168.1.3")
 client.loop_start()
 client.on_message = on_message
 client.subscribe("/#", qos=0)
 print("Start cleaning .....")
-time.sleep(5)
+time.sleep(20)
 print("Stop cleaning")

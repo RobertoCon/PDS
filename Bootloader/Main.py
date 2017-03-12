@@ -10,9 +10,23 @@ from Model.LoadManager import LoadManager
 from Dashboard.HttpServer import Dashboard
 import cherrypy
 import time
-import sys, getopt
+#import sys, getopt
 
 
+#Default mode
+NodeManager()
+DeviceManager()
+ApplicationManager()
+LoadManager()
+#Dashboard
+cherrypy.config.update({'server.socket_host': '0.0.0.0'})
+cherrypy.config.update({'server.socket_port': 8181})
+cherrypy.quickstart(Dashboard())
+#sleep
+while True:
+    time.sleep(1)
+
+'''
 def main(argv):
     try:
         opts, args = getopt.getopt(argv,"h")
@@ -49,3 +63,4 @@ def main(argv):
         
 if __name__ == '__main__':
     main(sys.argv[1:])
+'''
