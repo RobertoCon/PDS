@@ -8,8 +8,7 @@ from Dashboard.DeviceTable import DeviceTable
 from Dashboard.AppTable import AppTable
 from Dashboard.BalancerTable import BalancerTable
 import cherrypy
-import yaml,json
-from pathlib import Path
+import yaml
 import paho.mqtt.client as mqtt 
 from functools import partial
 from Model import Setting
@@ -51,18 +50,20 @@ class Dashboard(object):
         def on_message_balancer(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
-            for app in yaml_frame['node_templates']:  
-                obj.apps['node_templates'][app]=yaml_frame['node_templates'][app]
+            for balancer in yaml_frame['node_templates']:  
+                obj.balancers['node_templates'][balancer]=yaml_frame['node_templates'][balancer]
                 
         self.client = mqtt.Client()
         self.client.message_callback_add("/+/model/node/status", partial(on_message_node, obj=self)) 
         self.client.message_callback_add("/+/model/device/status", partial(on_message_device, obj=self)) 
         self.client.message_callback_add("/+/model/apps/status", partial(on_message_app, obj=self)) 
+        self.client.message_callback_add("/+/model/balancer/status", partial(on_message_balancer, obj=self)) 
         self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()        
         self.client.subscribe("/+/model/node/status", qos=0)
         self.client.subscribe("/+/model/device/status", qos=0) 
-        self.client.subscribe("/+/model/apps/status", qos=0)       
+        self.client.subscribe("/+/model/apps/status", qos=0)
+        self.client.subscribe("/+/model/balancer/status", qos=0)        
         
         
         
@@ -130,19 +131,10 @@ class Dashboard(object):
     
     @cherrypy.expose   
     def add_node(self,add_node_id):
-        #my_path = Path(Setting.path+"./Settings/").absolute()
-        #my_path=my_path.joinpath("NodeRegistry.yaml")
-        #my_node=yaml.load(open(str(my_path),'r')) 
-        #new_client = mqtt.Client()
-        #new_client.connect(add_node_id)
-        #new_client.loop_start()        
-        #new_client.publish("/"+add_node_id+"/model/node/add", yaml.dump(my_node), 0, False)
-        #new_client.disconnect()
         opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+add_node_id+"." , stdout=subprocess.PIPE, shell=True)
         opt.wait()
         raise cherrypy.HTTPRedirect("/node")
-    
-    
+
     #Device Managment
     @cherrypy.expose
     def device(self):
@@ -165,11 +157,6 @@ class Dashboard(object):
                 self.devices['node_templates'].pop(dev)
                 self.client.publish("/"+devs['node_templates'][dev]['requirements']['host']+"/model/device/remove", yaml.dump(devs), 0, False) 
         raise cherrypy.HTTPRedirect("/device")
-    
-    
-    
-    
-    
     
     #App Managment
     @cherrypy.expose
@@ -216,6 +203,7 @@ class Dashboard(object):
     def update_app(self,stop_app_model):
         raise cherrypy.HTTPRedirect("/app")
     
+    #Balancer Manager
     @cherrypy.expose
     def balancer(self):
         return self.structure % (BalancerTable.getHtml(self.balancers))

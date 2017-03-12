@@ -8,7 +8,7 @@ Created on 16 dic 2016
 from ApplicationLayer.PDS import LIGHT
 from Device.ActiveDevice import ActiveDevice
 import time
-from Plugin.GaD import GaD
+from DevicePlugin.GaD import GaD
 
 supernode_ip="192.168.1.5"#"cluster supernode ip"
 

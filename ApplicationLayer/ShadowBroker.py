@@ -32,7 +32,7 @@ def on_message(client, userdata, message , cache):
     serial_frame=str(message.payload.decode("utf-8"))
     json_frame=json.loads(serial_frame)
     json_dev=json.loads(json_frame['device'])
-    id_dev = json_dev['id']
+    id_dev = json_frame['id']
     if id_dev != None:
         for i, item in enumerate(cache):
             if id_dev==item.id_dev:
