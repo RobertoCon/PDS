@@ -31,8 +31,6 @@ def topic_in(a,b):
 def on_message(client, userdata, message , cache):
     serial_frame=str(message.payload.decode("utf-8"))
     json_frame=json.loads(serial_frame)
-    print("Device  :  ",serial_frame)
-    json_dev=json.loads(json_frame['device'])
     id_dev = json_frame['id']
     if id_dev != None:
         for i, item in enumerate(cache):
@@ -42,7 +40,9 @@ def on_message(client, userdata, message , cache):
                 else:
                     cache[i].state="offline"
                 return
-        cache.append(Observable(id_dev,Factory.decode(json.dumps(json_dev)),json_frame['lock_id'],json_frame['state']))
+        if json_frame['state']=="online":
+            json_dev=json.loads(json_frame['device'])
+            cache.append(Observable(id_dev,Factory.decode(json.dumps(json_dev)),json_frame['lock_id'],json_frame['state']))
     
 class ShadowBroker(object):
     class __ShadowBroker(object):

@@ -24,8 +24,8 @@ for i in range(iter_gen):
     start_process = time.process_time()
     
     #Codeblock test
-    #avg=device.reduce(lambda x, y : (x+y)/2)
-    avg=0
+    avg=device.reduce(lambda x, y : (x+y)/2)
+    
     elapsed_process = (time.process_time() - start_process)
     elapsed_time = (time.perf_counter() - start_time)
     print("Device size : ",len(device)," Process Time : ",elapsed_process," Time : ",elapsed_time," AVG : ",avg)
