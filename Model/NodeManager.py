@@ -33,26 +33,15 @@ class NodeManager(object):
         print("Node loaded")  
            
         def on_message_add(client, userdata, message, obj):
-            print("Request to join cluster")
             serial_frame=str(message.payload.decode("utf-8"))
-            yaml_frame=yaml.load(serial_frame)
-            for node in yaml_frame['node_templates']:  
-                #if node not in obj.nodes['node_templates']: 
-                    #link 2 cluster
-                    print("Request to join cluster 2")
-                    #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
-                    opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame['node_templates'][node]['id']+"." , stdout=subprocess.PIPE, shell=True)
-                    opt.wait()
-                    print("Request to join cluster 3")
-                    time.sleep(10)
-                    obj.publish()
-                    print("Request to join cluster 4")
+            yaml_frame=str(serial_frame)
+            opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame+"." , stdout=subprocess.PIPE, shell=True)
+            opt.wait()
+            obj.publish()
         
         def on_message_remove(client, userdata, message, obj):
             print("Request to leave cluster")
-            #serial_frame=str(message.payload.decode("utf-8"))
-            #yaml_frame=yaml.load(serial_frame)
-            #obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",None,qos=0,retain=True)
+            obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",yaml.dump("{'node_templates':{}}"),qos=0,retain=True)
             opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster leave", stdout=subprocess.PIPE, shell=True)
             opt.wait()
             obj.publish()
@@ -62,7 +51,7 @@ class NodeManager(object):
             obj.publish()      
                      
         self.client = mqtt.Client()
-        #self.client.will_set("/"+Setting.getNodeId()+"/model/node/status",None, 0, True)
+        self.client.will_set("/"+Setting.getNodeId()+"/model/node/status",yaml.dump("{'node_templates':{}}"), 0, True)
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/add", partial(on_message_add, obj=self)) 
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/remove", partial(on_message_remove, obj=self))
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/read", partial(on_message_read, obj=self))

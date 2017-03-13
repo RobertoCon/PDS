@@ -2,7 +2,7 @@
 Created on 10 dic 2016
 
 @author: Conny
-'''
+
 import time
 from concurrent.futures import ThreadPoolExecutor
 
@@ -17,3 +17,6 @@ with ThreadPoolExecutor(max_workers=2) as executor:
         print(future.done())
         print(future3.done())
         time.sleep(1)
+'''
+message='/asd/qwe/ert'
+print(message.split('/')[1])

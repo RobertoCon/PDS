@@ -85,6 +85,7 @@ class ApplicationManager(object):
             obj.publish()
             
         self.client = mqtt.Client()
+        self.client.will_set("/"+Setting.getNodeId()+"/model/apps/status",yaml.dump("{'node_templates':{}}"), 0, True)
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/apps/add", partial(on_message_add, obj=self)) 
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/apps/remove", partial(on_message_remove, obj=self))
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/apps/read", partial(on_message_read, obj=self))
