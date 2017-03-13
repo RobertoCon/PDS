@@ -19,9 +19,9 @@ DeviceManager()
 ApplicationManager()
 LoadManager()
 #Dashboard
-cherrypy.config.update({'server.socket_host': '0.0.0.0'})
-cherrypy.config.update({'server.socket_port': 8181})
-cherrypy.quickstart(Dashboard())
+#cherrypy.config.update({'server.socket_host': '0.0.0.0'})
+#cherrypy.config.update({'server.socket_port': 8181})
+#cherrypy.quickstart(Dashboard())
 #sleep
 while True:
     time.sleep(1)

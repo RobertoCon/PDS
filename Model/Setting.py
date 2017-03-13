@@ -19,6 +19,7 @@ def getNodeId():
 
 
 def getBrokerIp():
+    #return '192.168.1.5'
     return getIp()
     '''
     path = Path("./Settings/").absolute()
