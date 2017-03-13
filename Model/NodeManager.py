@@ -32,12 +32,12 @@ class NodeManager(object):
         self.permanent()
         print("Node loaded")  
            
-        def on_message_add(client, userdata, message, obj):
-            serial_frame=str(message.payload.decode("utf-8"))
-            yaml_frame=str(serial_frame)
-            opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame+"." , stdout=subprocess.PIPE, shell=True)
-            opt.wait()
-            obj.publish()
+        #def on_message_add(client, userdata, message, obj):
+        #    serial_frame=str(message.payload.decode("utf-8"))
+        #    yaml_frame=str(serial_frame)
+        #    opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame+"." , stdout=subprocess.PIPE, shell=True)
+        #    opt.wait()
+        #    obj.publish()
         
         def on_message_remove(client, userdata, message, obj):
             print("Request to leave cluster")
@@ -52,12 +52,12 @@ class NodeManager(object):
                      
         self.client = mqtt.Client()
         self.client.will_set("/"+Setting.getNodeId()+"/model/node/status",yaml.dump("{'node_templates':{}}"), 0, True)
-        self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/add", partial(on_message_add, obj=self)) 
+        #self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/add", partial(on_message_add, obj=self)) 
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/remove", partial(on_message_remove, obj=self))
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/node/read", partial(on_message_read, obj=self))
         self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()        
-        self.client.subscribe("/"+Setting.getNodeId()+"/model/node/add", qos=0)
+        #self.client.subscribe("/"+Setting.getNodeId()+"/model/node/add", qos=0)
         self.client.subscribe("/"+Setting.getNodeId()+"/model/node/remove", qos=0)
         self.client.subscribe("/"+Setting.getNodeId()+"/model/node/read", qos=0)        
         self.publish()

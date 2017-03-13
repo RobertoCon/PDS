@@ -35,7 +35,7 @@ class Dashboard(object):
                     source=message.topic.split('/')[1]
                     if(source in obj.nodes['node_templates']):
                         obj.nodes['node_templates'].pop(source)
-                for node in yaml_frame['node_templates']:  
+                for node in yaml_frame['node_templates']:
                     obj.nodes['node_templates'][node]=yaml_frame['node_templates'][node]
 
         def on_message_device(client, userdata, message, obj):
@@ -133,9 +133,12 @@ class Dashboard(object):
     
     @cherrypy.expose   
     def add_node(self,add_node_id):
-        self.client.publish("/"+add_node_id+"/model/node/add", str(add_node_id), 0,False)
+        opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+add_node_id+"." , stdout=subprocess.PIPE, shell=True)
+        opt.wait()
+        self.client.publish("/"+add_node_id+"/model/node/read", str(add_node_id), 0,False)
         time.sleep(1)
         raise cherrypy.HTTPRedirect("/node")
+        
 
     #Device Managment
     @cherrypy.expose
