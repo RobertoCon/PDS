@@ -57,7 +57,7 @@ class DeviceManager(object):
             
                      
         self.client = mqtt.Client()
-        self.client.will_set("/"+Setting.getNodeId()+"/model/device/status",yaml.dump("{'node_templates':{}}"), 0, True)
+        self.client.will_set("/"+Setting.getNodeId()+"/model/device/status",yaml.dump('{node_templates:{}}'), 0, True)
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/device/add", partial(on_message_add, obj=self)) 
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/device/remove", partial(on_message_remove, obj=self))
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/device/read", partial(on_message_read, obj=self))
