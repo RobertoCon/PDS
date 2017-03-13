@@ -27,13 +27,14 @@ class Dashboard(object):
         self.lock_apps=threading.RLock()
         self.lock_balancers=threading.RLock()
         
-        def on_message_node(client, userdata, message, obj):
-            
+        def on_message_node(client, userdata, message, obj): 
             with self.lock_nodes:
                 serial_frame=str(message.payload.decode("utf-8"))
                 yaml_frame=yaml.load(serial_frame)
                 if(yaml_frame['node_templates']):
-                    obj.nodes['node_templates'].pop(message.topic.split('/')[1])
+                    source=message.topic.split('/')[1]
+                    if(source in obj.nodes['node_templates']):
+                        obj.nodes['node_templates'].pop(source)
                 for node in yaml_frame['node_templates']:  
                     obj.nodes['node_templates'][node]=yaml_frame['node_templates'][node]
 
