@@ -19,7 +19,7 @@ def getNodeId():
 
 
 def getBrokerIp():
-    return '192.168.1.3'
+    return getIp()
     '''
     path = Path("./Settings/").absolute()
     path=path.joinpath("NodeRegistry.yaml")
@@ -27,6 +27,7 @@ def getBrokerIp():
     for node in nodes['node_templates']:  
         return nodes['node_templates'][node]['attributes']['broker_address']
     '''
+    
 def getHostName():
     return subprocess.getoutput("hostname")
 
