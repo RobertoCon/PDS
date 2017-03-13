@@ -17,7 +17,7 @@ class RemoteDevice(object):
     
     def __setattr__(self, name, value):
         if self.ready:
-            result = self.shadow.write(self.device.id,name)
+            result = self.shadow.write(self.device.id,name,value,None)
             return result.result()
         else:
             return object.__setattr__(self, name, value)

@@ -29,6 +29,7 @@ def topic_in(a,b):
 
 
 def on_message(client, userdata, message , cache):
+    #print("Received '" +"'   message  '"+ str(message.payload) + "' on topic '"+ message.topic + "' with QoS " + str(message.qos))
     serial_frame=str(message.payload.decode("utf-8"))
     json_frame=json.loads(serial_frame)
     id_dev = json_frame['id']
@@ -58,7 +59,7 @@ class ShadowBroker(object):
             self.client.on_message = partial(on_message, cache=self.cache)
             self.client.loop_start()
             #self.client.publish("/client/"+self.client._client_id+"/status","online", 0, True)
-            self.executor=ThreadPoolExecutor(max_workers=1)
+            self.executor=ThreadPoolExecutor(max_workers=2)
         
         def publish(self,topic,message):
             self.client.publish(topic,message,qos=0)
@@ -109,8 +110,9 @@ class ShadowBroker(object):
         def get_subset_remote(self,topic):
             cp=[]
             for i in filter(partial(isTopicValid,topic=topic),self.cache):
-                x=RemoteDevice(i.dev,self)
-                cp.append(x)
+                if i.state=='online':
+                    x=RemoteDevice(i.dev,self)
+                    cp.append(x)
             return cp
         
         def get_lock_id(self,id_dev):
@@ -127,7 +129,7 @@ class ShadowBroker(object):
                 if lock_id==self.client._client_id:
                     return copy.copy(self.get_device(dev_id))
                 else:
-                    time.sleep(0.5)
+                    time.sleep(0.01)
                     
         def unlock(self,dev_id):
             self.publish("/device/"+dev_id+"/unlock",self.frame_request())
@@ -138,7 +140,7 @@ class ShadowBroker(object):
                 if lock_id!=self.client._client_id:
                     return copy.copy(self.get_device(dev_id))
                 else:
-                    time.sleep(0.5)                     
+                    time.sleep(0.01)                     
                 
         def write(self,dev_id,name,value,callback):
             def func_write(shadow,dev_id,name,value):
@@ -148,7 +150,7 @@ class ShadowBroker(object):
                         if getattr(x, name)==value:
                             return copy.copy(self.get_device(dev_id))
                         else:
-                            time.sleep(0.5)
+                            time.sleep(0.01)
                     
             
             future = self.executor.submit(partial(func_write,self,dev_id,name,value))

@@ -25,7 +25,7 @@ list_host=['raspy0-A']
 for i in range(iter_gen):
     gen.make(size_gen, list_location, list_host)
     print("Iter :",i,"Device size : ",len(TEMP()))
-    time.sleep(time_wait)
+    time.sleep(time_wait*2)
     
 while(1):
     start_time= time.perf_counter()
