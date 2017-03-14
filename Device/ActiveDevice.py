@@ -62,7 +62,6 @@ class ActiveDevice(object):
         
         self.client.connect(broker_ip)
         self.client.loop_start()
-        self.start()
         for i in handlers:
             self.client.subscribe(i[0], qos=0)
         self.client.subscribe("/device/"+self.dev.id+"/lock", qos=0)
