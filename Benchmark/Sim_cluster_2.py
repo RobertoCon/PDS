@@ -12,7 +12,7 @@ from ApplicationLayer.PDS import TEMP
 gen=DeviceGenerator()
 size_gen=1
 iter_gen=10
-time_wait=30
+time_wait=20
 list_location=['bathroom','bedroom','living','kitchen','closet','box']
 
 for i in range(iter_gen):
@@ -35,6 +35,6 @@ for i in range(iter_gen):
     elapsed_process = (time.process_time() - start_process)
     elapsed_time = (time.perf_counter() - start_time)
     print("Device size : ",len(TEMP())," Process Time : ",elapsed_process," Time : ",elapsed_time," AVG : ",avg)
-    time.sleep(30)
+    time.sleep(5)
     
 #Result 1:
