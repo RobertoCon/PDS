@@ -33,7 +33,7 @@ class Hue(Device):
         return self    
         
     @staticmethod          
-    def make_active(device,broker_ip="",threadpool):
+    def make_active(device,broker_ip=""):
         #Define Handlers here
         def light(message , active):
             #print("WriteRequest : ",message.payload.decode("utf-8"))
@@ -46,5 +46,5 @@ class Hue(Device):
             while True:
                 active.publish()
                 time.sleep(10)            
-        return ActiveDevice(device,job_to_do,handlers,threadpool)
+        return ActiveDevice(device,job_to_do,handlers)
     

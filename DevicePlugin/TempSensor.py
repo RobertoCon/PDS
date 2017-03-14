@@ -37,7 +37,7 @@ class TempSensor(Device):
         return self 
      
     @staticmethod          
-    def make_active(device,broker_ip="",threadpool):
+    def make_active(device,broker_ip=""):
         #Define Handlers here
         handlers=[] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]
         #Define Job to perform periodically
@@ -47,5 +47,5 @@ class TempSensor(Device):
                 active.publish()
                 time.sleep(1)
                 
-        return ActiveDevice(device,job_to_do,handlers,threadpool)
+        return ActiveDevice(device,job_to_do,handlers)
     

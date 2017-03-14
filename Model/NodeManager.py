@@ -38,6 +38,7 @@ class NodeManager(object):
         #    opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame+"." , stdout=subprocess.PIPE, shell=True)
         #    opt.wait()
         #    obj.publish()
+        
         def on_message_remove(client, userdata, message, obj):
             print("Request to leave cluster")
             obj.client.publish("/"+Setting.getNodeId()+"/model/node/status",yaml.dump('{node_templates:{}}'),qos=0,retain=True)
