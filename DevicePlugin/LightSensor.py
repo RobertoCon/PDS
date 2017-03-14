@@ -32,7 +32,7 @@ class LightSensor(Device):
         return self
         
     @staticmethod          
-    def make_active(device,broker_ip="",threadpool):
+    def make_active(device,threadpool):
         #Define Handlers here
         handlers=[] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]
         #Define Job to perform periodically
