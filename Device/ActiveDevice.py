@@ -9,12 +9,11 @@ import paho.mqtt.client as mqtt
 import threading
 import json
 
-class ActiveDevice(object):
-            
-    def __init__(self,dev,runnable=None,handlers=[],threadpool=None,broker_ip=Setting.getBrokerIp()):
+class ActiveDevice(threading.Thread):
+      
+    def __init__(self,dev,runnable=None,handlers=[],broker_ip=Setting.getBrokerIp()):
         
         super(ActiveDevice, self).__init__()
-        self.executor=threadpool
         self.isAlive=True
         self.dev=dev
         self.locker=threading.RLock()
@@ -24,7 +23,6 @@ class ActiveDevice(object):
         self.client.will_set(self.dev.topic(),'{"id":"'+self.dev.id +'", "state":"offline","lock_id":"", "device": ""}', 0, True)
         self.runnable=runnable
         
-        self.executor.submit(partial(self.runnable,self))
         def lock(message , act):
             with self.locker:
                 self.lock_stack.append(message['client_id'])
@@ -69,6 +67,8 @@ class ActiveDevice(object):
         self.client.subscribe("/device/"+self.dev.id+"/unlock", qos=0)
         self.client.subscribe("/device/"+self.dev.id+"/update", qos=0)
         
+        self.start()
+        
     def publish(self):
         with self.locker:
             struct = {}
@@ -77,7 +77,10 @@ class ActiveDevice(object):
             struct['device'] = self.dev.to_text()
             struct['lock_id'] = self.lock_id
             self.client.publish(self.dev.topic(),json.dumps(struct),0,retain=True)
-            
+    
+    def run(self):
+        self.runnable(self)
+
     def terminate(self):
         with self.locker:
             self.isAlive=False

@@ -34,7 +34,7 @@ class Device(object):
         return self
               
     @staticmethod          
-    def make_active(device,threadpool):
+    def make_active(device):
         #Define Handlers here
         
         handlers=[] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]
@@ -44,7 +44,7 @@ class Device(object):
                 active.publish()
                 time.sleep(10)
                 
-        return ActiveDevice(device,job_to_do,handlers,threadpool)
+        return ActiveDevice(device,job_to_do,handlers)
     
     @staticmethod          
     def html(device):
