@@ -32,7 +32,7 @@ class LightSensor(Device):
         return self
         
     @staticmethod          
-    def make_active(device,broker_ip=""):
+    def make_active(device,broker_ip="",threadpool):
         #Define Handlers here
         handlers=[] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]
         #Define Job to perform periodically
@@ -41,4 +41,4 @@ class LightSensor(Device):
                 active.dev.light=random.randint(1,100)
                 active.publish()
                 time.sleep(10)        
-        return ActiveDevice(device,job_to_do,handlers)
+        return ActiveDevice(device,job_to_do,handlers,threadpool)

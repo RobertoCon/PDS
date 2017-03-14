@@ -11,9 +11,10 @@ import json
 
 class ActiveDevice(threading.Thread):
             
-    def __init__(self,dev,runnable=None,handlers=[],broker_ip=Setting.getBrokerIp()):
+    def __init__(self,dev,runnable=None,handlers=[],threadpool=None,broker_ip=Setting.getBrokerIp()):
         
         super(ActiveDevice, self).__init__()
+        self.executor=threadpool
         self.isAlive=True
         self.dev=dev
         self.locker=threading.RLock()
@@ -69,6 +70,10 @@ class ActiveDevice(threading.Thread):
         self.client.subscribe("/device/"+self.dev.id+"/update", qos=0)
     
     def run(self):
+        #self.runnable(self)
+        self.executor.submit(partial(self.runnable,self))
+        #partial(func_write,self,dev_id,name,value)
+
         self.runnable(self)
         
     def publish(self):
