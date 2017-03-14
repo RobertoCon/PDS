@@ -133,6 +133,7 @@ class Dashboard(object):
     def add_node(self,add_node_id):
         opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+add_node_id+"." , stdout=subprocess.PIPE, shell=True)
         opt.wait()
+        self.client.publish("/"+add_node_id+"/model/node/read", str(add_node_id), 0,False)
         raise cherrypy.HTTPRedirect("/node")
 
     #Device Managment

@@ -7,7 +7,7 @@ from Model.ApplicationManager import ApplicationManager
 from Model.DeviceManager import DeviceManager
 from Model.NodeManager import NodeManager
 from Model.LoadManager import LoadManager
-from Dashboard.HttpServer2 import Dashboard
+from Dashboard.HttpServer import Dashboard
 import cherrypy
 import time
 #import sys, getopt
@@ -19,9 +19,9 @@ DeviceManager()
 ApplicationManager()
 LoadManager()
 #Dashboard
-cherrypy.config.update({'server.socket_host': '0.0.0.0'})
-cherrypy.config.update({'server.socket_port': 8181})
-cherrypy.quickstart(Dashboard())
+#cherrypy.config.update({'server.socket_host': '0.0.0.0'})
+#cherrypy.config.update({'server.socket_port': 8181})
+#cherrypy.quickstart(Dashboard())
 #sleep
 while True:
     time.sleep(1)
