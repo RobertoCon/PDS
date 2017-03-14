@@ -2,6 +2,9 @@
 Created on 15 gen 2017
 
 @author: Conny
+from concurrent.futures import ThreadPoolExecutor
+#ThreadPoolExecutor(max_workers=1)
+
 '''
 
 from pathlib import Path
@@ -10,13 +13,14 @@ from Model import Setting
 import paho.mqtt.client as mqtt
 import yaml,json
 from Device.Factory import Factory
+from concurrent.futures import ThreadPoolExecutor
 
 class DeviceManager(object):
 
     def __init__(self):
         self.devices={}
         self.links={}
-        
+        self.pool=ThreadPoolExecutor(max_workers=16)
         self.path = Path(Setting.path+"./Settings/").absolute()
         self.path=self.path.joinpath("DeviceRegistry.yaml")
         if self.path.is_file() == False :
@@ -25,7 +29,7 @@ class DeviceManager(object):
             self.devices=yaml.load(open(str(self.path),'r'))
             for dev in self.devices['node_templates']:
                 device=Factory.decode(json.dumps(self.devices['node_templates'][dev]))
-                self.links[dev]=type(device).make_active(device)
+                self.links[dev]=type(device).make_active(device, self.pool)
         print("Device loaded")
                  
         def on_message_add(client, userdata, message, obj):
@@ -34,7 +38,7 @@ class DeviceManager(object):
             for dev in yaml_frame['node_templates']:
                 device=Factory.decode(json.dumps(yaml_frame['node_templates'][dev]))
                 if device!=None and device.id not in obj.devices['node_templates']: 
-                    obj.links[dev]=type(device).make_active(device) 
+                    obj.links[dev]=type(device).make_active(device, self.pool) 
                     obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
                 
             obj.permanent()  
@@ -46,8 +50,11 @@ class DeviceManager(object):
             for dev in yaml_frame['node_templates']:
                 if dev in obj.devices['node_templates']:
                     obj.devices['node_templates'].pop(dev) 
+                    
+                    
                     obj.links[dev].terminate() 
                     #obj.links[dev].kill() 
+                   
                     obj.links.pop(dev)
             obj.permanent()  
             obj.publish() 
