@@ -9,7 +9,7 @@ import paho.mqtt.client as mqtt
 import threading
 import json
 
-class ActiveDevice(threading.Thread):
+class ActiveDevice(object):
             
     def __init__(self,dev,runnable=None,handlers=[],threadpool=None,broker_ip=Setting.getBrokerIp()):
         
@@ -72,9 +72,6 @@ class ActiveDevice(threading.Thread):
     def run(self):
         #self.runnable(self)
         self.executor.submit(partial(self.runnable,self))
-        #partial(func_write,self,dev_id,name,value)
-
-        self.runnable(self)
         
     def publish(self):
         with self.locker:
