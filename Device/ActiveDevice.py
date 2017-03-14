@@ -22,6 +22,9 @@ class ActiveDevice(object):
         self.lock_stack=[]
         self.client = mqtt.Client()
         self.client.will_set(self.dev.topic(),'{"id":"'+self.dev.id +'", "state":"offline","lock_id":"", "device": ""}', 0, True)
+        self.runnable=runnable
+        
+        self.executor.submit(partial(self.runnable,self))
         def lock(message , act):
             with self.locker:
                 self.lock_stack.append(message['client_id'])
@@ -44,9 +47,7 @@ class ActiveDevice(object):
         def update(message , act):
             with self.locker:
                 act.publish()
-                
-        self.runnable=runnable
-            
+
         def write_wrapp(client, userdata, message , act , func):
             json_frame=json.loads(str(message.payload.decode("utf-8")))
             if json_frame['client_id']==act.lock_id or act.lock_id=="":
@@ -67,10 +68,6 @@ class ActiveDevice(object):
         self.client.subscribe("/device/"+self.dev.id+"/lock", qos=0)
         self.client.subscribe("/device/"+self.dev.id+"/unlock", qos=0)
         self.client.subscribe("/device/"+self.dev.id+"/update", qos=0)
-    
-    def run(self):
-        #self.runnable(self)
-        self.executor.submit(partial(self.runnable,self))
         
     def publish(self):
         with self.locker:
