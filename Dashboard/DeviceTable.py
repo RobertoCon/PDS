@@ -34,24 +34,24 @@ class DeviceTable(object):
                 </form> 
             """
         i=0 
-        
-        for dev in devices['node_templates'] :
-            i=i+1
-            a={'node_templates':{}}
-            a['node_templates'][dev]=devices['node_templates'][dev]
-            code=code+"""<tr>
-                            <td>%s</td>
-                            <td>%s</td>
-                            <td>%s</td>
-                            <td>%s</td>
-                            <td>%s</td>
-                            <td>%s</td>
-                          
-                        </tr>
-            """ % (str(i),devices['node_templates'][dev]['id_dev'],devices['node_templates'][dev]['type_dev'],devices['node_templates'][dev]['location_dev'],devices['node_templates'][dev]['requirements']['host'],\
-                   '<form action="remove_device" method="post" >\
-                   <button type="submit" name="remove_device_model" value="'+yaml.dump(a)+\
-                   '"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\
-                   </form>')
+        for source in devices['node_templates'] :
+            for dev in devices['node_templates'][source] :
+                i=i+1
+                a={'node_templates':{}}
+                a['node_templates'][dev]=devices['node_templates'][source][dev]
+                code=code+"""<tr>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                              
+                            </tr>
+                """ % (str(i),devices['node_templates'][source][dev]['id_dev'],devices['node_templates'][source][dev]['type_dev'],devices['node_templates'][source][dev]['location_dev'],devices['node_templates'][source][dev]['requirements']['host'],\
+                       '<form action="remove_device" method="post" >\
+                       <button type="submit" name="remove_device_model" value="'+yaml.dump(a)+\
+                       '"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\
+                       </form>')
         
         return html % code

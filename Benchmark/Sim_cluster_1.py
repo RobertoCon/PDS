@@ -11,7 +11,7 @@ from ApplicationLayer.PDS import TEMP
 #Init Test
 gen=DeviceGenerator()
 size_gen=1
-iter_gen=50
+iter_gen=30
 time_wait=20
 list_location=['bathroom','bedroom','living','kitchen','closet','box']
 

@@ -36,28 +36,29 @@ class BalancerTable(object):
                 </form> 
             """
         i=0 
-        for balancer in balancers['node_templates'] :
-            i=i+1
-            a={'node_templates':{}}
-            a['node_templates'][balancer]=balancers['node_templates'][balancer]
-            code=code+"""<tr>
-                            <td>%s</td>
-                            <td>%s</td>
-                            <td>%s</td>
-                            <td>%s</td>
-                            <td>%s</td>
-                            <td>%s</td>
-                            <td>%s</td>
-                        </tr>
-            """ % (str(i),balancers['node_templates'][balancer]['name'],\
-                   balancers['node_templates'][balancer]['host'],\
-                   balancers['node_templates'][balancer]['properties']['algorithm'],\
-                   balancers['node_templates'][balancer]['properties']['ports']['in_port']['protocol'],\
-                   balancers['node_templates'][balancer]['capabilities']['clients']['ip_address'],\
-                   str(balancers['node_templates'][balancer]['properties']['ports']['in_port']['target']),\
-                   '<table><tr><td><form action="remove_balancer" method="post">\
-                   <button type="submit" name="remove_balancer_model" value="'+yaml.dump(a)+\
-                   '"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\
-                   </form></td></tr></table>')
+        for source in balancers['node_templates'] :
+            for balancer in balancers['node_templates'][source] :
+                i=i+1
+                a={'node_templates':{}}
+                a['node_templates'][balancer]=balancers['node_templates'][source][balancer]
+                code=code+"""<tr>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                                <td>%s</td>
+                            </tr>
+                """ % (str(i),balancers['node_templates'][source][balancer]['name'],\
+                       balancers['node_templates'][source][balancer]['host'],\
+                       balancers['node_templates'][source][balancer]['properties']['algorithm'],\
+                       balancers['node_templates'][source][balancer]['properties']['ports']['in_port']['protocol'],\
+                       balancers['node_templates'][source][balancer]['capabilities']['clients']['ip_address'],\
+                       str(balancers['node_templates'][source][balancer]['properties']['ports']['in_port']['target']),\
+                       '<table><tr><td><form action="remove_balancer" method="post">\
+                       <button type="submit" name="remove_balancer_model" value="'+yaml.dump(a)+\
+                       '"  class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>\
+                       </form></td></tr></table>')
         
         return html % code

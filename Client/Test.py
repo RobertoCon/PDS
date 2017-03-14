@@ -18,5 +18,7 @@ with ThreadPoolExecutor(max_workers=2) as executor:
         print(future3.done())
         time.sleep(1)
 '''
-message='/asd/qwe/ert'
-print(message.split('/')[1])
+import yaml
+di=yaml.load('''node_templates: {}\n''')
+
+print(di)

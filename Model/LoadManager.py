@@ -49,7 +49,7 @@ class LoadManager(object):
             
                      
         self.client = mqtt.Client()
-        self.client.will_set("/"+Setting.getNodeId()+"/model/balancer/status",yaml.dump('{node_templates:{}}'), 0, True)
+        self.client.will_set("/"+Setting.getNodeId()+"/model/balancer/status",'''node_templates: {}\n''', 0, True)
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/balancer/add", partial(on_message_add, obj=self)) 
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/balancer/remove", partial(on_message_remove, obj=self))
         self.client.message_callback_add("/"+Setting.getNodeId()+"/model/balancer/read", partial(on_message_read, obj=self))

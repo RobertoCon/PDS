@@ -12,7 +12,7 @@ from ApplicationLayer.PDS import TEMP
 gen=DeviceGenerator()
 size_gen=1
 iter_gen=100
-time_wait=3
+time_wait=1
 list_location=['bath','bed','living']
 list_host=['raspy3-A']
 '''

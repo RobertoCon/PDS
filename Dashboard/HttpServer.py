@@ -65,18 +65,20 @@ class Dashboard(object):
         self.client.subscribe("/+/model/apps/status", qos=0)
         self.client.subscribe("/+/model/balancer/status", qos=0)        
         
-        
-        
-        self.structure="""<html>
-        <head>
-        <title>Example</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">     
+        '''
         <script>
         function timedRefresh(timeoutPeriod) {
             setTimeout("location.reload(true);",timeoutPeriod);
         }
         window.onload = timedRefresh(5000);
         </script>
+        '''
+        
+        
+        self.structure="""<html>
+        <head>
+        <title>Example</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">     
         </head>
         <body>
             <nav class="navbar navbar-inverse navbar-fixed-top">
