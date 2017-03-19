@@ -9,11 +9,12 @@ import time
 
 class Device(object):
   
-    def __init__(self ,id_dev="",location_dev="unknown",type_dev="device"):
+    def __init__(self ,id_dev="",location_dev="unknown",type_dev="device",time_resolution=1):
 
         self.id=id_dev
         self.location=location_dev
         self.type=type_dev
+        self.time_resolution=time_resolution
        
     #Redefine how to serialize the struct
     def to_text(self):
@@ -29,14 +30,8 @@ class Device(object):
         array.append(self.id)
         array.append(self.location)
         array.append(self.type)
+        array.append(self.time_resolution)
         return json.dumps(array)
-
-    '''
-        array=[]
-        array[0]=self.id
-        array[1]=self.location
-        array[2]=self.type
-    '''
     
     def topic(self):
         return "/device/"+self.id+"/"+self.type+"/"+self.location
@@ -47,10 +42,12 @@ class Device(object):
             self.id=obj[0]
             self.location=obj[1]
             self.type =obj[2]
+            self.time_resolution=obj[3]
         else:
             self.id = obj['id_dev']
             self.location =obj['location_dev'] 
             self.type=obj['type_dev']
+            self.time_resolution=obj['time_resolution']
         return self
     
         '''
@@ -70,7 +67,7 @@ class Device(object):
         def job_to_do(active):
             while active.isAlive:
                 active.publish()
-                time.sleep(10)
+                time.sleep(active.dev.time_resolution)
                 
         return ActiveDevice(device,job_to_do,handlers)
     

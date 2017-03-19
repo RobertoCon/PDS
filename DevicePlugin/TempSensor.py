@@ -12,8 +12,8 @@ import random
 
 class TempSensor(Device):
 
-    def __init__(self,id_dev="",location_dev="unknown",temperature=0,unit="celsius"):
-        super(TempSensor, self).__init__(id_dev, location_dev, type_dev="TempSensor")
+    def __init__(self,id_dev="",location_dev="unknown",time_resolution=1,temperature=0,unit="celsius"):
+        super(TempSensor, self).__init__(id_dev, location_dev, type_dev="TempSensor",time_resolution)
         self.temperature=temperature
         self.unit=unit
     
@@ -30,6 +30,7 @@ class TempSensor(Device):
         array.append(self.id)
         array.append(self.location)
         array.append(self.type)
+        array.append(self.time_resolution)
         array.append(self.temperature)
         array.append(self.unit)
         return json.dumps(array)
@@ -50,12 +51,14 @@ class TempSensor(Device):
             self.id=struct[0]
             self.location=struct[1]
             self.type =struct[2]
-            self.temperature =struct[3]
-            self.unit =struct[4]
+            self.time_resolution=struct[3]
+            self.temperature =struct[4]
+            self.unit =struct[5]
         else:
             self.id = struct['id_dev']
             self.location =struct['location_dev'] 
             self.type=struct['type_dev']
+            self.time_resolution=struct['time_resolution']
             self.temperature=struct['temperature']
             self.unit=struct['unit']
         return self
@@ -69,7 +72,7 @@ class TempSensor(Device):
             while True:
                 active.dev.temperature=random.randint(1,30) #Read temp somewhere
                 active.publish()
-                #time.sleep(5)
+                time.sleep(active.dev.time_resolution)
                 
         return ActiveDevice(device,job_to_do,handlers)
     
