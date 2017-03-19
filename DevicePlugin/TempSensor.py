@@ -69,7 +69,7 @@ class TempSensor(Device):
             while True:
                 active.dev.temperature=random.randint(1,30) #Read temp somewhere
                 active.publish()
-                time.sleep(5)
+                #time.sleep(5)
                 
         return ActiveDevice(device,job_to_do,handlers)
     
