@@ -13,7 +13,7 @@ import random
 class TempSensor(Device):
 
     def __init__(self,id_dev="",location_dev="unknown",time_resolution=1,temperature=0,unit="celsius"):
-        super(TempSensor, self).__init__(id_dev, location_dev, type_dev="TempSensor",time_resolution)
+        super(TempSensor, self).__init__(id_dev, location_dev, type_dev="TempSensor",time_resolution=time_resolution)
         self.temperature=temperature
         self.unit=unit
     
