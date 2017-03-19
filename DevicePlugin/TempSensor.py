@@ -13,7 +13,6 @@ import random
 class TempSensor(Device):
 
     def __init__(self,id_dev="",location_dev="unknown",temperature=0,unit="celsius"):
-
         super(TempSensor, self).__init__(id_dev, location_dev, type_dev="TempSensor")
         self.temperature=temperature
         self.unit=unit
@@ -34,7 +33,7 @@ class TempSensor(Device):
         array.append(self.temperature)
         array.append(self.unit)
         return json.dumps(array)
-     
+
     def from_text(self,serial_dict):
         '''
         struct=json.loads(str(serial_dict))
@@ -73,4 +72,8 @@ class TempSensor(Device):
                 time.sleep(5)
                 
         return ActiveDevice(device,job_to_do,handlers)
+    
+    @staticmethod          
+    def html(device):
+        return 'code'
     

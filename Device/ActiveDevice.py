@@ -20,7 +20,7 @@ class ActiveDevice(threading.Thread):
         self.lock_id=""
         self.lock_stack=[]
         self.client = mqtt.Client()
-        self.client.will_set(self.dev.topic(),'{"id":"'+self.dev.id +'", "state":"offline","lock_id":"", "device": ""}', 0, True)
+        self.client.will_set(self.dev.topic(),'["'+self.dev.id +'","offline","",""]', 0, True)
         self.runnable=runnable
         
         def lock(message , act):
@@ -71,12 +71,22 @@ class ActiveDevice(threading.Thread):
         
     def publish(self):
         with self.locker:
-            struct = {}
+            '''struct = {}
             struct['id'] = self.dev.id
             struct['state'] = "online"
             struct['device'] = self.dev.to_text()
             struct['lock_id'] = self.lock_id
+            self.client.publish(self.dev.topic(),json.dumps(struct),0,retain=True)'''
+            
+            struct=[]
+            struct.append(self.dev.id)
+            struct.append("online")
+            struct.append(self.lock_id)
+            struct.append(self.dev.to_text())
+            
             self.client.publish(self.dev.topic(),json.dumps(struct),0,retain=True)
+            
+            
     
     def run(self):
         self.runnable(self)
@@ -84,6 +94,7 @@ class ActiveDevice(threading.Thread):
     def terminate(self):
         with self.locker:
             self.isAlive=False
-            self.client.publish(self.dev.topic(),'{"id":"'+self.dev.id +'", "state":"offline","lock_id":"", "device": ""}', 0, True)
+            #self.client.publish(self.dev.topic(),'{"id":"'+self.dev.id +'", "state":"offline","lock_id":"", "device": ""}', 0, True)
+            self.client.publish(self.dev.topic(),'["'+self.dev.id +'","offline","",""]', 0, True)
             self.client.disconnect()
             self.client.loop_stop()    

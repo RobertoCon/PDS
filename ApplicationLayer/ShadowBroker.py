@@ -29,7 +29,7 @@ def topic_in(a,b):
 
 
 def on_message(client, userdata, message , cache):
-    #print("Received '" +"'   message  '"+ str(message.payload) + "' on topic '"+ message.topic + "' with QoS " + str(message.qos))
+    '''
     serial_frame=str(message.payload.decode("utf-8"))
     json_frame=json.loads(serial_frame)
     id_dev = json_frame['id']
@@ -44,6 +44,25 @@ def on_message(client, userdata, message , cache):
         if json_frame['state']=="online":
             json_dev=json.loads(json_frame['device'])
             cache.append(Observable(id_dev,Factory.decode(json.dumps(json_dev)),json_frame['lock_id'],json_frame['state']))
+   
+   
+   
+        [id,state,lock_id,device]
+    '''     
+    
+    serial_frame=str(message.payload.decode("utf-8"))
+    json_frame=json.loads(serial_frame)
+    id_dev = json_frame[0]
+    if id_dev != None:
+        for i, item in enumerate(cache):
+            if id_dev==item.id_dev:
+                if json_frame[1]=="online":
+                    cache[i].update(json_frame[3],json_frame[2],json_frame[1])
+                else:
+                    cache[i].state="offline"
+                return
+        if json_frame[1]=="online":
+            cache.append(Observable(id_dev,Factory.decode(json.dumps(json.loads(json_frame[3]))),json_frame[2],json_frame[1]))
     
 class ShadowBroker(object):
     class __ShadowBroker(object):
