@@ -21,11 +21,12 @@ with ThreadPoolExecutor(max_workers=2) as executor:
 '''     
 #import yaml
 #di=yaml.load('''node_templates: {}\n''')
+import yaml
 
 #print(di)
 
+'''
 
-import json
 array=[]
 array.append('self.id1')
 array.append(True)
@@ -42,3 +43,18 @@ test={}
 test['pippo']='pippo'
 print(type(back))
 print(type(test))
+'''
+import json
+from Device.Factory import Factory
+serial=yaml.load('''node_templates:
+  dev1:
+    type_dev: TempSensor
+    id_dev: dev1
+    location_dev: bathroom
+    requirements: {host: raspy3-A}
+    type: my.Device.TempSensor
+    temperature: 0
+    unit: celsius''')
+device=Factory.decode(json.dumps(serial['node_templates']['dev1']))
+print(type(device))
+print(device.to_text())

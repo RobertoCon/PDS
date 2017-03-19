@@ -19,15 +19,24 @@ class TempSensor(Device):
         self.unit=unit
     
     def to_text(self):
-        struct = {}
+        '''struct = {}
         struct['id_dev'] = self.id
         struct['location_dev'] = self.location
         struct['type_dev'] = self.type
         struct['temperature'] = self.temperature
         struct['unit'] = self.unit
-        return json.dumps(struct)
+        return json.dumps(struct)'''
+        
+        array=[]
+        array.append(self.id)
+        array.append(self.location)
+        array.append(self.type)
+        array.append(self.temperature)
+        array.append(self.unit)
+        return json.dumps(array)
      
     def from_text(self,serial_dict):
+        '''
         struct=json.loads(str(serial_dict))
         self.id = struct['id_dev']
         self.location =struct['location_dev'] 
@@ -35,6 +44,22 @@ class TempSensor(Device):
         self.temperature=struct['temperature']
         self.unit=struct['unit']
         return self 
+    '''
+    
+        struct=json.loads(str(serial_dict))
+        if type(struct)=='list':
+            self.id=struct[0]
+            self.location=struct[1]
+            self.type =struct[2]
+            self.temperature =struct[3]
+            self.unit =struct[4]
+        else:
+            self.id = struct['id_dev']
+            self.location =struct['location_dev'] 
+            self.type=struct['type_dev']
+            self.temperature=struct['temperature']
+            self.unit=struct['unit']
+        return self
      
     @staticmethod          
     def make_active(device):
