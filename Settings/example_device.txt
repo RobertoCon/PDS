@@ -8,6 +8,14 @@ node_templates:
     temperature: 0
     unit: celsius
     
+node_templates:
+  dev1:
+    type_dev: Device
+    id_dev: dev1
+    location_dev: bathroom
+    requirements: {host: raspy3-A}
+    type: my.Device
+    
 node_templates:   
         load1:
                 name: id_1 
