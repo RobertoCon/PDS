@@ -17,8 +17,28 @@ with ThreadPoolExecutor(max_workers=2) as executor:
         print(future.done())
         print(future3.done())
         time.sleep(1)
-'''
-import yaml
-di=yaml.load('''node_templates: {}\n''')
+        
+'''     
+#import yaml
+#di=yaml.load('''node_templates: {}\n''')
 
-print(di)
+#print(di)
+
+
+import json
+array=[]
+array.append('self.id1')
+array.append(True)
+array.append(15)
+
+print(json.dumps(array))
+
+back=json.loads(json.dumps(array))
+print(back[0])
+print(back[1])
+print(back[2]+5)
+
+test={}
+test['pippo']='pippo'
+print(type(back))
+print(type(test))
