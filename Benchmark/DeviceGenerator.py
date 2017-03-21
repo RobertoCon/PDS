@@ -20,7 +20,7 @@ class DeviceGenerator(object):
                                             type_dev: TempSensor
                                             id_dev: dev
                                             location_dev: bathroom
-                                            time_resolution: 1
+                                            time_resolution: 0.5
                                             requirements: {host: raspy3-A}
                                             type: my.Device.TempSensor
                                             temperature: 0
@@ -29,7 +29,7 @@ class DeviceGenerator(object):
         self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()       
       
-    def make(self,number,location=['not_available'],host=[''],resolution='1'):
+    def make(self,number,location=['not_available'],host=[''],resolution=0.5):
         for i in range(number):
             model={'node_templates':{}}
             id_dev=self.id_generator()
