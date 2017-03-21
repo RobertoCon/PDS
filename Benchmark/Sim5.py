@@ -62,16 +62,22 @@ for i in range(len(time_resolution)):
     time.sleep(time_wait)
     client.subscribe("/device/"+id_dev+"/+/+", qos=0)
     n=0
-    
+    speed=0
+    msg=0
+    avg=0
     while n<10:
         c.zero()
         time.sleep(1)
-        print("Speed : ",c.get_byte()*8/(1024*1024)," MBit/s   ---   Msg : ",c.get_msg()," msg/s   ----  Cpu :",reduce(lambda x,y:x+y/2,psutil.cpu_percent(interval=1, percpu=True),0))
+        avg=avg+reduce(lambda x,y:x+y/2,psutil.cpu_percent(interval=1, percpu=True),0)
+        msg=msg+c.get_msg()
+        speed=speed+c.get_byte()*8/(1024*1024)
         n=n+1
+    
     
     gen.destroy(id_dev, model_dev)
     client.unsubscribe("/device/"+id_dev+"/+/+")
     c.zero()
+    print("Speed : ",speed/10," MBit/s   ---   Msg : ",msg/10," msg/s   ----  Cpu :",avg/10)
     time.sleep(time_wait)
     
     

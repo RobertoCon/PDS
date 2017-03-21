@@ -98,4 +98,3 @@ class ActiveDevice(threading.Thread):
             self.client.publish(self.dev.topic(),'["'+self.dev.id +'","offline","",""]', 0, True)
             self.client.disconnect()
             self.client.loop_stop(True) 
-            self.stop()
