@@ -1,0 +1,81 @@
+'''
+Created on 21 mar 2017
+
+@author: Conny
+'''
+
+import time
+from Benchmark.DeviceGenerator import DeviceGenerator
+import paho.mqtt.client as mqtt
+from functools import partial
+import threading
+import psutil,os
+
+def on_message(client, userdata, message,counter):
+        #print("Received '" +"'   message  '"+ str(message.payload) + "' on topic '"+ message.topic + "' with QoS " + str(message.qos))
+        counter.add(len(str(message.payload)))
+        
+    
+class Counter(object):
+    def __init__(self):
+        self.counter=0
+        self.msg=0
+        self.locker=threading.RLock()
+
+    def add(self,int_num):
+        with self.locker:
+            self.counter=self.counter+int_num
+            self.msg=self.msg+1
+            return self.counter
+    
+    def get_byte(self):
+        with self.locker:
+            return self.counter
+    
+    def get_msg(self):
+        with self.locker:
+            return self.msg
+    
+    def zero(self):
+        with self.locker:
+            self.counter=0
+            self.msg=0
+            
+            
+#Init Test
+gen=DeviceGenerator()
+c=Counter()
+client = mqtt.Client()
+client.connect('raspy3-A')
+client.loop_start()
+client.on_message = partial(on_message,counter=c)
+
+size_gen=1
+time_wait=5
+list_location=['bathroom','bedroom','living','kitchen','closet','box']
+time_resolution=['0','0.01','0.02','0.03','0.04','0.05','0.06','0.07','0.08','0.09','0.1','0.2','0.3','0.4','0.5','0.6','0.7','0.8','0.9','1','2','3','4','5','6','7','8','9','10']
+for i in len(time_resolution):
+    print("------         Test :",i," with resolution :",time_resolution[i])
+    model_dev, id_dev=gen.make(size_gen, list_location, ['raspy3-A'],time_resolution[i])
+    time.sleep(time_wait)
+    client.subscribe("/device/"+id_dev+"/+/+", qos=0)
+    n=0
+    
+    while n<10:
+        print("Speed : ",c.get_byte()*8/(1024*1024)," MBit/s   ---   Msg : ",c.get_msg()," msg/s   ----  Cpu :",psutil.cpu_percent(interval=1, percpu=True))
+        c.zero()
+        n=n+1
+        time.sleep(1)
+    
+    gen.destroy(id_dev, model_dev)
+    client.unsubscribe("/device/"+id_dev+"/+/+")
+    time.sleep(time_wait)
+    
+    
+    
+    
+    
+
+    
+    
+    

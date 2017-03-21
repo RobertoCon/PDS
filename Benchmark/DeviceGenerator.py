@@ -20,6 +20,7 @@ class DeviceGenerator(object):
                                             type_dev: TempSensor
                                             id_dev: dev
                                             location_dev: bathroom
+                                            time_resolution: 1
                                             requirements: {host: raspy3-A}
                                             type: my.Device.TempSensor
                                             temperature: 0
@@ -28,16 +29,20 @@ class DeviceGenerator(object):
         self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()       
       
-    def make(self,number,location=['not_available'],host=['']):
+    def make(self,number,location=['not_available'],host=[''],resolution='1'):
         for i in range(number):
             model={'node_templates':{}}
             id_dev=self.id_generator()
             model['node_templates'][id_dev]=self.template['node_templates']['dev']
             model['node_templates'][id_dev]['id_dev']=id_dev
             model['node_templates'][id_dev]['location_dev']=random.choice(location)
+            model['node_templates'][id_dev]['time_resolution']=resolution
             model['node_templates'][id_dev]['requirements']['host']=random.choice(host)
-            self.id_generator()
             self.client.publish("/"+model['node_templates'][id_dev]['requirements']['host']+"/model/device/add", yaml.dump(model), 0, False)
+            return model,id_dev
+        
+    def destroy(self,id_dev,model):
+        self.client.publish("/"+model['node_templates'][id_dev]['requirements']['host']+"/model/device/remove", yaml.dump(model), 0, False)
     
     def id_generator(self,size=10, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
