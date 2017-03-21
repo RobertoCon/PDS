@@ -68,10 +68,12 @@ for i in range(len(time_resolution)):
     while n<10:
         c.zero()
         time.sleep(1)
-        avg=avg+reduce(lambda x,y:x+y/2,psutil.cpu_percent(interval=1, percpu=True),0)
+        avg=avg+reduce(lambda x,y:(x+y)/2,psutil.cpu_percent(interval=1, percpu=True),0)
         msg=msg+c.get_msg()
         speed=speed+c.get_byte()*8/(1024*1024)
+        print("Speed : ",c.get_byte()*8/(1024*1024)," MBit/s   ---   Msg : ",c.get_msg()," msg/s")
         n=n+1
+        c.zero()
     
     
     gen.destroy(id_dev, model_dev)

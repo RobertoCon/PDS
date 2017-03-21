@@ -17,20 +17,37 @@ class GaD(Device):
          
     #redefine how to serialize the struct
     def to_text(self):
-        struct = {}
-        struct['id_dev'] = self.id
-        struct['location_dev'] = self.location
-        struct['type_dev'] = self.type
-        struct['attr1'] = self.attr1
-        return json.dumps(struct)
+        array=[]
+        array.append(self.id)
+        array.append(self.location)
+        array.append(self.type)
+        array.append(self.time_resolution)
+        array.append(self.attr1)
+        return json.dumps(array)
         
     def from_text(self,serial_dict):
-        struct=json.loads(str(serial_dict))
-        self.id = struct['id_dev']
-        self.location =struct['location_dev'] 
-        self.type=struct['attr1']
+        obj=json.loads(str(serial_dict))
+        if type(obj)=='list':
+            self.id=obj[0]
+            self.location=obj[1]
+            self.type =obj[2]
+            self.time_resolution=obj[3]
+            self.attr1=obj[4]
+        else:
+            self.id = obj['id_dev']
+            self.location =obj['location_dev'] 
+            self.type=obj['type_dev']
+            self.time_resolution=obj['time_resolution']
+            self.attr1=obj['attr1']
         return self
-'''    
+
+    @staticmethod          
+    def html(device):
+        html=""
+        #build html code 
+        return html
+    
+    '''    
     @staticmethod          
     def make_active(device,broker_ip=""):
         #Define Handlers here
@@ -42,4 +59,4 @@ class GaD(Device):
                 active.publish()
                 time.sleep(10)            
         return ActiveDevice(device,job_to_do,handlers)
-'''
+'''     

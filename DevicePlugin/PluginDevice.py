@@ -17,17 +17,25 @@ class PluginDevice(Device):
             #Set not base attribute
          
         def to_text(self):
-            struct = {}
-            struct['id_dev'] = self.id
-            struct['location_dev'] = self.location
-            struct['type_dev'] = self.type
-            return json.dumps(struct)
+            array=[]
+            array.append(self.id)
+            array.append(self.location)
+            array.append(self.type)
+            array.append(self.time_resolution)
+            return json.dumps(array)
         
         def from_text(self,serial_dict):
-            struct=json.loads(str(serial_dict))
-            self.id = struct['id_dev']
-            self.location =struct['location_dev'] 
-            self.type=struct['type_dev']
+            obj=json.loads(str(serial_dict))
+            if type(obj)=='list':
+                self.id=obj[0]
+                self.location=obj[1]
+                self.type =obj[2]
+                self.time_resolution=obj[3]
+            else:
+                self.id = obj['id_dev']
+                self.location =obj['location_dev'] 
+                self.type=obj['type_dev']
+                self.time_resolution=obj['time_resolution']
             return self
     
               
@@ -39,8 +47,10 @@ class PluginDevice(Device):
             #Define Job to perform periodically
             def job_to_do(active):
                 while True:
-                    active.publish()
-                    time.sleep(10)      
+                    with active.locker:
+                        #do something
+                        active.publish()
+                time.sleep(active.dev.time_resolution)      
             return ActiveDevice(device,job_to_do,handlers)
         
     

@@ -70,8 +70,9 @@ class TempSensor(Device):
         #Define Job to perform periodically
         def job_to_do(active):
             while True:
-                active.dev.temperature=random.randint(1,30) #Read temp somewhere
-                active.publish()
+                with active.locker:
+                    active.dev.temperature=random.randint(1,100) #Read temp somewhere
+                    active.publish()
                 time.sleep(active.dev.time_resolution)
                 
         return ActiveDevice(device,job_to_do,handlers)

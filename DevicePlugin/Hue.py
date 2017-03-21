@@ -16,20 +16,29 @@ class Hue(Device):
         self.light=light
          
     def to_text(self):
-        struct = {}
-        struct['id_dev'] = self.id
-        struct['location_dev'] = self.location
-        struct['type_dev'] = self.type
-        struct['light'] = self.light
-        return json.dumps(struct)    
+        array=[]
+        array.append(self.id)
+        array.append(self.location)
+        array.append(self.type)
+        array.append(self.time_resolution)
+        array.append(self.light)
+        return json.dumps(array)   
         
         
     def from_text(self,serial_dict):
         struct=json.loads(str(serial_dict))
-        self.id = struct['id_dev']
-        self.location =struct['location_dev'] 
-        self.type=struct['type_dev']
-        self.light=struct['light']
+        if type(struct)=='list':
+            self.id=struct[0]
+            self.location=struct[1]
+            self.type =struct[2]
+            self.time_resolution=struct[3]
+            self.light =struct[4]
+        else:
+            self.id = struct['id_dev']
+            self.location =struct['location_dev'] 
+            self.type=struct['type_dev']
+            self.time_resolution=struct['time_resolution']
+            self.light=struct['light']
         return self    
         
     @staticmethod          
@@ -44,7 +53,8 @@ class Hue(Device):
         #Define Job to perform periodically
         def job_to_do(active):
             while True:
-                active.publish()
-                time.sleep(10)            
+                with active.locker: 
+                    active.publish()
+                time.sleep(active.dev.time_resolution)                   
         return ActiveDevice(device,job_to_do,handlers)
     
