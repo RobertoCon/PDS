@@ -32,12 +32,12 @@ class NodeManager(object):
         self.permanent()
         print("Node loaded")  
            
-        #def on_message_add(client, userdata, message, obj):
-        #    serial_frame=str(message.payload.decode("utf-8"))
-        #    yaml_frame=str(serial_frame)
-        #    opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame+"." , stdout=subprocess.PIPE, shell=True)
-        #    opt.wait()
-        #    obj.publish()
+        def on_message_add(client, userdata, message, obj):
+            serial_frame=str(message.payload.decode("utf-8"))
+            yaml_frame=str(serial_frame)
+            opt=subprocess.Popen("/opt/emqttd/bin/emqttd_ctl cluster join emqttd@"+yaml_frame+"." , stdout=subprocess.PIPE, shell=True)
+            opt.wait()
+            obj.publish()
         
         def on_message_remove(client, userdata, message, obj):
             print("Request to leave cluster")

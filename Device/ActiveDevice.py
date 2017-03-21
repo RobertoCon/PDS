@@ -97,4 +97,5 @@ class ActiveDevice(threading.Thread):
             #self.client.publish(self.dev.topic(),'{"id":"'+self.dev.id +'", "state":"offline","lock_id":"", "device": ""}', 0, True)
             self.client.publish(self.dev.topic(),'["'+self.dev.id +'","offline","",""]', 0, True)
             self.client.disconnect()
-            self.client.loop_stop()    
+            self.client.loop_stop(True) 
+            self.stop()
