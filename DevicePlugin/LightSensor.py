@@ -12,6 +12,7 @@ class LightSensor(Device):
         super(LightSensor, self).__init__(id_dev, location_dev, type_dev="LightSensor")
         self.light=light
         self.unit=unit
+        self.timestamp=time.time()
         
     def to_text(self):
         array=[]
@@ -19,6 +20,7 @@ class LightSensor(Device):
         array.append(self.location)
         array.append(self.type)
         array.append(self.time_resolution)
+        array.append(self.timestamp)
         array.append(self.light)
         array.append(self.unit)
         return json.dumps(array)
@@ -30,13 +32,15 @@ class LightSensor(Device):
             self.location=struct[1]
             self.type =struct[2]
             self.time_resolution=struct[3]
-            self.light =struct[4]
-            self.unit =struct[5]
+            self.timestamp=struct[4]
+            self.light =struct[5]
+            self.unit =struct[6]
         else:
             self.id = struct['id_dev']
             self.location =struct['location_dev'] 
             self.type=struct['type_dev']
             self.time_resolution=struct['time_resolution']
+            self.timestamp=struct['timestamp']
             self.light=struct['light']
             self.unit=struct['unit']
         return self

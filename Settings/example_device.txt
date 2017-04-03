@@ -4,6 +4,7 @@ node_templates:
     id_dev: dev1
     location_dev: bathroom
     time_resolution: 0
+    timestamp: 0
     requirements: {host: raspy3-A}
     type: my.Device.TempSensor
     temperature: 0

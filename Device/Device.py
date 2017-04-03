@@ -15,6 +15,7 @@ class Device(object):
         self.location=location_dev
         self.type=type_dev
         self.time_resolution=time_resolution
+        self.timestamp=time.time()
        
     #Redefine how to serialize the struct
     def to_text(self):
@@ -31,6 +32,7 @@ class Device(object):
         array.append(self.location)
         array.append(self.type)
         array.append(self.time_resolution)
+        array.append(self.timestamp)
         return json.dumps(array)
     
     def topic(self):
@@ -43,11 +45,13 @@ class Device(object):
             self.location=obj[1]
             self.type =obj[2]
             self.time_resolution=obj[3]
+            self.timestamp=obj[4]
         else:
             self.id = obj['id_dev']
             self.location =obj['location_dev'] 
             self.type=obj['type_dev']
             self.time_resolution=obj['time_resolution']
+            self.timestamp=obj['timestamp']
         return self
     
         '''

@@ -6,7 +6,7 @@ Created on 16 dic 2016
 
 from Device.Device import Device
 #from Device.ActiveDevice import ActiveDevice
-import json
+import json,time
 
 
 class GaD(Device):
@@ -14,6 +14,7 @@ class GaD(Device):
     def __init__(self,id_dev="",location_dev="unknown"):
         super(GaD, self).__init__(id_dev, location_dev, type_dev="GaD")
         self.attr1=0
+        self.timestamp=time.time()
          
     #redefine how to serialize the struct
     def to_text(self):
@@ -22,7 +23,9 @@ class GaD(Device):
         array.append(self.location)
         array.append(self.type)
         array.append(self.time_resolution)
+        array.append(self.timestamp)
         array.append(self.attr1)
+        
         return json.dumps(array)
         
     def from_text(self,serial_dict):
@@ -32,12 +35,14 @@ class GaD(Device):
             self.location=obj[1]
             self.type =obj[2]
             self.time_resolution=obj[3]
-            self.attr1=obj[4]
+            self.timestamp=obj[4]
+            self.attr1=obj[5]
         else:
             self.id = obj['id_dev']
             self.location =obj['location_dev'] 
             self.type=obj['type_dev']
             self.time_resolution=obj['time_resolution']
+            self.timestamp=obj['timestamp']
             self.attr1=obj['attr1']
         return self
 

@@ -14,6 +14,7 @@ class PluginDevice(Device):
         def __init__(self,id_dev="",location_dev="unknown"):   #plus other attribute
             
             super(PluginDevice, self).__init__(id_dev, location_dev, type_dev="PluginDevice")
+            self.timestamp=time.time()
             #Set not base attribute
          
         def to_text(self):
@@ -22,6 +23,7 @@ class PluginDevice(Device):
             array.append(self.location)
             array.append(self.type)
             array.append(self.time_resolution)
+            array.append(self.timestamp)
             return json.dumps(array)
         
         def from_text(self,serial_dict):
@@ -31,11 +33,13 @@ class PluginDevice(Device):
                 self.location=obj[1]
                 self.type =obj[2]
                 self.time_resolution=obj[3]
+                self.timestamp=obj[4]
             else:
                 self.id = obj['id_dev']
                 self.location =obj['location_dev'] 
                 self.type=obj['type_dev']
                 self.time_resolution=obj['time_resolution']
+                self.timestamp=obj['timestamp']
             return self
     
               

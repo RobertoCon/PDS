@@ -14,6 +14,7 @@ class Hue(Device):
     def __init__(self,id_dev="",location_dev="unknown",light=False):
         super(Hue, self).__init__(id_dev, location_dev, type_dev="Hue")
         self.light=light
+        self.timestamp=time.time()
          
     def to_text(self):
         array=[]
@@ -21,6 +22,7 @@ class Hue(Device):
         array.append(self.location)
         array.append(self.type)
         array.append(self.time_resolution)
+        array.append(self.timestamp)
         array.append(self.light)
         return json.dumps(array)   
         
@@ -32,12 +34,14 @@ class Hue(Device):
             self.location=struct[1]
             self.type =struct[2]
             self.time_resolution=struct[3]
-            self.light =struct[4]
+            self.timestamp=struct[4]
+            self.light =struct[5]
         else:
             self.id = struct['id_dev']
             self.location =struct['location_dev'] 
             self.type=struct['type_dev']
             self.time_resolution=struct['time_resolution']
+            self.timestamp=struct['timestamp']
             self.light=struct['light']
         return self    
         
