@@ -16,7 +16,6 @@ class MqttClient(object):
             self.client = mqtt.Client()
             self.client.connect(Setting.getBrokerIp())
             self.client.loop_start()
-            self.start()
     
         def subscribe(self,topic,qos,callback):
             with self.locker:
