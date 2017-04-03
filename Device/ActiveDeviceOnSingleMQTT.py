@@ -76,10 +76,9 @@ class ActiveDevice(threading.Thread):
     def terminate(self):
         with self.locker:
             self.isAlive=False
-            self.client.publish(self.dev.topic(),'["'+self.dev.id +'","offline","",""]', 0, True)
-            self.client.disconnect() 
+            self.client.publish(self.dev.topic(),'["'+self.dev.id +'","offline","",""]', 0, True) 
             for i in self.handlers:
                 self.client.unsubscribe(i[0]) 
             self.client.unsubscribe("/device/"+self.dev.id+"/lock")
             self.client.unsubscribe("/device/"+self.dev.id+"/unlock")
-            self.client.unsubscribe("/device/"+self.dev.id+"/update")   
+            self.client.unsubscribe("/device/"+self.dev.id+"/update")  
