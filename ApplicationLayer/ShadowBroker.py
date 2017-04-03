@@ -62,6 +62,7 @@ def on_message(client, userdata, message , cache):
                     cache[i].state="offline"
                 return
         if json_frame[1]=="online":
+            #print("Frame   ",json_frame)
             cache.append(Observable(id_dev,Factory.decode(json.dumps(json.loads(json_frame[3]))),json_frame[2],json_frame[1]))
     
 class ShadowBroker(object):

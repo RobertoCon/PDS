@@ -19,8 +19,9 @@ class Factory(object):
     
     @staticmethod
     def decode(serial_dev):
+        #print ("Factory ",serial_dev)
         struct=json.loads(serial_dev)
-        if type(struct=='dict'):
+        if type(struct) is dict:
             module=load_module("DevicePlugin."+struct['type_dev'])
             if module!=None:
                 MyClass = getattr(module, struct['type_dev'])

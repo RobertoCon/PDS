@@ -26,8 +26,10 @@ class DeviceGenerator(object):
                                             type: my.Device.TempSensor
                                             temperature: 0
                                             unit: celsius''')
-            
- 
+        self.client = mqtt.Client()
+        self.client.connect(Setting.getBrokerIp())
+        self.client.loop_start()       
+      
     def make(self,number,location=['not_available'],host=[''],resolution=0.5):
         for i in range(number):
             model={'node_templates':{}}

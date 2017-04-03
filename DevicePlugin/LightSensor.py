@@ -28,7 +28,7 @@ class LightSensor(Device):
     
     def from_text(self,serial_dict):
         struct=json.loads(str(serial_dict))
-        if type(struct)=='list':
+        if type(struct)  is list:
             self.id=struct[0]
             self.location=struct[1]
             self.type =struct[2]

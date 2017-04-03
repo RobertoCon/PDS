@@ -41,7 +41,7 @@ class Device(object):
     
     def from_text(self,serial_dict):
         obj=json.loads(str(serial_dict))
-        if type(obj)=='list':
+        if type(obj) is list:
             self.id=obj[0]
             self.location=obj[1]
             self.type =obj[2]
