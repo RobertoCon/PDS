@@ -9,11 +9,11 @@ from Device.MqttClient import MqttClient
 import threading
 import json
 
-class ActiveDeviceOnSingleMQTT(threading.Thread):
+class ActiveDevice(threading.Thread):
       
     def __init__(self,dev,runnable=None,handlers=[],broker_ip=Setting.getBrokerIp()):
         
-        super(ActiveDeviceOnSingleMQTT, self).__init__()
+        super(ActiveDevice, self).__init__()
         self.isAlive=True
         self.dev=dev
         self.locker=threading.RLock()

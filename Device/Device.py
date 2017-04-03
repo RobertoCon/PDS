@@ -3,7 +3,8 @@ Created on 31 ott 2016
 
 @author: Conny
 '''
-from Device.ActiveDevice import ActiveDevice
+#from Device.ActiveDevice import ActiveDevice
+from Device.ActiveDeviceOnSingleMQTT import ActiveDevice
 import json
 import time
 
