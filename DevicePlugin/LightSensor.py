@@ -1,7 +1,7 @@
 
 from Device.Device import Device
 #from Device.ActiveDevice import ActiveDevice
-from Device.ActiveDeviceOnSingleMQTT import ActiveDevice
+from Device.ActiveDevicePoolThread  import ActiveDevice
 import json
 import time
 import random

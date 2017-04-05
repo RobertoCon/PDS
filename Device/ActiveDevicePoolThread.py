@@ -11,7 +11,7 @@ import json
 from Device.DeviceJobPool import DeviceJobPool
 
 class ActiveDevice(object):
-      
+
     def __init__(self,dev,runnable=None,handlers=[],broker_ip=Setting.getBrokerIp()):
         
         super(ActiveDevice, self).__init__()
