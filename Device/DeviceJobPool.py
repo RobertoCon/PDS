@@ -18,16 +18,13 @@ class DeviceJobPool(object):
                 self.scheduler.append(ThreadScheduler())
     
         def schedule(self, task, delay,act):
-            print("added job in schedule ",self.balancer)
             with self.locker:
                 self.scheduler[self.balancer].enter(delay, 1, task, act)
                 self.balancer=int(math.fmod((self.balancer+1), self.size_pool))
-                print("result:  ",self.balancer)
 
     instance = None  
     def __init__(self):
         if not DeviceJobPool.instance:
-            print("init singleton")
             DeviceJobPool.instance = DeviceJobPool.__DeviceJobPool()
     def __getattr__(self, name):
         return getattr(self.instance, name)
@@ -57,21 +54,9 @@ class ThreadScheduler(threading.Thread):
     def enter(self,delay,priority,task, active):
         def periodicTask():
             if active.isAlive:
-                task()
+                task(active)
                 self.scheduler.enter(delay, 1, periodicTask)
         self.scheduler.enter(delay, 1, periodicTask)
         
     def kill(self):
         self.isAlive=False
-'''    
-def asd():
-    print("asd")
-    
-def qwe():
-    print("qwe")
-   
-dev=DeviceJobPool() 
-
-dev.schedule(asd,5)
-dev.schedule(qwe,2)
-'''
