@@ -13,7 +13,7 @@ gen=DeviceGenerator()
 size_gen=4
 iter_gen=100
 time_wait=1
-list_location=['bath','bed','living']
+list_location=['bath','bed','living','box']
 list_host=['raspy3-A']
 
 for i in range(iter_gen):

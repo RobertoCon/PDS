@@ -60,8 +60,9 @@ class ActiveDevice(object):
         self.client.subscribe("/device/"+self.dev.id+"/lock",0,partial(write_wrapp,act=self,func=lock))
         self.client.subscribe("/device/"+self.dev.id+"/unlock",0,partial(write_wrapp,act=self,func=unlock))
         self.client.subscribe("/device/"+self.dev.id+"/update",0,partial(write_wrapp,act=self,func=update))   
+        partial(self.runnable,act=self)
         
-        self.pool.schedule(self,self.runnable,self.dev.time_resolution,self)
+        self.pool.schedule(self, self.runnable, self.dev.time_resolution,act=self)
         
     def publish(self):
         with self.locker:

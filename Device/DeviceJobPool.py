@@ -17,7 +17,7 @@ class DeviceJobPool(object):
             for i in range(self.size_pool):
                 self.scheduler.append(ThreadScheduler())
     
-        def schedule(self,task,delay, act):
+        def schedule(self, task, delay,act):
             print("added job in schedule ",self.balancer)
             with self.locker:
                 self.scheduler[self.balancer].enter(delay, 1, task, act)
