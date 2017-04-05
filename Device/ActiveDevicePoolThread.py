@@ -8,13 +8,15 @@ from Model import Setting
 from Device.MqttClient import MqttClient
 import threading
 import json
+from Device.DeviceJobPool import DeviceJobPool
 
-class ActiveDevice(threading.Thread):
+class ActiveDevice(object):
       
     def __init__(self,dev,runnable=None,handlers=[],broker_ip=Setting.getBrokerIp()):
         
         super(ActiveDevice, self).__init__()
         self.isAlive=True
+        self.pool=DeviceJobPool()
         self.dev=dev
         self.locker=threading.RLock()
         self.lock_id=""
@@ -59,7 +61,7 @@ class ActiveDevice(threading.Thread):
         self.client.subscribe("/device/"+self.dev.id+"/unlock",0,partial(write_wrapp,act=self,func=unlock))
         self.client.subscribe("/device/"+self.dev.id+"/update",0,partial(write_wrapp,act=self,func=update))   
         
-        self.start()
+        self.pool.schedule(self,self.runnable,self.dev.time_resolution,self)
         
     def publish(self):
         with self.locker:
@@ -69,9 +71,6 @@ class ActiveDevice(threading.Thread):
             struct.append(self.lock_id)
             struct.append(self.dev.to_text())
             self.client.publish(self.dev.topic(),json.dumps(struct),0,retain=True)  
-    
-    def run(self):
-        self.runnable(self)
 
     def terminate(self):
         with self.locker:
