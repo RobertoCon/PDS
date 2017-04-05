@@ -62,7 +62,7 @@ class ActiveDevice(object):
         self.client.subscribe("/device/"+self.dev.id+"/update",0,partial(write_wrapp,act=self,func=update))   
         partial(self.runnable,act=self)
         
-        self.pool.schedule(self, self.runnable, self.dev.time_resolution,act=self)
+        self.pool.schedule(self.runnable, self.dev.time_resolution, self)
         
     def publish(self):
         with self.locker:
