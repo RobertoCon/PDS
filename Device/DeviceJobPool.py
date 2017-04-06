@@ -54,6 +54,7 @@ class ThreadScheduler(threading.Thread):
     def enter(self,delay,priority,task, active):
         def periodicTask():
             if active.isAlive:
+                
                 task(active)
                 self.scheduler.enter(delay, 1, periodicTask)
         self.scheduler.enter(delay, 1, periodicTask)

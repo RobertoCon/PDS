@@ -8,7 +8,7 @@ from ApplicationLayer.PDS import LIGHT
 from ApplicationLayer.Aggregator import Aggregator
 import time
 
-devs=LIGHT().filter(lambda x : x.location=="bedroom").filter(lambda x : x.unit=="Lumen")
+devs=LIGHT().filter(lambda x : x.location=="bed").filter(lambda x : x.unit=="Lumen")
 
 def avg(self,devs):
     self.avg=0

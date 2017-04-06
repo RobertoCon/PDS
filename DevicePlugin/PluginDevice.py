@@ -51,11 +51,10 @@ class PluginDevice(Device):
             handlers=[] #[("topic1",function1),("topic2",function2)] like [("/device/"+id_dev+"/light",function)]
             #Define Job to perform periodically
             def job_to_do(active):
-                while True:
                     with active.locker:
                         #do something
-                        active.publish()
-                time.sleep(active.dev.time_resolution)      
+                        active.timestamp=time.time()
+                        active.publish()    
             return ActiveDevice(device,job_to_do,handlers)
         
     
