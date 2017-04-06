@@ -76,7 +76,7 @@ class TempSensor(Device):
         def job_to_do(active):
                 with active.locker:
                     active.dev.temperature=random.randint(1,100) #Read temp somewhere
-                    active.timestamp=time.time()
+                    active.dev.timestamp=time.time()
                     active.publish()
                 
         return ActiveDevice(device,job_to_do,handlers)

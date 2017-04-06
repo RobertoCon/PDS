@@ -53,7 +53,7 @@ class PluginDevice(Device):
             def job_to_do(active):
                     with active.locker:
                         #do something
-                        active.timestamp=time.time()
+                        active.dev.timestamp=time.time()
                         active.publish()    
             return ActiveDevice(device,job_to_do,handlers)
         
