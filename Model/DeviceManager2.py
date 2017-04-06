@@ -19,7 +19,7 @@ class DeviceManager(object):
         self.devices={}
         self.links={}
         self.locker=threading.RLock()
-        self.executor=ThreadPoolExecutor(max_workers=3)
+        self.executor=ThreadPoolExecutor(max_workers=10)
         
 
         self.path = Path(Setting.path+"./Settings/").absolute()
@@ -35,6 +35,7 @@ class DeviceManager(object):
         print("Device loaded")
                  
         def on_message_add(client, userdata, message, obj):
+            print("---------       New ADD message ---------------------")
             with self.locker:
                 def adder():
                     serial_frame=str(message.payload.decode("utf-8"))
