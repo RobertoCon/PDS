@@ -74,4 +74,4 @@ class DeviceManager(object):
         
     def publish(self):
         for i in self.devices:
-            self.client.publish("/"+Setting.getNodeId()+"/model/device/status/"+i,yaml.dump(self.devices.get(i)),qos=0,retain=True)
+            self.client.publish("/"+Setting.getNodeId()+"/model/device/status/"+i,yaml.dump(i),qos=0,retain=True)
