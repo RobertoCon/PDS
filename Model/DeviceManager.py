@@ -73,5 +73,5 @@ class DeviceManager(object):
         yaml.dump(self.devices,open(str(self.path),'w'))
         
     def publish(self):
-        for i in self.devices:
-            self.client.publish("/"+Setting.getNodeId()+"/model/device/status/"+i,yaml.dump(i),qos=0,retain=True)
+        for i in self.devices['node_templates']:
+            self.client.publish("/"+Setting.getNodeId()+"/model/device/status/"+i,yaml.dump(self.devices['node_templates'][i]),qos=0,retain=True)
