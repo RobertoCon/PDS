@@ -37,9 +37,9 @@ class DeviceManager(object):
                 if device!=None and device.id not in obj.devices['node_templates']: 
                     obj.links[dev]=type(device).make_active(device) 
                     obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
-                
-            obj.permanent()  
-            obj.publish()
+                    self.client.publish("/"+Setting.getNodeId()+"/model/device/status/"+dev,yaml.dump(obj.devices['node_templates'][dev]),qos=0,retain=True)
+            #obj.permanent()  
+            #obj.publish()
 
         
         def on_message_remove(client, userdata, message, obj):

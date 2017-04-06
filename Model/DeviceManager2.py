@@ -50,7 +50,7 @@ class DeviceManager(object):
                             obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
                             self.client.publish("/"+Setting.getNodeId()+"/model/device/status/"+dev,yaml.dump(obj.devices['node_templates'][dev]),qos=0,retain=True)
                             print("Time 3: ",(time.perf_counter() - start_time))
-                    obj.permanent() 
+                    #obj.permanent() 
                     print("Time 4: ",(time.perf_counter() - start_time)) 
                     #obj.publish()
                     
