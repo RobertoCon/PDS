@@ -17,7 +17,7 @@ list_location=['bath','bed','living','box']
 list_host=['raspy3-A']
 
 for i in range(iter_gen):
-    gen.make(size_gen, list_location, list_host, 100)
+    gen.make(size_gen, list_location, list_host, 10)
     print("Iter :",i,"Device size : ",len(TEMP()))
     time.sleep(time_wait)
     

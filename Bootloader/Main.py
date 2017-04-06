@@ -4,7 +4,7 @@ Created on 06 gen 2017
 @author: Conny
 '''
 from Model.ApplicationManager import ApplicationManager
-from Model.DeviceManager import DeviceManager
+from Model.DeviceManager2 import DeviceManager
 from Model.NodeManager import NodeManager
 from Model.LoadManager import LoadManager
 from Dashboard.HttpServer2 import Dashboard
