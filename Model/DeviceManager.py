@@ -30,6 +30,7 @@ class DeviceManager(object):
         print("Device loaded")
                  
         def on_message_add(client, userdata, message, obj):
+            print("----------   Message Device add ---------------")
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
             for dev in yaml_frame['node_templates']:

@@ -23,6 +23,7 @@ class Factory(object):
         struct=json.loads(serial_dev)
         if type(struct) is dict:
             module=load_module("DevicePlugin."+struct['type_dev'])
+            
             if module!=None:
                 MyClass = getattr(module, struct['type_dev'])
                 instance = MyClass()
@@ -37,15 +38,3 @@ class Factory(object):
                 instance.from_text(serial_dev)
                 return instance
             return None
-'''    
-    @staticmethod
-    def decode_yaml(serial_dev):
-        devs=yaml.load(serial_dev)
-        module=load_module("DevicePlugin."+devs['device_type'])
-        if module!=None:
-            MyClass = getattr(module, devs['device_type'])
-            instance = MyClass()
-            instance.from_yaml(serial_dev)
-            return instance
-        return None
-'''
