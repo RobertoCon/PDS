@@ -56,7 +56,7 @@ client.on_message = partial(on_message,counter=c)
 size_gen=1
 time_wait=5
 list_location=['bathroom','bedroom','living','kitchen','closet','box']
-time_resolution=[0.00001,0.0005,0.001,0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1,0.2,0.5,1]
+time_resolution=[0,0.0005,0.001,0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1,0.2,0.5,1]
 for i in range(len(time_resolution)):
     print("------         Test :",i," with resolution :",time_resolution[i])
     model_dev, id_dev=gen.make(size_gen, list_location, ['raspy3-A'],time_resolution[i])

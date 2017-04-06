@@ -13,7 +13,7 @@ observed=devs[0]
 def event_handler(self,dev):
     print("Event happened : ",dev.timestamp)
 
-ift=IFTTT(observed,event_handler,lambda x : x.temperature > 15)
+ift=IFTTT(observed,event_handler,lambda x : x.temperature > 50)
 
 while True:
     time.sleep(5)
