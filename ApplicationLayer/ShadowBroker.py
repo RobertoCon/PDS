@@ -80,7 +80,7 @@ class ShadowBroker(object):
             self.client.loop_start()
             #self.client.publish("/client/"+self.client._client_id+"/status","online", 0, True)
             self.executor=ThreadPoolExecutor(max_workers=2)
-        
+            
         def publish(self,topic,message):
             self.client.publish(topic,message,qos=0)
         

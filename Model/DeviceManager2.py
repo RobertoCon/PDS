@@ -10,12 +10,17 @@ from Model import Setting
 import paho.mqtt.client as mqtt
 import yaml,json
 from Device.Factory import Factory
+import threading
+from concurrent.futures import ThreadPoolExecutor
 
 class DeviceManager(object):
 
     def __init__(self):
         self.devices={}
         self.links={}
+        self.locker=threading.RLock()
+        self.executor=ThreadPoolExecutor(max_workers=3)
+        
 
         self.path = Path(Setting.path+"./Settings/").absolute()
         self.path=self.path.joinpath("DeviceRegistry.yaml")
@@ -30,16 +35,18 @@ class DeviceManager(object):
         print("Device loaded")
                  
         def on_message_add(client, userdata, message, obj):
-            serial_frame=str(message.payload.decode("utf-8"))
-            yaml_frame=yaml.load(serial_frame)
-            for dev in yaml_frame['node_templates']:
-                device=Factory.decode(json.dumps(yaml_frame['node_templates'][dev]))
-                if device!=None and device.id not in obj.devices['node_templates']: 
-                    obj.links[dev]=type(device).make_active(device) 
-                    obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
-                
-            obj.permanent()  
-            obj.publish()
+            with self.locker:
+                def adder():
+                    serial_frame=str(message.payload.decode("utf-8"))
+                    yaml_frame=yaml.load(serial_frame)
+                    for dev in yaml_frame['node_templates']:
+                        device=Factory.decode(json.dumps(yaml_frame['node_templates'][dev]))
+                        if device!=None and device.id not in obj.devices['node_templates']: 
+                            obj.links[dev]=type(device).make_active(device) 
+                            obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
+                    obj.permanent()  
+                    obj.publish()
+                self.executor.submit(adder)
 
         
         def on_message_remove(client, userdata, message, obj):
