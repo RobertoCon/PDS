@@ -31,6 +31,7 @@ class DeviceManager(object):
                  
         def on_message_add(client, userdata, message, obj):
             print("----------   Message Device add ---------------")
+            '''
             serial_frame=str(message.payload.decode("utf-8"))
             yaml_frame=yaml.load(serial_frame)
             for dev in yaml_frame['node_templates']:
@@ -41,6 +42,7 @@ class DeviceManager(object):
                 
             obj.permanent()  
             obj.publish()
+            '''
         
         def on_message_remove(client, userdata, message, obj):
             serial_frame=str(message.payload.decode("utf-8"))
