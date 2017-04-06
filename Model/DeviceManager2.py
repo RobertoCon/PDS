@@ -8,7 +8,7 @@ from pathlib import Path
 from functools import partial
 from Model import Setting
 import paho.mqtt.client as mqtt
-import yaml,json
+import yaml,json,time
 from Device.Factory import Factory
 import threading
 from concurrent.futures import ThreadPoolExecutor
@@ -38,16 +38,24 @@ class DeviceManager(object):
             print("---------       New ADD message ---------------------")
             with self.locker:
                 def adder():
+                    start_time= time.perf_counter()
                     serial_frame=str(message.payload.decode("utf-8"))
                     yaml_frame=yaml.load(serial_frame)
+                    print("Time 1 : ",(time.perf_counter() - start_time))
                     for dev in yaml_frame['node_templates']:
                         device=Factory.decode(json.dumps(yaml_frame['node_templates'][dev]))
+                        print("Time 2: ",(time.perf_counter() - start_time))
                         if device!=None and device.id not in obj.devices['node_templates']: 
                             obj.links[dev]=type(device).make_active(device) 
                             obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
-                    obj.permanent()  
+                            print("Time 3: ",(time.perf_counter() - start_time))
+                    obj.permanent() 
+                    print("Time 4: ",(time.perf_counter() - start_time)) 
                     obj.publish()
+                    print("Time 5: ",(time.perf_counter() - start_time))
                 self.executor.submit(adder)
+                
+                
 
         
         def on_message_remove(client, userdata, message, obj):
