@@ -3,18 +3,23 @@ Created on 05 apr 2017
 
 @author: Conny
 '''
-import sched, time
-s = sched.scheduler(time.time, time.sleep)
-def do_something1(sc): 
-    print ("Doing stuff...")
-    # do your stuff
-    s.enter(1, 1, do_something1, (sc,))
-    
-def do_something2(sc): 
-    print ("Doing stuff      2      ...")
-    # do your stuff
-    s.enter(5, 1, do_something2, (sc,))
+from Device.Factory import Factory
 
-s.enter(1, 1, do_something1, (s,))
-s.enter(5, 1, do_something2, (s,))
-s.run()
+import json
+
+devices=[]
+for i in range(400):
+    devices[i]=Factory.decode(json.dumps('''node_templates:
+  dev1:
+    type_dev: TempSensor
+    id_dev: dev1
+    location_dev: bathroom
+    time_resolution: 1
+    timestamp: 0
+    requirements: {host: raspy3-A}
+    type: my.Device.TempSensor
+    temperature: 0
+    unit: celsius'''))
+    
+print("Fine")
+    
