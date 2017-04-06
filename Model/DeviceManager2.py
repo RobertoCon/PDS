@@ -48,10 +48,12 @@ class DeviceManager(object):
                         if device!=None and device.id not in obj.devices['node_templates']: 
                             obj.links[dev]=type(device).make_active(device) 
                             obj.devices['node_templates'][dev]=yaml_frame['node_templates'][dev] 
+                            self.client.publish("/"+Setting.getNodeId()+"/model/device/status/"+dev,yaml.dump(obj.devices['node_templates'][dev]),qos=0,retain=True)
                             print("Time 3: ",(time.perf_counter() - start_time))
                     obj.permanent() 
                     print("Time 4: ",(time.perf_counter() - start_time)) 
-                    obj.publish()
+                    #obj.publish()
+                    
                     print("Time 5: ",(time.perf_counter() - start_time))
                 self.executor.submit(adder)
                 

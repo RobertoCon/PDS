@@ -12,12 +12,12 @@ from ApplicationLayer.PDS import TEMP
 gen=DeviceGenerator()
 size_gen=1
 iter_gen=500
-time_wait=0.5
+time_wait=2
 list_location=['bath','bed','living','box']
 list_host=['raspy3-A']
 
 for i in range(iter_gen):
-    gen.make(size_gen, list_location, list_host, 10)
+    gen.make(size_gen, list_location, list_host, 1)
     print("Iter :",i,"Device size : ",len(TEMP()))
     time.sleep(time_wait)
     
