@@ -15,10 +15,10 @@ import subprocess
 
 class RaspberryPi(Device):
 
-    def __init__(self,id_dev="",location_dev="unknown",time_resolution=0.33):
+    def __init__(self,id_dev="",location_dev="unknown",time_resolution=0.33,gps=[0.0,0.0]):
         super(RaspberryPi, self).__init__(subprocess.getoutput("hostname"), location_dev, type_dev="RaspberryPi",time_resolution=time_resolution)
         self.timestamp=time.time()
-        self.gps=[0.0,0.0]
+        self.gps=gps
         self.cpus=[]
         self.cpu_avg=0
         self.cpu_freq=0
