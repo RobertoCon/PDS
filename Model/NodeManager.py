@@ -10,6 +10,7 @@ import paho.mqtt.client as mqtt
 import yaml
 import time
 import subprocess
+from DevicePlugin.RaspberryPi import RaspberryPi
 
 class NodeManager(object):
 
@@ -30,6 +31,7 @@ class NodeManager(object):
                     self.nodes['node_templates'].pop('node') 
         
         self.permanent()
+        RaspberryPi.make_active(RaspberryPi())
         print("Node loaded")  
            
         def on_message_add(client, userdata, message, obj):

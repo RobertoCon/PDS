@@ -16,7 +16,8 @@ class DeviceManager(object):
     def __init__(self):
         self.devices={}
         self.links={}
-
+        
+        
         self.path = Path(Setting.path+"./Settings/").absolute()
         self.path=self.path.joinpath("DeviceRegistry.yaml")
         if self.path.is_file() == False :

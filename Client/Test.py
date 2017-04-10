@@ -44,7 +44,7 @@ test['pippo']='pippo'
 print(type(back))
 print(type(test))
 '''
-import json
+import json, psutil
 from Device.Factory import Factory
 serial=yaml.load('''node_templates:
   dev1:
@@ -55,6 +55,6 @@ serial=yaml.load('''node_templates:
     type: my.Device.TempSensor
     temperature: 0
     unit: celsius''')
-device=Factory.decode(json.dumps(serial['node_templates']['dev1']))
-print(type(device))
-print(device.to_text())
+#device=Factory.decode(json.dumps(serial['node_templates']['dev1']))
+#print(type(device))
+print( psutil.users())
