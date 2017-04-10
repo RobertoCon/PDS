@@ -75,16 +75,16 @@ class RaspberryPi(Device):
         #Define Job to perform periodically
         def job_to_do(active):
                 with active.locker:
-                    active.cpus=psutil.cpu_percent(interval=1, percpu=True)
-                    active.cpu_avg=reduce(lambda x,y:(x+y)/2,psutil.cpu_percent(interval=1, percpu=True),0)
-                    active.cpu_freq=psutil.cpu_freq()
+                    active.dev.cpus=psutil.cpu_percent(interval=1, percpu=True)
+                    active.dev.cpu_avg=reduce(lambda x,y:(x+y)/2,psutil.cpu_percent(interval=1, percpu=True),0)
+                    active.dev.cpu_freq=psutil.cpu_freq()
                     
                     #svmem(total=19318026240, available=15660314624, percent=18.9, used=3657711616, free=15660314624)
-                    active.mem_ava=psutil.virtual_memory()[1]
-                    active.mem_tot= psutil.virtual_memory()[0]
+                    active.dev.mem_ava=psutil.virtual_memory()[1]
+                    active.dev.mem_tot= psutil.virtual_memory()[0]
 
-                    active.disk_tot=psutil.disk_usage('/')[0]
-                    active.disk_ava=psutil.disk_usage('/')[2]
+                    active.dev.disk_tot=psutil.disk_usage('/')[0]
+                    active.dev.disk_ava=psutil.disk_usage('/')[2]
 
      
                     active.dev.timestamp=time.time()
