@@ -76,7 +76,7 @@ class RaspberryPi(Device):
         def job_to_do(active):
                 with active.locker:
                     active.cpus=psutil.cpu_percent(interval=1, percpu=True)
-                    active.cpu_avg=0=reduce(lambda x,y:(x+y)/2,psutil.cpu_percent(interval=1, percpu=True),0)
+                    active.cpu_avg=reduce(lambda x,y:(x+y)/2,psutil.cpu_percent(interval=1, percpu=True),0)
                     active.cpu_freq=psutil.cpu_freq()
                     
                     #svmem(total=19318026240, available=15660314624, percent=18.9, used=3657711616, free=15660314624)
