@@ -57,6 +57,7 @@ thread = Thread(target = threaded_function, args = (10, ))
 thread.start()
 
 while True:
+    client.publish("/logger",str("Creato il therad , dormo e decido "),qos=0)    
     py=['raspy3-A','raspy0-C']#RASPBERRYPI().map(lambda x : x.hostname)
     time.sleep(30)
     next_host=random.choice(py) 
