@@ -7,7 +7,7 @@ Created on 11 apr 2017
 import sys
 #sys.path.insert(0, "/pds/DevicePlugin")
 sys.path.insert(0, "/pds/")
-import yaml,time
+import yaml,time,copy
 from ApplicationLayer.PDS import RASPBERRYPI
 import paho.mqtt.client as mqtt
 import  subprocess
@@ -63,7 +63,7 @@ while True:
     next_host=random.choice(py) 
     client.publish("/logger",str("App su : "+host+" si trasf su: "+next_host),qos=0)
     if host!=next:
-        next_model=app
+        next_model=copy.copy(app)
         next_model['node_templates']['scen1']['requirements']['host']['node']=next_host
         visited=shared.read(shared_key)
         if visited==None:
