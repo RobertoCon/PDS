@@ -47,18 +47,20 @@ shared_key='scen1'
 visited=shared.read(shared_key)
 if visited==None:
     visited=[]
-    
-#def threaded_function(arg):
-#    while True:
-#        pass
-#
-#thread = Thread(target = threaded_function, args = (10, ))
-#thread.start()
+client.publish("/logger",str("Partenza app su host: "+host),qos=0)    
+
+def threaded_function(arg):
+    while True:
+        pass
+
+thread = Thread(target = threaded_function, args = (10, ))
+thread.start()
+
 while True:
     py=['raspy3-A','raspy0-C']#RASPBERRYPI().map(lambda x : x.hostname)
-    time.sleep(60)
-    next_host=random.choice(py)
-    client.publish("/logger",str("App su : "+host+" si trasf su: "+next_host),qos=0,retain=True)
+    time.sleep(30)
+    next_host=random.choice(py) 
+    client.publish("/logger",str("App su : "+host+" si trasf su: "+next_host),qos=0)
     if host!=next:
         next_model=app
         next_model['node_templates']['scen1']['requirements']['host']['node']=next_host
