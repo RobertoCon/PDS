@@ -3,7 +3,6 @@ Created on 11 apr 2017
 
 @author: Conny
 '''
-
 import yaml,time
 from ApplicationLayer.PDS import RASPBERRYPI
 import paho.mqtt.client as mqtt
@@ -28,12 +27,12 @@ app=yaml.load('''node_templates:
                    description: busy-box
             requirements:
                 host:
-                    node: fill
+                    node: raspy3-A
                     cpu_quota: 30000
                     relationship: HostedOn
                     bootstrap: yes
                     state: online''')
-                    
+
 host=subprocess.getoutput("hostname -i")
 app['node_templates']['scen1']['requirements']['host']['node']=host
 client = mqtt.Client()
@@ -44,24 +43,19 @@ shared_key='scen1'
 visited=shared.read(shared_key)
 if visited==None:
     visited=[]
-
-
+    
 def threaded_function(arg):
     while True:
         pass
 
-
 thread = Thread(target = threaded_function, args = (10, ))
 thread.start()
-   
 while True:
-    
     py=RASPBERRYPI().map(lambda x : x.hostname)
     time.sleep(60)
     next_host=random.choice(py)
-    client.publish("/logger",("App su : ",host," si trasferirà su : ",next_host),qos=0)
-    
-    if host!=next: #dont migrate if equals
+    client.publish("/logger",("App su : ",host," si trasferira su : ",next_host),qos=0)
+    if host!=next:
         next_model=app
         next_model['node_templates']['scen1']['requirements']['host']['node']=next_host
         visited=shared.read(shared_key)
@@ -76,7 +70,3 @@ while True:
             shared.write(shared_key, visited)
             client.publish("/"+next_host+"/model/apps/start",yaml.dump(next_model),qos=0)
             client.publish("/"+host+"/model/apps/stop",yaml.dump(app),qos=0)
-
-
-
-

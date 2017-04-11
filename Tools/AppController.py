@@ -14,17 +14,31 @@ client = mqtt.Client()
 client.connect(Setting.getBrokerIp())
 client.loop_start()
 client.on_message = on_message
-#msg={'cmd':'run','appl':'{"app_name":"app2","cpu_quota":"20000","image_name":"test-python"}'}
-#msg={'cmd':'regist','appl':'{"app_name":"app1","cpu_quota":"30000","image_name":"test-python"}'}
 
-msg={'cmd':'stop','appl':'{"app_name" : "app1","type":"busy-box","boot":"yes","image_name" : "test-python","cpu_quota":"10000","scalingV":"True""scalingH":"True""Migrate": "False""SharedM": "App1Tag" }'}
-client.publish("/application/registry/id1",json.dumps(msg),0,retain=False)
+msg='''node_templates:                                        
+    scen1:
+            instance: scen1
+            type: tosca.nodes.Container.Application.Docker
+            properties:
+                ports:
+                    in_port:
+                        protocol: tcp
+                        target: 50000
+            artifacts:
+                image: 
+                   file: scenario1
+                   repository: docker_hub
+                   description: busy-box
+            requirements:
+                host:
+                    node: raspy3-A
+                    cpu_quota: 30000
+                    relationship: HostedOn
+                    bootstrap: yes
+                    state: online'''
+
+client.publish("/raspy3-A/model/apps/add", msg, 0, False)
 print("Sending .....")
 time.sleep(3)
 print("Done")
 
-'''
-
-{'app_name' : 'Application1A','type':'','image_name' : 'Application1','cpu_quota':'10000','scalingV':'True''scalingH':'True''Migrate': 'False''SharedM': 'App1Tag' }
-
-'''
