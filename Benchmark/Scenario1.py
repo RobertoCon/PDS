@@ -3,9 +3,10 @@ Created on 11 apr 2017
 
 @author: Conny
 '''
-import yaml,time
+
 import sys
-print("PYTHONPATH = ",sys.path)
+sys.path.insert(0, "/pds")
+import yaml,time
 from ApplicationLayer.PDS import RASPBERRYPI
 import paho.mqtt.client as mqtt
 import  subprocess
