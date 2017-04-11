@@ -58,7 +58,7 @@ thread.start()
 
 while True:
     client.publish("/logger",str("Creato il therad , dormo e decido "),qos=0)    
-    py=['raspy3-A','raspy0-C']#RASPBERRYPI().map(lambda x : x.hostname)
+    py=['raspy3-A']#RASPBERRYPI().map(lambda x : x.hostname)
     time.sleep(30)
     next_host=random.choice(py) 
     client.publish("/logger",str("App su : "+host+" si trasf su: "+next_host),qos=0)
