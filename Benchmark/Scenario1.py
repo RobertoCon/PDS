@@ -31,7 +31,7 @@ app=yaml.load('''node_templates:
                    description: busy-box
             requirements:
                 host:
-                    node: raspy3-A
+                    node: raspy0-C
                     cpu_quota: 30000
                     relationship: HostedOn
                     bootstrap: yes
@@ -61,7 +61,7 @@ while True:
     py=['raspy3-A']#RASPBERRYPI().map(lambda x : x.hostname)
     time.sleep(30)
     next_host=random.choice(py) 
-    
+    '''
     if host!=next:
         client.publish("/logger",str("App su : "+host+" si trasf su: "+next_host),qos=0)
         next_model=copy.copy(app)
@@ -75,3 +75,4 @@ while True:
             shared.write(shared_key, visited)
             client.publish("/"+next_host+"/model/apps/start",yaml.dump(next_model),qos=0)
             client.publish("/"+host+"/model/apps/stop",yaml.dump(app),qos=0)
+    '''
