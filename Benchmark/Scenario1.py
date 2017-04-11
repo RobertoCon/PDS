@@ -5,7 +5,7 @@ Created on 11 apr 2017
 '''
 
 import sys
-sys.path.insert(0, "/pds/DevicePlugin")
+#sys.path.insert(0, "/pds/DevicePlugin")
 sys.path.insert(0, "/pds/")
 import yaml,time
 from ApplicationLayer.PDS import RASPBERRYPI
@@ -55,7 +55,7 @@ def threaded_function(arg):
 thread = Thread(target = threaded_function, args = (10, ))
 thread.start()
 while True:
-    py=RASPBERRYPI().map(lambda x : x.hostname)
+    py=['raspy3-A','raspy0-C']#RASPBERRYPI().map(lambda x : x.hostname)
     time.sleep(60)
     next_host=random.choice(py)
     client.publish("/logger",("App su : ",host," si trasf su: ",next_host),qos=0)
