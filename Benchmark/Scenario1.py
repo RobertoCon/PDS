@@ -3,19 +3,18 @@ Created on 11 apr 2017
 
 @author: Conny
 '''
-'''
-Created on 21 mar 2017
 
-@author: Conny
-'''
-import time,yaml
+import yaml,time
 from ApplicationLayer.PDS import RASPBERRYPI
 import paho.mqtt.client as mqtt
-from Model import Setting
+import  subprocess
+import random
+from ApplicationManager.SharedMemory import SharedMemory
+from threading import Thread
 
 app=yaml.load('''node_templates:                                        
-    app1:
-            instance: stress1
+    scen1:
+            instance: scen1
             type: tosca.nodes.Container.Application.Docker
             properties:
                 ports:
@@ -24,35 +23,60 @@ app=yaml.load('''node_templates:
                         target: 50000
             artifacts:
                 image: 
-                   file: stress-test
+                   file: scenario1
                    repository: docker_hub
                    description: busy-box
             requirements:
                 host:
-                    node:  raspy3-A
+                    node: fill
                     cpu_quota: 30000
                     relationship: HostedOn
                     bootstrap: yes
                     state: online''')
                     
+host=subprocess.getoutput("hostname -i")
+app['node_templates']['scen1']['requirements']['host']['node']=host
 client = mqtt.Client()
-client.connect(Setting.getBrokerIp())
-client.loop_start()        
-while True:   
+client.connect(host)
+client.loop_start()   
+shared=SharedMemory()
+shared_key='scen1'
+visited=shared.read(shared_key)
+if visited==None:
+    visited=[]
+
+
+def threaded_function(arg):
+    while True:
+        pass
+
+
+thread = Thread(target = threaded_function, args = (10, ))
+thread.start()
+   
+while True:
     
     py=RASPBERRYPI().map(lambda x : x.hostname)
+    time.sleep(60)
+    next_host=random.choice(py)
+    client.publish("/logger",("App su : ",host," si trasferirà su : ",next_host),qos=0)
     
-    print("Hostname : ",py)
-    for host in py:
-        client.publish("/"+host+"/model/apps/add",yaml.dump(app),qos=0,False)
-        time.sleep(30)
-        client.publish("/"+host+"/model/apps/stop",yaml.dump(app),qos=0,False)
-    
-     
-        
-        #self.client.message_callback_add("/"+Setting.getNodeId()+"/model/apps/add", partial(on_message_add, obj=self)) 
-        #self.client.message_callback_add("/"+Setting.getNodeId()+"/model/apps/start", partial(on_message_start, obj=self)) 
-        #self.client.message_callback_add("/"+Setting.getNodeId()+"/model/apps/stop", partial(on_message_stop, obj=self))
+    if host!=next: #dont migrate if equals
+        next_model=app
+        next_model['node_templates']['scen1']['requirements']['host']['node']=next_host
+        visited=shared.read(shared_key)
+        if visited==None:
+            visited=[]
+        if host not in visited:
+            visited.append(host) 
+            shared.write(shared_key, visited)
+            client.publish("/"+next_host+"/model/apps/add",yaml.dump(next_model),qos=0)
+            client.publish("/"+host+"/model/apps/stop",yaml.dump(app),qos=0)
+        else:
+            shared.write(shared_key, visited)
+            client.publish("/"+next_host+"/model/apps/start",yaml.dump(next_model),qos=0)
+            client.publish("/"+host+"/model/apps/stop",yaml.dump(app),qos=0)
 
-#client.publish("/"+Setting.getNodeId()+"/model/apps/add",yaml.dump(app),qos=0,False)
-    
+
+
+

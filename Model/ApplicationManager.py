@@ -128,3 +128,6 @@ class ApplicationManager(object):
         
     def publish(self):
         self.client.publish("/"+Setting.getNodeId()+"/model/apps/status",yaml.dump(self.apps),qos=0,retain=True)
+        
+        
+        

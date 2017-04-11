@@ -55,6 +55,6 @@ class SharedMemory(object):
         self.locker.release()
         return data
 
-s=SharedMemory()
-print(s.read("app1")["k1"])
-print(s.table)
+#s=SharedMemory()
+#print(s.read("app1")["k1"])
+#print(s.table)

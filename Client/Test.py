@@ -46,6 +46,7 @@ print(type(test))
 '''
 import json, psutil
 from Device.Factory import Factory
+from ApplicationManager.SharedMemory import SharedMemory 
 serial=yaml.load('''node_templates:
   dev1:
     type_dev: TempSensor
@@ -55,6 +56,9 @@ serial=yaml.load('''node_templates:
     type: my.Device.TempSensor
     temperature: 0
     unit: celsius''')
+
+s=SharedMemory()
+print(s.read('asd'))
 #device=Factory.decode(json.dumps(serial['node_templates']['dev1']))
 #print(type(device))
 print( psutil.users())
