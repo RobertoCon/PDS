@@ -61,13 +61,11 @@ while True:
     py=['raspy3-A']#RASPBERRYPI().map(lambda x : x.hostname)
     time.sleep(30)
     next_host=random.choice(py) 
-    client.publish("/logger",str("App su : "+host+" si trasf su: "+next_host),qos=0)
+    
     if host!=next:
+        client.publish("/logger",str("App su : "+host+" si trasf su: "+next_host),qos=0)
         next_model=copy.copy(app)
         next_model['node_templates']['scen1']['requirements']['host']['node']=next_host
-        visited=shared.read(shared_key)
-        if visited==None:
-            visited=[]
         if host not in visited:
             visited.append(host) 
             shared.write(shared_key, visited)
