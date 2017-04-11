@@ -54,7 +54,7 @@ while True:
     py=RASPBERRYPI().map(lambda x : x.hostname)
     time.sleep(60)
     next_host=random.choice(py)
-    client.publish("/logger",("App su : ",host," si trasferira su : ",next_host),qos=0)
+    client.publish("/logger",("App su : ",host," si trasf su: ",next_host),qos=0)
     if host!=next:
         next_model=app
         next_model['node_templates']['scen1']['requirements']['host']['node']=next_host
