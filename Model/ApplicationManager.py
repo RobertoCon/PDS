@@ -109,7 +109,7 @@ class ApplicationManager(object):
     #"docker run -it --rm --cpu-quota=30000  --name my-running-app test-python"      
     def docker_run(self,app):
         #print("Docker CMD : docker run --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name']+" "+app_json['image_name'])
-        subprocess.Popen("docker run --cpu-quota="+str(app['requirements']['host']['cpu_quota'])+" --name "+app['instance']+" "+app['artifacts']['image']['file'], stdout=subprocess.PIPE, shell=True)
+        subprocess.Popen("docker run --cpu-quota="+str(app['requirements']['host']['cpu_quota'])+" --name "+app['instance']+" "+app['artifacts']['image']['file']+" --net='host'", stdout=subprocess.PIPE, shell=True)
       
     def docker_stop(self,app):
         #print("Docker CMD : docker stop "+app_json['app_name'] )
