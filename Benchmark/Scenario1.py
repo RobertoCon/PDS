@@ -37,7 +37,7 @@ app=yaml.load('''node_templates:
                     bootstrap: yes
                     state: online''')
 
-host=subprocess.getoutput("hostname -i")
+host=subprocess.getoutput("hostname")
 app['node_templates']['scen1']['requirements']['host']['node']=host
 client = mqtt.Client()
 client.connect(host)
