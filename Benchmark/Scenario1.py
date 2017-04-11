@@ -5,6 +5,7 @@ Created on 11 apr 2017
 '''
 
 import sys
+sys.path.insert(0, "/pds/DevicePlugin")
 sys.path.insert(0, "/pds/")
 import yaml,time
 from ApplicationLayer.PDS import RASPBERRYPI
