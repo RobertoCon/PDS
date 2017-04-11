@@ -5,7 +5,7 @@ Created on 11 apr 2017
 '''
 
 import sys
-sys.path.insert(0, "/pds")
+sys.path.insert(0, "/pds/")
 import yaml,time
 from ApplicationLayer.PDS import RASPBERRYPI
 import paho.mqtt.client as mqtt
