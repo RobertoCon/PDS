@@ -31,7 +31,7 @@ app=yaml.load('''node_templates:
                    description: busy-box
             requirements:
                 host:
-                    node: raspy0-C
+                    node: raspy3-A
                     cpu_quota: 30000
                     relationship: HostedOn
                     bootstrap: yes
@@ -46,8 +46,7 @@ shared=SharedMemory()
 shared_key='scen1'
 visited=shared.read(shared_key)
 if visited==None:
-    visited=[]
-client.publish("/logger",str("Partenza app su host: "+host),qos=0)    
+    visited=[] 
 
 def threaded_function(arg):
     while True:
@@ -57,13 +56,12 @@ thread = Thread(target = threaded_function, args = (10, ))
 thread.start()
 
 while True:
-    client.publish("/logger",str("Creato il therad , dormo e decido "),qos=0)    
-    py=['raspy3-A']#RASPBERRYPI().map(lambda x : x.hostname)
+     
+    py=RASPBERRYPI().map(lambda x : x.hostname)
     time.sleep(30)
     next_host=random.choice(py) 
-    '''
-    if host!=next:
-        client.publish("/logger",str("App su : "+host+" si trasf su: "+next_host),qos=0)
+
+    if host!=next_host:
         next_model=copy.copy(app)
         next_model['node_templates']['scen1']['requirements']['host']['node']=next_host
         if host not in visited:
@@ -75,4 +73,3 @@ while True:
             shared.write(shared_key, visited)
             client.publish("/"+next_host+"/model/apps/start",yaml.dump(next_model),qos=0)
             client.publish("/"+host+"/model/apps/stop",yaml.dump(app),qos=0)
-    '''

@@ -5,15 +5,10 @@ import paho.mqtt.client as mqtt
 import time
 from Model import Setting
 import json
-
-def on_message(client, userdata, message):
-        print("Received message '" + str(message.payload) + "' on topic '"+ message.topic + "' with QoS " + str(message.qos))
-        
-        
+  
 client = mqtt.Client()
-client.connect('raspy3-A')
+client.connect('raspy0-C')
 client.loop_start()
-client.on_message = on_message
 
 msg='''node_templates:                                        
     scen1:
@@ -31,13 +26,13 @@ msg='''node_templates:
                    description: busy-box
             requirements:
                 host:
-                    node: raspy3-A
+                    node: raspy0-C
                     cpu_quota: 30000
                     relationship: HostedOn
                     bootstrap: yes
                     state: online'''
 
-client.publish("/raspy3-A/model/apps/add", msg, 0, False)
+client.publish("/raspy0-C/model/apps/add", msg, 0, False)
 print("Sending .....")
 time.sleep(3)
 print("Done")

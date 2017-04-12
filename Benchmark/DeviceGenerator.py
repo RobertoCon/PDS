@@ -25,7 +25,8 @@ class DeviceGenerator(object):
                                             requirements: {host: raspy3-A}
                                             type: my.Device.TempSensor
                                             temperature: 0
-                                            unit: celsius''')
+                                            unit: celsius
+                                            gps: [0.0,0.0]''')
         self.client = mqtt.Client()
         self.client.connect(Setting.getBrokerIp())
         self.client.loop_start()       
@@ -39,6 +40,7 @@ class DeviceGenerator(object):
             model['node_templates'][id_dev]['location_dev']=random.choice(location)
             model['node_templates'][id_dev]['time_resolution']=resolution
             model['node_templates'][id_dev]['requirements']['host']=random.choice(host)
+            model['node_templates'][id_dev]['gps']=[random.random()*100,random.random()*100]
             self.client.publish("/"+model['node_templates'][id_dev]['requirements']['host']+"/model/device/add", yaml.dump(model), 0, False)
             return model,id_dev
         

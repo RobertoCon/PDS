@@ -18,6 +18,7 @@ class TempSensor(Device):
         self.temperature=temperature
         self.unit=unit
         self.timestamp=time.time()
+        self.gps=[0.0,0.0]
     
     def to_text(self):
         '''struct = {}
@@ -36,6 +37,7 @@ class TempSensor(Device):
         array.append(self.timestamp)
         array.append(self.temperature)
         array.append(self.unit)
+        array.append(self.gps)
         return json.dumps(array)
 
     def from_text(self,serial_dict):
@@ -58,6 +60,7 @@ class TempSensor(Device):
             self.timestamp=struct[4]
             self.temperature =struct[5]
             self.unit =struct[6]
+            self.gps=struct[7]
         else:
             self.id = struct['id_dev']
             self.location =struct['location_dev'] 
@@ -66,6 +69,7 @@ class TempSensor(Device):
             self.timestamp=struct['timestamp']
             self.temperature=struct['temperature']
             self.unit=struct['unit']
+            self.gps=struct['gps']
         return self
      
     @staticmethod          
