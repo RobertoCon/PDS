@@ -50,7 +50,7 @@ if visited==None:
 
 def threaded_function(arg):
     while True:
-        pass
+        time.sleep(0.01)
 
 thread = Thread(target = threaded_function, args = (10, ))
 thread.start()
