@@ -60,11 +60,11 @@ thread.start()
 
 client.publish("/log","thread creato con successo",qos=0)
 while True:
-    py=RASPBERRYPI()
-    client.publish("/log","py : "+yaml.dump(map(py,lambda x:x.hostname)),qos=0)
+    client.publish("/log","Loop ",qos=0)
+    #py=RASPBERRYPI()
     time.sleep(30)
-    next_host=random.choice(py) 
-    client.publish("/log","Next host : "+next_host,qos=0)
+    #next_host=random.choice(py) 
+    #client.publish("/log","Next host : "+next_host,qos=0)
 '''
     if host!=next_host:
         next_model=copy.copy(app)

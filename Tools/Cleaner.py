@@ -16,7 +16,7 @@ client = mqtt.Client()
 client.connect("raspy3-A")
 client.loop_start()
 client.on_message = on_message
-client.subscribe("/#", qos=0)
+client.subscribe("#", qos=0)
 print("Start cleaning .....")
 time.sleep(20)
 print("Stop cleaning")
