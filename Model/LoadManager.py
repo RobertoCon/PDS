@@ -84,6 +84,6 @@ events {
             settings="stream {\n"+server+"\n"+stream+"\n}"
             path = Path("/usr/local/nginx/nginx.conf")
             if path.is_file() == True :
-                f = open(str(self.path), 'w')
+                f = open(str(path), 'w')
                 f.write(settings)
                 subprocess.Popen("/usr/local/nginx/nginx -s reload", stdout=subprocess.PIPE, shell=True)
