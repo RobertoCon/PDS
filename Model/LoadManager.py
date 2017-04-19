@@ -67,7 +67,7 @@ class LoadManager(object):
         self.client.publish("/"+Setting.getNodeId()+"/model/balancer/status",yaml.dump(self.balancers),qos=0,retain=True)
         
     def update_balancer(self):
-        self.default="""worker_processes  1;
+        default="""worker_processes  1;
 events {
     worker_connections  1024;
 }\n"""
@@ -81,7 +81,7 @@ events {
                 port=str(self.balancers['node_templates'][app]['requirements']['application'][link]['properties']['ports']['in_port']['target'])
                 stream=stream+"\t\tserver "+ip+":"+port+";\n"
             stream=stream+"\t}"
-            settings="stream {\n"+server+"\n"+stream+"\n}"
+            settings=default+"\n"+"stream {\n"+server+"\n"+stream+"\n}"
             path = Path("/usr/local/nginx/nginx.conf")
             if path.is_file() == True :
                 f = open(str(path), 'w')
