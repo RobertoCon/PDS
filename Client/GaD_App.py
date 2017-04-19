@@ -5,7 +5,7 @@ Created on 16 dic 2016
 '''
 
 
-from ApplicationLayer.PDS import LIGHT
+from FunctionalLayer.LIGHT import LIGHT
 from Device.ActiveDevice import ActiveDevice
 import time
 from DevicePlugin.GaD import GaD

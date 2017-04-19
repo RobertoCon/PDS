@@ -4,7 +4,7 @@ Created on 21 mar 2017
 @author: Conny
 '''
 import time
-from ApplicationLayer.PDS import RASPBERRYPI
+from FunctionalLayer.RASPBERRYPI import RASPBERRYPI
 
 
 while True:   

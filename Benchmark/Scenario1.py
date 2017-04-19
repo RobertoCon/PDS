@@ -5,10 +5,11 @@ Created on 11 apr 2017
 '''
 
 import sys
-#sys.path.insert(0, "/pds/DevicePlugin")
+sys.path.insert(0, "/pds/DevicePlugin")
+sys.path.insert(0, "/pds/FunctionalLayer")
 sys.path.insert(0, "/pds/")
 import yaml,time,copy
-from ApplicationLayer.PDS import RASPBERRYPI
+from FunctionalLayer.RASPBERRYPI import RASPBERRYPI
 import paho.mqtt.client as mqtt
 import  subprocess
 import random
@@ -39,6 +40,7 @@ app=yaml.load('''node_templates:
 
 host=subprocess.getoutput("hostname")
 app['node_templates']['scen1']['requirements']['host']['node']=host
+print(" Model : ",yaml.dump(app))
 client = mqtt.Client()
 client.connect(host)
 client.loop_start()   
@@ -50,17 +52,17 @@ if visited==None:
 
 def threaded_function(arg):
     while True:
-        time.sleep(0.01)
+        pass
 
 thread = Thread(target = threaded_function, args = (10, ))
 thread.start()
 
 while True:
-     
     py=RASPBERRYPI().map(lambda x : x.hostname)
     time.sleep(30)
     next_host=random.choice(py) 
-
+    print("Next host : ",next_host)
+'''
     if host!=next_host:
         next_model=copy.copy(app)
         next_model['node_templates']['scen1']['requirements']['host']['node']=next_host
@@ -73,3 +75,4 @@ while True:
             shared.write(shared_key, visited)
             client.publish("/"+next_host+"/model/apps/start",yaml.dump(next_model),qos=0)
             client.publish("/"+host+"/model/apps/stop",yaml.dump(app),qos=0)
+'''

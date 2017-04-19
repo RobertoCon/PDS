@@ -5,7 +5,7 @@ Created on 12 mar 2017
 '''
 import time
 from Benchmark.DeviceGenerator import DeviceGenerator 
-from ApplicationLayer.PDS import TEMP
+from FunctionalLayer.TEMP import TEMP
 
 
 #Init Test

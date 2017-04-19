@@ -4,7 +4,7 @@ Created on 13 dic 2016
 @author: Conny
 '''
 
-from ApplicationLayer.PDS import LIGHT
+from FunctionalLayer.LIGHT import LIGHT
 from ApplicationLayer.Aggregator import Aggregator
 import time
 

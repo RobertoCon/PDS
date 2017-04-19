@@ -4,7 +4,7 @@ Created on 12 apr 2017
 @author: Conny
 '''
 from math import sqrt,pow
-from ApplicationLayer.PDS import TEMP
+from FunctionalLayer.TEMP import TEMP
 from ApplicationLayer.Aggregator import Aggregator
 from ApplicationLayer.TimeSeries import TimeSeries
 from ApplicationLayer.Observer import Observer

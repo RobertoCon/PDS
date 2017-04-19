@@ -4,7 +4,7 @@ Created on 12 mar 2017
 @author: Conny
 '''
 import time
-from ApplicationLayer.PDS import TEMP
+from FunctionalLayer.TEMP import TEMP
 
 #Init Test
 

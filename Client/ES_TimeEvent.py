@@ -3,7 +3,7 @@ Created on 06 apr 2017
 
 @author: Conny
 '''
-from ApplicationLayer.PDS import TEMP
+from FunctionalLayer.TEMP import TEMP
 import time
 from ApplicationLayer.TimeEvent import TimeEvent
 
