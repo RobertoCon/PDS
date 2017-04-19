@@ -104,24 +104,24 @@ class ApplicationManager(object):
     
     def docker_start(self,app):
         #print("Docker CMD : docker start "+app_json['app_name'] )
-        subprocess.Popen("docker start "+app['instance'] , stdout=subprocess.PIPE, shell=True)
+        subprocess.Popen("docker start "+app['instance'] , stdout=subprocess.DEVNULL, shell=True)
     
     #"docker run -it --rm --cpu-quota=30000  --name my-running-app test-python"      
     def docker_run(self,app):
         #print("Docker CMD : docker run --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name']+" "+app_json['image_name'])
-        subprocess.Popen("docker run --net=host --cpu-quota="+str(app['requirements']['host']['cpu_quota'])+" --name "+app['instance']+" "+app['artifacts']['image']['file'], stdout=subprocess.PIPE, shell=True)
+        subprocess.Popen("docker run -t --net=host --cpu-quota="+str(app['requirements']['host']['cpu_quota'])+" --name "+app['instance']+" "+app['artifacts']['image']['file'], stdout=subprocess.DEVNULL, shell=True)
       
     def docker_stop(self,app):
         #print("Docker CMD : docker stop "+app_json['app_name'] )
-        subprocess.Popen("docker stop "+app['instance'] , stdout=subprocess.PIPE, shell=True)
+        subprocess.Popen("docker stop "+app['instance'] , stdout=subprocess.DEVNULL, shell=True)
         
     def docker_remove(self,app):
         #print("Docker CMD : docker rm "+app_json['app_name'] )
-        subprocess.Popen("docker rm "+app['instance'] , stdout=subprocess.PIPE, shell=True)
+        subprocess.Popen("docker rm "+app['instance'] , stdout=subprocess.DEVNULL, shell=True)
     
     def docker_update(self,app):
         #print("Docker CMD : docker update --cpu-quota="+app_json['cpu_quota']+" --name "+app_json['app_name'])
-        subprocess.Popen("docker update --cpu-quota="+str(app['requirements']['host']['cpu_quota'])+" "+app['instance'], stdout=subprocess.PIPE, shell=True)
+        subprocess.Popen("docker update --cpu-quota="+str(app['requirements']['host']['cpu_quota'])+" "+app['instance'], stdout=subprocess.DEVNULL, shell=True)
 
     def permanent(self):
         yaml.dump(self.apps,open(str(self.path),'w')) 
