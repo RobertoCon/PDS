@@ -10,7 +10,7 @@ client.loop_start()
 
 msg='''node_templates:                                        
     scen1:
-            instance: scen1
+            instance: scen3
             type: tosca.nodes.Container.Application.Docker
             properties:
                 ports:
@@ -19,7 +19,7 @@ msg='''node_templates:
                         target: 50000
             artifacts:
                 image: 
-                   file: scenario1
+                   file: scenario3
                    repository: docker_hub
                    description: busy-box
             requirements:

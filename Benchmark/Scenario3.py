@@ -11,8 +11,8 @@ class Scen3(object):
    
     @cherrypy.expose
     def index(self):
-        self.counter+=1
-        return self.counter
+        self.counter=self.counter+1
+        return str(self.counter)
 
 cherrypy.config.update({'server.socket_host': '0.0.0.0'})
 cherrypy.config.update({'server.socket_port': 9000})
