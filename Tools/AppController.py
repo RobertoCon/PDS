@@ -2,7 +2,7 @@
 @author: Conny
 '''
 import paho.mqtt.client as mqtt
-import time
+import time,yaml
   
 client = mqtt.Client()
 client.connect('raspy3-A')
@@ -30,7 +30,7 @@ msg='''node_templates:
                     bootstrap: yes
                     state: online'''
 
-client.publish("/raspy3-A/model/apps/add", msg, 0, False)
+client.publish("/raspy3-A/model/apps/add",msg, 0, False)
 print("Sending .....")
 time.sleep(3)
 print("Done")

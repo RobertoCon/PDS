@@ -60,8 +60,8 @@ thread.start()
 
 client.publish("/log","thread creato con successo",qos=0)
 while True:
-    py=RASPBERRYPI().map(lambda x : x.hostname)
-    client.publish("/log","py : "+yaml.dump(py),qos=0)
+    py=RASPBERRYPI()
+    client.publish("/log","py : "+yaml.dump(map(py,lambda x:x.hostname)),qos=0)
     time.sleep(30)
     next_host=random.choice(py) 
     client.publish("/log","Next host : "+next_host,qos=0)
