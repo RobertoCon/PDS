@@ -23,23 +23,23 @@ msg='''node_templates:
                             target: 8282
                 capabilities:
                     clients: 
-                        ip_address: 192.168.1.3
+                        ip_address: raspy3-A
                 requirements:
                     application:
                         app1:
-                            ip_address: 192.168.1.3 
+                            ip_address: raspy3-A 
                             properties:
                                 ports:
                                     in_port:
                                         target: 9000
                         app2:
-                            ip_address: 192.168.1.6 
+                            ip_address: raspy0-C 
                             properties:
                                 ports:
                                     in_port:
                                         target: 9000'''
 
-client.publish("/raspy3-A/model/balancer/add",msg, 0, False)
+client.publish("/raspy3-A/model/balancer/remove",msg, 0, False)
 print("Sending .....")
 time.sleep(3)
 print("Done")

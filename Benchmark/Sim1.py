@@ -11,10 +11,10 @@ from FunctionalLayer.TEMP import TEMP
 #Init Test
 gen=DeviceGenerator()
 size_gen=1
-iter_gen=50
+iter_gen=200
 time_wait=0.5
 list_location=['bath','bed','living','box']
-list_host=['raspy3-A','raspy0-C']
+list_host=['raspy3-A','raspy0-C','raspy0-B']
 
 for i in range(iter_gen):
     gen.make(size_gen, list_location, list_host, 1)

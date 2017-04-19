@@ -3,9 +3,9 @@
 '''
 import paho.mqtt.client as mqtt
 import time,yaml
-  
+host='raspy0-B'
 client = mqtt.Client()
-client.connect('raspy0-C')
+client.connect(host)
 client.loop_start()
 
 msg='''node_templates:                                        
@@ -24,13 +24,13 @@ msg='''node_templates:
                    description: busy-box
             requirements:
                 host:
-                    node: raspy0-C
-                    cpu_quota: 30000
+                    node: '''+host+'''
+                    cpu_quota: 100000
                     relationship: HostedOn
                     bootstrap: yes
                     state: online'''
 
-client.publish("/raspy0-C/model/apps/add",msg, 0, False)
+client.publish("/"+host+"/model/apps/add",msg, 0, False)
 print("Sending .....")
 time.sleep(3)
 print("Done")

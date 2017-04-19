@@ -81,9 +81,9 @@ events {
                 port=str(self.balancers['node_templates'][app]['requirements']['application'][link]['properties']['ports']['in_port']['target'])
                 stream=stream+"\t\tserver "+ip+":"+port+";\n"
             stream=stream+"\t}"
-            settings=default+"\n"+"stream {\n"+server+"\n"+stream+"\n}"
-            path = Path("/usr/local/nginx/nginx.conf")
-            if path.is_file() == True :
-                f = open(str(path), 'w')
-                f.write(settings)
-                subprocess.Popen("/usr/local/nginx/nginx -s reload", stdout=subprocess.PIPE, shell=True)
+        settings=default+"\n"+"stream {\n"+server+"\n"+stream+"\n}"
+        path = Path("/usr/local/nginx/nginx.conf")
+        if path.is_file() == True :
+            f = open(str(path), 'w')
+            f.write(settings)
+            subprocess.Popen("/usr/local/nginx/nginx -s reload", stdout=subprocess.PIPE, shell=True)
