@@ -40,13 +40,14 @@ app=yaml.load('''node_templates:
 
 host=subprocess.getoutput("hostname")
 app['node_templates']['scen1']['requirements']['host']['node']=host
-print(" Model : ",yaml.dump(app))
 client = mqtt.Client()
 client.connect(host)
 client.loop_start()   
+client.publish("/log","import successo",qos=0)
 shared=SharedMemory()
 shared_key='scen1'
 visited=shared.read(shared_key)
+client.publish("/log","shared = "+yaml.dump(visited),qos=0)
 if visited==None:
     visited=[] 
 
@@ -57,11 +58,13 @@ def threaded_function(arg):
 thread = Thread(target = threaded_function, args = (10, ))
 thread.start()
 
+client.publish("/log","thread creato con successo",qos=0)
 while True:
     py=RASPBERRYPI().map(lambda x : x.hostname)
+    client.publish("/log","py : "+yaml.dump(py),qos=0)
     time.sleep(30)
     next_host=random.choice(py) 
-    print("Next host : ",next_host)
+    client.publish("/log","Next host : "+next_host,qos=0)
 '''
     if host!=next_host:
         next_model=copy.copy(app)
