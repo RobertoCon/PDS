@@ -3,7 +3,7 @@
 '''
 import paho.mqtt.client as mqtt
 import time,yaml
-host='raspy0-B'
+host='raspy3-A'
 client = mqtt.Client()
 client.connect(host)
 client.loop_start()

@@ -19,8 +19,8 @@ def getNodeId():
 
 
 def getBrokerIp():
-    #return 'raspy3-A'
-    return getIp()
+    return 'raspy3-A'
+    #return getIp()
     '''
     path = Path("./Settings/").absolute()
     path=path.joinpath("NodeRegistry.yaml")

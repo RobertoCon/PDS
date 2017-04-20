@@ -45,7 +45,7 @@ msg='''node_templates:
                                     in_port:
                                         target: 9000'''
 
-client.publish("/raspy3-A/model/balancer/remove",msg, 0, False)
+client.publish("/raspy3-A/model/balancer/add",msg, 0, False)
 print("Sending .....")
 time.sleep(3)
 print("Done")
