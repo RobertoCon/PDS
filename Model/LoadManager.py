@@ -71,6 +71,8 @@ class LoadManager(object):
 events {
     worker_connections  1024;
 }\n"""
+        server=""
+        stream=""
         for app in self.balancers['node_templates']:
             server="\tserver {\n\t\tlisten\t"+str(self.balancers['node_templates'][app]['properties']['ports']['in_port']['target'])\
             +";\n\t\tproxy_pass "+self.balancers['node_templates'][app]['name']+";\n\t}"
