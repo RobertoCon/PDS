@@ -67,7 +67,7 @@ class LoadManager(object):
         self.client.publish("/"+Setting.getNodeId()+"/model/balancer/status",yaml.dump(self.balancers),qos=0,retain=True)
         
     def update_balancer(self):
-        default="""worker_processes  1;
+        default="""worker_processes  auto;
 events {
     worker_connections  1024;
 }\n"""
