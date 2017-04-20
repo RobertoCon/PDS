@@ -37,6 +37,12 @@ msg='''node_templates:
                             properties:
                                 ports:
                                     in_port:
+                                        target: 9000
+                        app3:
+                            ip_address: raspy0-B 
+                            properties:
+                                ports:
+                                    in_port:
                                         target: 9000'''
 
 client.publish("/raspy3-A/model/balancer/remove",msg, 0, False)
